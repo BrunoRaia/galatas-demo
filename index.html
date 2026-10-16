@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0B0D">
+<title>Gálatas Rutinas · Demo</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+  :root{--bg:#0B0B0D;--card:#141418;--line:#24242A;--txt:#F5F5F6;--mu:#A6A6B0;--red:#D9232D;--red2:#F0414A}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--txt);font:400 15px/1.55 'Poppins',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;
+    background:radial-gradient(90% 50% at 100% 0%,rgba(150,18,26,.4),rgba(150,18,26,0) 60%),radial-gradient(70% 40% at 0% 100%,rgba(120,14,20,.2),rgba(120,14,20,0) 60%),var(--bg)}
+  /* Tiras LED rojas, como las del gimnasio */
+  .leds{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+  .led{position:absolute;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,59,69,0),#FF3B45 25%,#FF3B45 75%,rgba(255,59,69,0));box-shadow:0 0 10px 1px rgba(255,40,50,.75),0 0 34px 5px rgba(217,35,45,.3);transform:rotate(-11deg);animation:ledOn 1.3s ease both}
+  @keyframes ledOn{0%{opacity:0}18%{opacity:.95}26%{opacity:.2}38%{opacity:1}52%{opacity:.6}64%{opacity:1}100%{opacity:1}}
+  main{position:relative;flex:1;width:100%;max-width:900px;margin:0 auto;padding:56px 16px 32px;display:flex;flex-direction:column;gap:36px}
+  .logo{width:170px;height:auto;display:block;filter:drop-shadow(0 8px 30px rgba(217,35,45,.35))}
+  .eyebrow{font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--red2);margin:0 0 12px}
+  .eyebrow::before{content:'';display:inline-block;width:18px;height:2px;background:var(--red);vertical-align:middle;margin:-2px 10px 0 0}
+  h1{font:400 clamp(48px,10vw,84px)/.95 'Anton',sans-serif;text-transform:uppercase;margin:0}
+  h1 span{color:var(--red)}
+  h1::after{content:'';display:block;width:56px;height:5px;background:var(--red);margin-top:18px}
+  .lead{color:var(--mu);margin:18px 0 0;max-width:580px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+  .card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;min-height:250px;transition:border-color .15s,transform .15s}
+  .card:hover,.card:focus-visible{border-color:var(--red);transform:translateY(-3px)}
+  .card:focus-visible{outline:2px solid var(--red2);outline-offset:3px}
+  .card.red{background:linear-gradient(155deg,#D9232D 0%,#9E141B 100%);border-color:var(--red);box-shadow:0 18px 40px -16px rgba(217,35,45,.7)}
+  .card.red p,.card.red .go{color:#fff}
+  .num{position:absolute;right:16px;top:6px;font:400 72px/1 'Anton',sans-serif;color:rgba(255,255,255,.08)}
+  .card.red .num{color:rgba(0,0,0,.18)}
+  .ico{width:48px;height:48px;border-radius:12px;background:#2A0C0F;border:1px solid #7A1A20;color:var(--red2);display:flex;align-items:center;justify-content:center}
+  .card.red .ico{background:#0B0B0D;border-color:#0B0B0D;color:#fff}
+  .card h2{font:400 30px/1 'Anton',sans-serif;text-transform:uppercase;margin:8px 0 0}
+  .card p{margin:0;color:var(--mu)}
+  .go{margin-top:auto;font-weight:600;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--red2)}
+  .feats{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+  .feats li{border:1px solid #3A3A42;border-radius:999px;padding:5px 12px;font-size:13px;color:#CFCFD6}
+  .tip{font-size:14px;color:var(--mu);border-top:1px solid var(--line);padding-top:20px;margin:0}
+  .tip b{color:var(--txt);font-weight:600}
+  footer{position:relative;text-align:center;color:#6F6F79;font-size:13px;padding:16px}
+  @media (prefers-reduced-motion: reduce){.led{animation:none}.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="leds" aria-hidden="true">
+  <div class="led" style="width:620px;right:-120px;top:70px;animation-delay:.1s"></div>
+  <div class="led" style="width:480px;right:120px;top:150px;animation-delay:.45s;opacity:.7"></div>
+</div>
+<main>
+  <img class="logo" src="assets/logo.png" alt="Gálatas Gym">
+  <div>
+    <p class="eyebrow">Sistema Gálatas · prototipo navegable</p>
+    <h1>Gálatas <span>Rutinas</span></h1>
+    <p class="lead">La app para que los socios entrenen con su rutina en el celu, y el panel para que los profes las armen. Todo es clickeable. Los datos son de ejemplo.</p>
+  </div>
+
+  <div class="grid">
+    <a class="card red" href="socio.html">
+      <span class="num" aria-hidden="true">01</span>
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span>
+      <h2>App del socio</h2>
+      <p>Ingreso con DNI, rutina del día, modo entrenar con timer de descanso, plano del gimnasio en 3D y pedido de rutina nueva.</p>
+      <span class="go">Abrir en el celular →</span>
+    </a>
+    <a class="card" href="panel.html">
+      <span class="num" aria-hidden="true">02</span>
+      <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg></span>
+      <h2>Panel de rutinas</h2>
+      <p>Lo que ven los profes: pedidos de los socios, rutinas, ejercicios, plano y máquinas, y el editor para armar cada rutina.</p>
+      <span class="go">Abrir en la PC →</span>
+    </a>
+  </div>
+
+  <ul class="feats" aria-label="Qué se puede probar">
+    <li>Modo entrenar</li><li>Timer de descanso</li><li>Historia para Instagram</li><li>Plano a escala y 3D</li><li>Plan personalizado</li><li>Rutinas con IA</li>
+  </ul>
+
+  <p class="tip">Para probar la app usá los DNI <b>11111111</b>, <b>22222222</b> o <b>33333333</b>, con el código <b>123456</b>. Para empezar de cero, tocá <b>Reiniciar demo</b>.</p>
+</main>
+<footer>Demo · Gálatas Gym</footer>
+</body>
+</html>

@@ -1,0 +1,2064 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0B0D">
+<title>Gálatas — App del socio</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+body{margin:0}
+a{color:#F0414A}a:hover{color:#FF6B72}
+/* ===== Base: negro con el resplandor rojo de las luces LED del gimnasio ===== */
+.ph{width:390px;height:844px;position:relative;overflow:hidden;background:radial-gradient(130% 55% at 100% -5%,rgba(150,18,26,.42),rgba(150,18,26,0) 60%),radial-gradient(90% 40% at -10% 105%,rgba(120,14,20,.26),rgba(120,14,20,0) 60%),#0B0B0D;color:#F5F5F6;font-family:'Poppins',system-ui,sans-serif;font-size:15px;line-height:1.5}
+.ph *{box-sizing:border-box}
+.scr{position:absolute;inset:0;overflow-y:auto;padding:28px 20px 32px;display:flex;flex-direction:column;gap:16px;animation:scrIn .38s cubic-bezier(.2,.75,.25,1) both}
+.scr.inapp{top:64px;bottom:72px;padding-top:18px}
+.scr.wiz{top:112px;bottom:88px;padding-top:8px}
+@keyframes scrIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.hd{position:absolute;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px 0 10px;border-bottom:1px solid #1E1E23;background:rgba(11,11,13,.82);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);z-index:2}
+.hd::after{content:'';position:absolute;left:0;bottom:-1px;width:96px;height:2px;background:#D9232D;box-shadow:0 0 12px rgba(217,35,45,.7)}
+/* ===== Tipografía: Anton para títulos y números, Poppins para leer ===== */
+.h1{font-family:'Anton',sans-serif;font-weight:400;font-size:38px;line-height:1.02;margin:0;text-transform:uppercase;letter-spacing:.005em}
+.h1::after{content:'';display:block;width:44px;height:4px;background:#D9232D;margin-top:14px;animation:dashIn .5s .15s cubic-bezier(.2,.75,.25,1) both}
+.h1.c::after{margin-left:auto;margin-right:auto}
+@keyframes dashIn{from{width:0}to{width:44px}}
+.h2{font-family:'Anton',sans-serif;font-weight:400;font-size:26px;line-height:1.08;margin:0;text-transform:uppercase;letter-spacing:.01em}
+.h3{font-weight:600;font-size:16px;margin:0;line-height:1.35}
+.mu{color:#A6A6B0;margin:0}
+.sm{font-size:13px}
+.p{margin:0}
+.hl{color:#E5262F}
+/* El kicker es un bloque normal (no flex): así los textos con datos ({{...}}) no se parten en pedazos */
+.eyebrow{font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#F0414A;margin:0;display:block}
+.eyebrow::before{content:'';display:inline-block;width:18px;height:2px;background:#D9232D;vertical-align:middle;margin:-2px 10px 0 0}
+/* Sin barras de desplazamiento visibles: en el celular se scrollea con el dedo */
+.scr,.sheet{scrollbar-width:none}
+.scr::-webkit-scrollbar,.sheet::-webkit-scrollbar{display:none}
+.st3 .stn,.st-row .stn{display:block;font:400 26px/1 'Anton',sans-serif;letter-spacing:0;text-transform:none;color:#fff}
+.st-row .stn{font-size:18px}
+.tpn{font:400 15px/1 'Anton',sans-serif;color:#fff;letter-spacing:.03em}
+.stp svg{display:block;margin:0 auto}
+.card{background:#141418;border:1px solid #24242A;border-radius:12px;padding:16px}
+.card.now{background:radial-gradient(120% 140% at 100% 0%,#3E0B11 0%,#141418 62%);border-color:#3A1418}
+/* ===== Botones ===== */
+.btn{appearance:none;border:0;border-radius:10px;min-height:52px;padding:0 18px;font:600 14.5px 'Poppins',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;text-align:center;transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:#D9232D;color:#fff;box-shadow:0 10px 26px -8px rgba(217,35,45,.6)}
+.btn.pri:hover{background:#E8343E}
+.btn.sec{background:#18181D;color:#F5F5F6;border:1px solid #303037}
+.btn.ghost{background:transparent;color:#F0414A;min-height:44px;width:auto;padding:0 4px;font-size:13.5px;letter-spacing:.02em;text-transform:none;box-shadow:none}
+.btn.dis{background:#18181D;color:#8C8C96;cursor:default;box-shadow:none;text-transform:none;letter-spacing:0;font-size:14.5px}
+.btn.dis:active{transform:none}
+/* ===== Formularios ===== */
+.lbl{font-size:13px;font-weight:600;color:#CFCFD6;display:flex;align-items:center;gap:6px;margin:0 0 8px}
+.fld{display:flex;flex-direction:column}
+.inp{width:100%;background:#121216;border:1px solid #2C2C33;border-radius:10px;min-height:48px;padding:10px 14px;color:#F5F5F6;font:500 15px 'Poppins',sans-serif;transition:border-color .15s ease,box-shadow .15s ease}
+.inp::placeholder{color:#6F6F79}
+.inp:focus{outline:none;border-color:#D9232D;box-shadow:0 0 0 3px rgba(217,35,45,.25)}
+textarea.inp{min-height:80px;resize:none}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{appearance:none;border:1px solid #303037;background:transparent;color:#E6E6EA;border-radius:999px;min-height:44px;min-width:0;padding:6px 10px;line-height:1.15;text-align:center;font:500 14.5px 'Poppins',sans-serif;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,transform .12s ease}
+.chip:active{transform:scale(.96)}
+.chip.r1{flex:1 1 100%}
+.chip.r2{flex:1 1 calc((100% - 8px) / 2)}
+.chip.r3{flex:1 1 calc((100% - 16px) / 3)}
+.chip.r4{flex:1 1 calc((100% - 24px) / 4)}
+.chip.r5{flex:1 1 calc((100% - 32px) / 5)}
+.scr>*,.ex,.segs,.card,.banner,.grp{flex-shrink:0}
+.chip.on{background:#D9232D;border-color:#D9232D;color:#fff;font-weight:600}
+.opt{appearance:none;width:100%;display:flex;align-items:center;gap:14px;text-align:left;border:1px solid #2C2C33;background:#141418;color:#F5F5F6;border-radius:12px;padding:16px;font:500 15.5px 'Poppins',sans-serif;cursor:pointer;min-height:64px;transition:border-color .15s ease,background-color .15s ease,transform .12s ease}
+.opt:active{transform:scale(.985)}
+.opt.on{border-color:#D9232D;background:#1E0B0D}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid #4A4A53;flex:none;transition:all .15s ease}
+.opt.on .radio{border-color:#D9232D;background:#D9232D;box-shadow:inset 0 0 0 4px #1E0B0D}
+.scale{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.n{appearance:none;border:1px solid #2C2C33;background:#141418;color:#E6E6EA;border-radius:8px;height:44px;font:400 17px 'Anton',sans-serif;cursor:pointer;padding:0;transition:background-color .15s ease,border-color .15s ease}
+.n.on{background:#D9232D;border-color:#D9232D;color:#fff}
+.segs{display:flex;gap:4px;background:#121216;border:1px solid #24242A;border-radius:12px;padding:4px;overflow-x:auto}
+.seg{flex:1 0 auto;appearance:none;border:0;background:transparent;color:#A6A6B0;border-radius:9px;min-height:42px;padding:0 12px;font:400 16px 'Anton',sans-serif;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .2s ease,color .2s ease,box-shadow .2s ease}
+.seg.on{background:#D9232D;color:#fff;box-shadow:0 6px 16px -6px rgba(217,35,45,.75)}
+/* ===== Rutina ===== */
+.grp{font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#F0414A;margin:10px 0 -4px;display:flex;align-items:center;gap:10px}
+.grp::before{content:'';width:18px;height:2px;background:#D9232D;flex:none}
+.ex{background:#141418;border:1px solid #24242A;border-radius:12px;overflow:hidden;animation:exIn .42s cubic-bezier(.2,.75,.25,1) both;transition:border-color .2s ease,background-color .2s ease}
+@keyframes exIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.exrow{display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px}
+.exnum{font:400 28px/1 'Anton',sans-serif;color:#D9232D;width:34px;flex:none;transition:color .2s ease}
+.exmain{flex:1;min-width:0;appearance:none;border:0;background:transparent;color:inherit;text-align:left;padding:4px 0;cursor:pointer;font:inherit;display:flex;align-items:center;gap:8px}
+.exname{font-weight:600;font-size:15.5px;line-height:1.25;margin:0}
+.exmeta{display:flex;gap:12px;align-items:center;color:#A6A6B0;font-size:13px;margin-top:6px;flex-wrap:wrap}
+.sr{font:400 17px/1 'Anton',sans-serif;color:#F5F5F6;letter-spacing:.03em}
+.pill{display:inline-flex;align-items:center;gap:4px}
+.chk{appearance:none;width:44px;height:44px;border-radius:50%;border:2px solid #3A3A42;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;color:transparent;padding:0;transition:background-color .15s ease,border-color .15s ease}
+.chk.on{background:#D9232D;border-color:#D9232D;color:#fff;box-shadow:0 0 16px rgba(217,35,45,.55);animation:pop .34s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+.exnotes{padding:12px 14px 14px;color:#CFCFD6;font-size:14px;border-top:1px solid #222228;display:flex;flex-direction:column;gap:10px}
+.ex.done{border-color:#3A1418;background:#120D0E}
+.ex.done .exname{color:#8C8C96;text-decoration:line-through}
+.ex.done .exnum{color:#5A1A1E}
+/* ===== Barra inferior ===== */
+.nav{position:absolute;left:0;right:0;bottom:0;height:72px;background:rgba(14,14,17,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid #1E1E23;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));z-index:3}
+.navb{appearance:none;border:0;background:transparent;color:#8C8C96;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:600 11px 'Poppins',sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;position:relative;transition:color .2s ease}
+.navb.on{color:#fff}
+.navb.on::before{content:'';position:absolute;top:-1px;left:30%;right:30%;height:3px;background:#D9232D;border-radius:0 0 3px 3px;box-shadow:0 0 14px rgba(217,35,45,.9)}
+.navb.on svg{color:#F0414A}
+.banner{border-radius:12px;padding:14px 16px;background:#1A0D0F;border:1px solid #3A1418;border-left:3px solid #D9232D;display:flex;flex-direction:column;gap:6px;animation:scrIn .35s cubic-bezier(.2,.75,.25,1) both}
+.prog{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.pg{height:4px;border-radius:2px;background:#26262C;transition:background-color .3s ease}
+.pg.on{background:#D9232D;box-shadow:0 0 8px rgba(217,35,45,.6)}
+.wizhd{position:absolute;top:0;left:0;right:0;height:112px;padding:14px 20px 12px;background:rgba(11,11,13,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid #1E1E23;display:flex;flex-direction:column;gap:10px;z-index:2}
+.wizft{position:absolute;left:0;right:0;bottom:0;height:88px;padding:16px 20px;background:rgba(14,14,17,.94);border-top:1px solid #1E1E23;display:grid;grid-template-columns:1fr 2fr;gap:10px;z-index:2}
+.iconbtn{appearance:none;width:44px;height:44px;border-radius:10px;border:1px solid #2C2C33;background:#141418;color:#F5F5F6;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none;transition:transform .12s ease}
+.iconbtn:active{transform:scale(.94)}
+.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.65);z-index:5;border:0;padding:0;cursor:pointer;width:100%;animation:fadeIn .22s ease both}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#141418;border-top:1px solid #2C2C33;border-radius:22px 22px 0 0;padding:10px 20px 28px;z-index:6;max-height:660px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;animation:sheetUp .36s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.grab{width:40px;height:4px;border-radius:2px;background:#3A3A42;margin:0 auto}
+/* ===== Plano: cuadrícula tipo plano técnico ===== */
+/* El plano es a escala: cada cuadro de la grilla es 1 metro (20px). Se dibuja en capas SVG:
+   piso, paredes (con 4 copias que solo se ven en 3D para darles altura), máquinas vistas desde arriba y luces LED */
+.planw{position:relative;height:420px;perspective:1300px;flex:none}
+.plan{position:relative;height:420px;background-color:#0E0E11;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:20px 20px;border:1px solid #24242A;border-radius:12px;overflow:hidden;transform-style:preserve-3d;transform-origin:50% 50%;transition:transform .9s cubic-bezier(.2,.75,.25,1),box-shadow .9s ease}
+.plan.iso{overflow:visible;transform:rotateX(52deg) rotateZ(-30deg) scale(.74);box-shadow:0 50px 70px -10px rgba(0,0,0,.85),0 0 0 1px #2C2C33}
+.lyr{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;transition:transform .9s cubic-bezier(.2,.75,.25,1),opacity .4s ease}
+.wall path{stroke-dasharray:1 1;animation:draw 1.3s cubic-bezier(.6,0,.3,1) .1s both}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.wl1,.wl2,.wl3,.wl4{opacity:0}
+.wl1 path,.wl2 path,.wl3 path{stroke:#2A2A31}.wl1 rect,.wl2 rect,.wl3 rect{fill:#2A2A31}
+.wl4 path{stroke:#74747F}.wl4 rect{fill:#74747F}
+.plan.iso .wl1{opacity:1;transform:translateZ(4px)}
+.plan.iso .wl2{opacity:1;transform:translateZ(8px)}
+.plan.iso .wl3{opacity:1;transform:translateZ(12px)}
+.plan.iso .wl4{opacity:1;transform:translateZ(16px)}
+.plan.iso .maq{transform:translateZ(2px)}
+.plan.iso .led{transform:translateZ(17px)}
+.led path{animation:ledOn 1.3s 1.2s ease both}
+.maq g{animation:fadeIn .5s ease both}
+.zone{position:absolute;border:1px dashed #3A3A42;border-radius:8px;color:#8C8C96;font:400 11px 'Anton',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:6px 8px}
+/* Marcador: el botón mide 44px (para el dedo) y el círculo visible 26px, así se ve la máquina debajo */
+.mk{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:0;background:transparent;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.75,.25,1)}
+.mkd{width:26px;height:26px;border-radius:50%;border:2px solid #5A5A64;background:#18181D;color:#E6E6EA;font:400 13px/1 'Anton',sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.6);transition:transform .9s cubic-bezier(.2,.75,.25,1),background-color .2s ease}
+.mk.lug .mkd{border-radius:7px}
+.mk.hot .mkd{background:#D9232D;border-color:#FF5A62;color:#fff;box-shadow:0 0 12px rgba(217,35,45,.7)}
+/* En 3D el marcador se levanta, gira para mirar a la cámara y le aparece un "palito" que baja hasta la máquina */
+.plan.iso .mk{transform:translateZ(30px)}
+.plan.iso .mkd{transform:rotateZ(30deg) rotateX(-52deg)}
+.mk::after{content:'';position:absolute;left:21px;top:22px;width:2px;height:30px;background:linear-gradient(#8C8C96,rgba(140,140,150,0));transform-origin:top center;transform:rotateX(-90deg);opacity:0;transition:opacity .4s ease;pointer-events:none}
+.mk.hot::after,.mk.focus::after{background:linear-gradient(#FF3B45,rgba(255,59,69,0))}
+.plan.iso .mk::after{opacity:1;transition-delay:.5s}
+.iso-t{flex:none;appearance:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #3A3A42;background:rgba(20,20,24,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#F5F5F6;font:600 11px 'Poppins',sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.iso-t svg{color:#F0414A}
+.scale-note{display:flex;align-items:center;gap:8px;font-size:12px;color:#8C8C96;margin:0}
+.scale-note i{display:inline-block;width:14px;height:14px;border:1px solid #3A3A42;background:#121216}
+.push{appearance:none;position:absolute;top:10px;left:10px;right:10px;z-index:30;display:flex;gap:12px;align-items:flex-start;text-align:left;background:rgba(26,26,30,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid #3A3A42;border-radius:18px;padding:12px 14px;color:#F5F5F6;font:inherit;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.55);animation:pushIn .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pushIn{from{opacity:0;transform:translateY(-24px) scale(.96)}to{opacity:1;transform:none}}
+.pushic{width:38px;height:38px;border-radius:10px;background:#0B0B0D;display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden}
+.err{color:#FF8A8F;font-size:14px;margin:0}
+.mk.focus{z-index:3}
+.mk.focus .mkd{width:34px;height:34px;background:#D9232D;border:3px solid #fff;color:#fff;font-size:15px;animation:mkpulse 1.4s ease-out infinite}
+@keyframes mkpulse{0%{box-shadow:0 0 0 0 rgba(217,35,45,.8),0 0 20px 6px rgba(217,35,45,.55)}100%{box-shadow:0 0 0 26px rgba(217,35,45,0),0 0 20px 6px rgba(217,35,45,.55)}}
+.legend{display:flex;gap:16px;align-items:center;font-size:13px;color:#A6A6B0}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:-1px}
+.qrbox{position:relative;height:340px;border-radius:14px;background:#050506;border:1px solid #24242A;display:flex;align-items:center;justify-content:center;flex:none}
+.qrframe{position:relative;overflow:hidden;width:210px;height:210px;border:3px solid #D9232D;border-radius:20px;display:flex;align-items:center;justify-content:center;color:#3A3A42;box-shadow:0 0 30px rgba(217,35,45,.25)}
+.qrframe::after{content:'';position:absolute;left:12px;right:12px;top:14px;height:2px;background:#FF3B45;box-shadow:0 0 12px 2px rgba(255,59,69,.7);animation:scan 1.8s ease-in-out infinite alternate}
+@keyframes scan{from{top:14px}to{top:190px}}
+.tl{display:flex;gap:14px;align-items:flex-start}
+.tlc{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid #3A3A42;color:#8C8C96;font:400 14px 'Anton',sans-serif}
+.tlc.ok{background:#D9232D;border-color:#D9232D;color:#fff}
+.tlc.now{border-color:#D9232D;color:#F0414A}
+.lock{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#F0414A}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.av{width:40px;height:40px;border-radius:50%;background:#1E0B0D;border:1px solid #D9232D;color:#fff;display:flex;align-items:center;justify-content:center;font:400 16px 'Anton',sans-serif;letter-spacing:.04em;flex:none}
+.li{display:flex;gap:12px;align-items:flex-start}
+.ico{width:36px;height:36px;border-radius:10px;background:#1E0B0D;border:1px solid #3A1418;color:#F0414A;display:flex;align-items:center;justify-content:center;flex:none}
+.vid{height:150px;border-radius:10px;background:radial-gradient(80% 90% at 50% 40%,#2A0C0F,#0B0B0D);border:1px solid #2C2C33;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#B5B5BE;font-size:13px}
+.vid svg{color:#F0414A}
+.hr{height:1px;background:#222228;border:0;margin:0}
+/* ===== Tarjetas de elección: oscura vs. roja, como las placas del feed ===== */
+.pick{appearance:none;width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;border:1px solid #2C2C33;background:#141418;color:#F5F5F6;border-radius:14px;padding:18px;font:inherit;cursor:pointer;transition:transform .12s ease,border-color .15s ease}
+.pick:hover{border-color:#4A4A53}
+.pick:active{transform:scale(.985)}
+.pick.hl{border-color:#D9232D;background:linear-gradient(155deg,#D9232D 0%,#9E141B 100%);box-shadow:0 18px 40px -16px rgba(217,35,45,.7)}
+.pick .h2,.pick .mu{display:block}
+.pick.hl .mu,.pick.hl .pickgo{color:#fff}
+.pick.hl .tag.red{background:#0B0B0D;border-color:#0B0B0D;color:#fff}
+.pickgo{font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#F0414A;margin-top:4px}
+.tag{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:999px;font:600 11px 'Poppins',sans-serif;letter-spacing:.14em;text-transform:uppercase;background:transparent;color:#CFCFD6;border:1px solid #3A3A42}
+.tag.red{background:#D9232D;color:#fff;border-color:#D9232D}
+.hero{position:relative;overflow:hidden;border-radius:14px;border:1px solid #3A1418;border-bottom:4px solid #D9232D;background:radial-gradient(120% 80% at 100% 0%,#4A0D12 0%,#170A0B 55%,#0F0A0B 100%);padding:24px 20px 26px;display:flex;flex-direction:column;gap:12px}
+.hero-mark{position:absolute;right:-10px;bottom:-26px;font:400 150px/1 'Anton',sans-serif;color:rgba(217,35,45,.13);pointer-events:none;user-select:none}
+.hero>*:not(.hero-mark){position:relative}
+.price{display:flex;align-items:baseline;gap:8px;margin-top:4px}
+.pricev{font:400 52px/1 'Anton',sans-serif;color:#fff}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.duoc{border-radius:12px;padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;border:1px solid #2C2C33;background:#141418}
+.duoc.red{background:#D9232D;border-color:#D9232D;box-shadow:0 14px 30px -14px rgba(217,35,45,.7)}
+.duok{font-weight:600;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#A6A6B0;margin:0}
+.duoc.red .duok,.duoc.red .duos{color:#fff}
+.duov{font:400 30px/1.02 'Anton',sans-serif;text-transform:uppercase;margin:0}
+.duos{font-size:12.5px;color:#A6A6B0;line-height:1.4;margin:0}
+.cmp{display:grid;grid-template-columns:1.05fr 1fr 1fr;border:1px solid #24242A;border-radius:12px;overflow:hidden;font-size:13px;line-height:1.3}
+.cmp>div{padding:10px;border-top:1px solid #222228}
+.cmp .hc{border-top:0;font:600 10.5px 'Poppins',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#CFCFD6}
+.cmp .k{color:#A6A6B0}
+.cmp .cp{background:#1E0B0D;color:#fff;font-weight:600}
+.cmp .hc.cp{color:#F0414A}
+.kgpill{color:#F0414A;font-weight:600}
+.kgbox{display:flex;flex-direction:column;gap:6px;padding-top:4px}
+.kgrow{display:flex;align-items:center;gap:8px}
+.inp.kg{width:110px;min-height:48px;text-align:center;font:400 22px 'Anton',sans-serif;letter-spacing:.03em}
+/* ===== Transiciones: onboarding y ficha deslizan de costado; la barra de progreso se llena ===== */
+.scr.ob{animation:slideIn .42s cubic-bezier(.2,.75,.25,1) both}
+@keyframes slideIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+/* Truco: alternar entre dos animaciones iguales con distinto nombre hace que se repita en cada paso */
+.scr.pa{animation:slA .38s cubic-bezier(.2,.75,.25,1) both}
+.scr.pb{animation:slB .38s cubic-bezier(.2,.75,.25,1) both}
+@keyframes slA{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes slB{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.pg.new{transform-origin:left center;animation:fillIn .6s .15s cubic-bezier(.2,.75,.25,1) both}
+@keyframes fillIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* ===== Plano: la "cámara" vuela hasta la máquina cuando venís desde un ejercicio ===== */
+.planw{overflow:hidden;border-radius:12px}
+.plan.fly{animation:fly 2.8s cubic-bezier(.45,0,.2,1) .3s both}
+@keyframes fly{0%{transform:scale(1)}35%{transform:scale(2.1)}72%{transform:scale(2.1)}100%{transform:scale(1)}}
+/* ===== Miniaturas de video (en la app real, el cuadro del video de YouTube) ===== */
+.thumb{position:relative;width:52px;height:52px;border-radius:10px;flex:none;overflow:hidden;background:radial-gradient(90% 90% at 80% 10%,#4A0D12,#16090B 60%,#0E0E11);border:1px solid #2C2C33;transition:filter .2s ease}
+.thumb::before{content:'';position:absolute;left:-30%;right:-30%;top:46%;height:2px;background:#FF3B45;box-shadow:0 0 8px 1px rgba(255,59,69,.8);transform:rotate(var(--r,-18deg))}
+.thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,0) 40%,rgba(0,0,0,.7))}
+.thumb-n{position:absolute;left:6px;bottom:3px;font:400 20px/1 'Anton',sans-serif;color:#fff;z-index:1}
+.thumb-p{position:absolute;right:6px;top:6px;color:#fff;opacity:.85;z-index:1}
+.ex.done .thumb{filter:grayscale(1) brightness(.6)}
+.vid{position:relative;overflow:hidden}
+.vid::before{content:'';position:absolute;left:-10%;right:-10%;top:30%;height:2px;background:#FF3B45;box-shadow:0 0 10px 1px rgba(255,59,69,.7);transform:rotate(-12deg);opacity:.7}
+.progpill{color:#F5F5F6;font-weight:600}
+/* ===== Hoy toca ===== */
+.card.today{display:flex;flex-direction:column;gap:12px;padding:18px}
+.tstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tstats>div{background:rgba(0,0,0,.28);border:1px solid #2C2C33;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px}
+.tsn{font:400 24px/1 'Anton',sans-serif}
+.tsl{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#A6A6B0}
+.tprog{height:6px;border-radius:3px;background:#2A2A31;overflow:hidden}
+.tprog-b{height:100%;background:#D9232D;box-shadow:0 0 10px rgba(217,35,45,.8);transition:width .4s ease}
+/* ===== Modo entrenar ===== */
+.trhd{position:absolute;top:0;left:0;right:0;height:96px;padding:12px 16px 10px;background:rgba(11,11,13,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid #1E1E23;display:flex;flex-direction:column;gap:12px;z-index:2}
+.trmid{flex:1;min-width:0;text-align:center}
+.trday{font-weight:600;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#A6A6B0;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clock{font:400 22px/1.1 'Anton',sans-serif;margin:2px 0 0;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.trpos{width:44px;text-align:right;font:400 16px 'Anton',sans-serif;color:#F0414A;flex:none}
+.sbars{display:grid;gap:3px}
+.sb{height:3px;border-radius:2px;background:#2A2A31;transition:background-color .3s ease}
+.sb.cur{background:#F5F5F6}
+.sb.on{background:#D9232D;box-shadow:0 0 6px rgba(217,35,45,.7)}
+.scr.trs{top:96px;bottom:88px;padding-top:16px}
+.scr.trs.resting{padding-bottom:196px}
+.tvid{position:relative;height:184px;border-radius:12px;overflow:hidden;background:radial-gradient(90% 100% at 85% 0%,#5A0E14,#17090B 55%,#0E0E11);border:1px solid #2C2C33;flex:none}
+.tvid::before,.tvid::after{content:'';position:absolute;left:-10%;right:-10%;height:2px;background:#FF3B45;box-shadow:0 0 10px 1px rgba(255,59,69,.8);transform:rotate(-14deg)}
+.tvid::before{top:40%}
+.tvid::after{top:66%;opacity:.45}
+.tvid-n{position:absolute;left:14px;bottom:4px;font:400 66px/1 'Anton',sans-serif;color:rgba(255,255,255,.92);z-index:1}
+.tplay{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:rgba(217,35,45,.92);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 0 0 8px rgba(217,35,45,.2),0 10px 30px rgba(0,0,0,.6);z-index:1}
+.tvid-l{position:absolute;right:12px;bottom:12px;font-size:11px;color:#CFCFD6;z-index:1}
+.h1.trn{font-size:32px}
+.trmeta{display:flex;gap:8px;flex-wrap:wrap}
+.tpill{display:inline-flex;align-items:center;gap:6px;border:1px solid #303037;border-radius:999px;padding:5px 12px;font-size:13px;color:#CFCFD6}
+.tpill b{font:400 15px/1 'Anton',sans-serif;color:#fff;letter-spacing:.03em}
+.kgcard{background:#141418;border:1px solid #24242A;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.stepper{display:grid;grid-template-columns:56px minmax(0,1fr) 56px;gap:8px;align-items:center}
+.stp{appearance:none;height:56px;border-radius:10px;border:1px solid #303037;background:#1B1B20;color:#fff;font:400 26px/1 'Anton',sans-serif;cursor:pointer;padding:0;transition:transform .1s ease,background-color .15s ease}
+.stp:active{transform:scale(.92);background:#2A0C0F}
+.stpv{position:relative}
+.inp.kgbig{min-height:56px;text-align:center;font:400 30px 'Anton',sans-serif;letter-spacing:.03em;padding-right:34px}
+.stpv span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#8C8C96;font-size:13px}
+.dchip{font-weight:600;font-size:12px;padding:2px 10px;border-radius:999px}
+.dchip.up{color:#7FD6A2;background:#0F2418}
+.dchip.down{color:#F5B35C;background:#2B1A08}
+.sets{display:flex;flex-direction:column;gap:8px}
+.set{appearance:none;width:100%;display:grid;grid-template-columns:36px minmax(0,1fr) auto 44px;align-items:center;gap:10px;min-height:62px;padding:8px 8px 8px 14px;border-radius:12px;border:1px solid #2C2C33;background:#141418;color:#F5F5F6;text-align:left;font:inherit;cursor:pointer;transition:background-color .2s ease,border-color .2s ease}
+.set.next{border-color:#7A1A20}
+.setn{font:400 26px/1 'Anton',sans-serif;color:#6F6F79}
+.setr{font-weight:600;font-size:15px}
+.setkg{font:400 17px/1 'Anton',sans-serif;color:#CFCFD6;letter-spacing:.03em}
+.setc{position:relative;width:44px;height:44px;border-radius:50%;border:2px solid #3A3A42;display:flex;align-items:center;justify-content:center;color:transparent}
+.set.on{background:#1E0B0D;border-color:#7A1A20}
+.set.on .setn{color:#F0414A}
+.set.on .setc{background:#D9232D;border-color:#D9232D;color:#fff;animation:pop .34s cubic-bezier(.3,1.6,.5,1)}
+.set.on .setc::after{content:'';position:absolute;inset:-2px;border-radius:50%;border:2px solid #FF3B45;animation:burst .55s ease-out both;pointer-events:none}
+@keyframes burst{from{transform:scale(1);opacity:.9}to{transform:scale(2.3);opacity:0}}
+.btn.pri.ready{animation:ready 1.6s ease-in-out infinite}
+@keyframes ready{50%{box-shadow:0 0 0 6px rgba(217,35,45,.25),0 10px 26px -8px rgba(217,35,45,.6)}}
+/* Timer de descanso: un anillo que se vacía. El largo del trazo es 2·π·44 ≈ 276,5 */
+.restbar{position:absolute;left:10px;right:10px;bottom:98px;z-index:4;display:flex;gap:16px;align-items:center;padding:14px 16px;border-radius:16px;background:rgba(24,14,15,.96);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid #5A1A1E;box-shadow:0 -10px 40px rgba(0,0,0,.6),0 0 30px -10px rgba(217,35,45,.6);animation:restIn .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes restIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.ringw{position:relative;width:104px;height:104px;flex:none}
+.ring{width:104px;height:104px;transform:rotate(-90deg);display:block}
+.rbg{fill:none;stroke:#2A2A31;stroke-width:7}
+.rfg{fill:none;stroke:#D9232D;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .25s linear,stroke .3s ease}
+.ring.hot .rfg{stroke:#FF3B45;filter:drop-shadow(0 0 5px rgba(255,59,69,.9))}
+.rtime{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:400 30px/1 'Anton',sans-serif;letter-spacing:.03em;font-variant-numeric:tabular-nums}
+.ring.hot + .rtime{color:#FF5A62;animation:tick 1s ease-in-out infinite}
+@keyframes tick{50%{transform:scale(1.08)}}
+.rinfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.rnext{margin:0;font-weight:600;font-size:14px;line-height:1.3}
+.rbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:4px}
+.rb{appearance:none;min-height:44px;border-radius:10px;border:1px solid #3A3A42;background:#1B1B20;color:#fff;font:400 15px 'Anton',sans-serif;letter-spacing:.04em;cursor:pointer;padding:0;transition:transform .1s ease}
+.rb:active{transform:scale(.94)}
+.rb.skip{background:#D9232D;border-color:#D9232D;font:600 10.5px 'Poppins',sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.goflash{position:absolute;left:50%;bottom:112px;z-index:4;background:#D9232D;color:#fff;font:400 18px 'Anton',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;border-radius:999px;box-shadow:0 0 30px rgba(217,35,45,.8);white-space:nowrap;animation:flash 2.6s ease both}
+@keyframes flash{0%{opacity:0;transform:translate(-50%,20px) scale(.9)}12%{opacity:1;transform:translate(-50%,0) scale(1.05)}20%{transform:translate(-50%,0) scale(1)}80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,0)}}
+/* ===== Fin del entrenamiento ===== */
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:4}
+.confetti i{position:absolute;top:-24px;border-radius:2px;animation:fall 2.6s cubic-bezier(.3,.6,.4,1) both}
+@keyframes fall{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(900px) rotate(540deg)}}
+.bigstat{display:flex;flex-direction:column;gap:2px}
+.bign{font:400 78px/.95 'Anton',sans-serif;letter-spacing:.01em;color:#fff;text-shadow:0 0 30px rgba(217,35,45,.45);font-variant-numeric:tabular-nums}
+.bigu{font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#A6A6B0}
+.cmpchip{display:inline-flex;align-self:flex-start;padding:4px 12px;border-radius:999px;font-weight:600;font-size:13px;background:#2B1A08;color:#F5B35C;border:1px solid #6B4310;margin:0}
+.cmpchip.up{background:#0F2418;color:#7FD6A2;border-color:#1F5A37}
+.stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.st3{background:#141418;border:1px solid #24242A;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.st3 b{font:400 26px/1 'Anton',sans-serif;font-weight:400}
+.st3 .stl{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#A6A6B0;font-weight:600}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.wd{height:40px;border-radius:8px;border:1px solid #2C2C33;display:flex;align-items:center;justify-content:center;font:400 14px 'Anton',sans-serif;color:#6F6F79}
+.wd.on{background:#D9232D;border-color:#FF5A62;color:#fff;box-shadow:0 0 14px rgba(217,35,45,.7);animation:ledOn 1.1s .7s ease both}
+.wd.today{outline:1px solid #F5F5F6;outline-offset:2px}
+.pr{display:flex;align-items:center;gap:12px}
+/* ===== Tarjeta para historias de Instagram (9:16) ===== */
+.story{position:relative;width:216px;height:384px;margin:0 auto;border-radius:14px;overflow:hidden;background:radial-gradient(120% 60% at 100% 0%,rgba(170,20,30,.55),rgba(170,20,30,0) 60%),#0B0B0D;border:1px solid #2C2C33;display:flex;flex-direction:column;padding:18px 16px 0;gap:6px;box-shadow:0 20px 50px rgba(0,0,0,.7);flex:none}
+.story>*{position:relative}
+.story .led{position:absolute}
+.st-k{font-weight:600;font-size:7.5px;letter-spacing:.24em;text-transform:uppercase;color:#F0414A;margin:6px 0 0}
+.st-t{font:400 40px/.95 'Anton',sans-serif;text-transform:uppercase;margin:2px 0 0}
+.st-n{font:400 44px/1 'Anton',sans-serif;margin:12px 0 0;text-shadow:0 0 20px rgba(217,35,45,.5)}
+.st-u{font-weight:600;font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:#A6A6B0;margin:0}
+.st-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:10px}
+.st-row div{border:1px solid #2C2C33;border-radius:8px;padding:6px 8px}
+.st-row b{display:block;font:400 18px/1 'Anton',sans-serif}
+.st-row .stl{display:block;font-size:6.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#A6A6B0}
+.st-pr{font-size:9px;font-weight:600;color:#FF8A8F;margin:8px 0 0}
+.st-bar{margin:auto -16px 0;background:#D9232D;color:#fff;text-align:center;font:400 13px/1 'Anton',sans-serif;letter-spacing:.18em;padding:10px 0}
+/* ===== Luces LED del login (se encienden como un tubo) ===== */
+.leds{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.led{position:absolute;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,59,69,0),#FF3B45 25%,#FF3B45 75%,rgba(255,59,69,0));box-shadow:0 0 10px 1px rgba(255,40,50,.75),0 0 34px 5px rgba(217,35,45,.32);animation:ledOn 1.3s ease both}
+@keyframes ledOn{0%{opacity:0}18%{opacity:.95}26%{opacity:.2}38%{opacity:1}52%{opacity:.6}64%{opacity:1}100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){.ph *,.ph *::before,.ph *::after{animation:none!important;transition:none!important}.ph .mk.focus .mkd{box-shadow:0 0 0 8px rgba(217,35,45,.4),0 0 20px 6px rgba(217,35,45,.55)}}
+</style>
+<style>
+html,body{height:100%}
+body{background:radial-gradient(60% 50% at 50% 0%,rgba(150,18,26,.18),rgba(0,0,0,0) 70%),#050506;margin:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ph{flex:none;border-radius:36px;box-shadow:0 0 0 10px #18181B,0 30px 80px rgba(0,0,0,.6);transform:scale(var(--s,1));transform-origin:center}
+@media (max-width:500px){
+  body{display:block;overflow:auto;height:auto;background:#0B0B0D}
+  .ph{width:100vw;height:100vh;height:100dvh;border-radius:0;box-shadow:none;transform:none}
+  .inp{font-size:16px}  /* con menos de 16px, el iPhone hace zoom al tocar un campo */
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/x-template" id="tpl">
+<div class="ph">
+
+<!-- ========== NOTIFICACIÓN PUSH (simulada) ========== -->
+<template v-if="push.show">
+<button class="push" aria-label="Cerrar notificación" @click="go.hidePush">
+<span class="pushic"><img src="assets/logo.png" alt="" style="width: 34px; height: auto"></span>
+<span style="flex: 1; min-width: 0"><span class="row" style="gap: 8px"><span class="sm" style="font-weight: 700">Gálatas</span><span class="mu sm">ahora</span></span><span class="p" style="display: block; font-weight: 600; margin-top: 2px">{{push.t}}</span><span class="mu sm" style="display: block">{{push.d}}</span></span>
+</button>
+</template>
+
+<!-- ========== LOGIN ========== -->
+<template v-if="is.login">
+<div class="leds" aria-hidden="true">
+<div class="led" style="width: 340px; left: -60px; top: 58px; transform: rotate(-11deg); animation-delay: .1s"></div>
+<div class="led" style="width: 300px; left: 150px; top: 112px; transform: rotate(-11deg); animation-delay: .45s"></div>
+<div class="led" style="width: 260px; left: -40px; top: 170px; transform: rotate(-11deg); animation-delay: .8s; opacity: .7"></div>
+</div>
+<div class="scr" style="justify-content: safe center; gap: 18px">
+<img src="assets/logo.png" alt="Gálatas Gym" style="width: 220px; height: auto; display: block; margin: 0 auto 6px; filter: drop-shadow(0 8px 30px rgba(217, 35, 45, .35))">
+<div style="text-align: center; display: flex; flex-direction: column; gap: 10px">
+<p class="eyebrow" style="text-align: center">Sistema Gálatas</p>
+<h1 class="h1 c" style="font-size: 44px">Tu rutina,<br>en tu <span class="hl">celu</span></h1>
+<p class="mu"><br></p>
+</div>
+<div class="fld" style="margin-top: 8px">
+<label class="lbl" for="dni">DNI</label>
+<input id="dni" class="inp" inputmode="numeric" placeholder="Ej: 11111111" :value="dni" @input="go.setDni">
+</div>
+<button class="btn pri" @click="go.login">Ingresar</button>
+<p class="mu sm" style="text-align: center">Usá el mismo DNI que el de la entrada. La primera vez te pedimos un código para confirmar que sos vos.</p>
+<div class="card" style="display: flex; flex-direction: column; gap: 8px; padding: 14px">
+<p class="eyebrow">Demo · DNIs de prueba</p>
+<template v-for="d in demoDnis">
+<button :class="d.cls" style="min-height: 48px; padding: 8px 14px; font-size: 15px; width: 320px; height: 48px" @click="d.pick"><span style="font-weight: 700; letter-spacing: .04em">{{d.dni}}</span><span class="mu sm" style="margin-left: auto; text-align: right">{{d.estado}}</span></button>
+</template>
+<button class="btn ghost" style="align-self: center" @click="go.reset"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg>Reiniciar demo</button>
+</div>
+</div>
+</template>
+
+<!-- ========== CÓDIGO DE VERIFICACIÓN (primer ingreso) ========== -->
+<template v-if="is.codigo">
+<div class="scr">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<p class="eyebrow" style="margin-top: 8px">Primer ingreso</p>
+<h1 class="h1">{{cod.title}}</h1>
+<p class="mu">{{cod.txt}}</p>
+<div class="fld" style="margin-top: 6px">
+<label class="lbl" for="cod">Código de 6 dígitos</label>
+<input id="cod" class="inp" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" :value="code" @input="go.setCode" style="font-size: 22px; letter-spacing: .3em; text-align: center">
+</div>
+<template v-if="cod.bad"><p class="err">El código no es correcto. Revisalo y probá de nuevo.</p></template>
+<button class="btn pri" @click="go.verify">Verificar</button>
+<template v-if="cod.hasMail">
+<button class="btn ghost" style="align-self: center" @click="go.resend">{{cod.resendTxt}}</button>
+</template>
+<p class="mu sm" style="text-align: center">Demo: el código es 123456</p>
+</div>
+</template>
+
+<!-- ========== PEDIR MAIL (si el legajo no tenía) ========== -->
+<template v-if="is.mail">
+<div class="scr">
+<p class="eyebrow" style="margin-top: 8px">Listo, ya sos vos</p>
+<h1 class="h1">Dejanos tu mail</h1>
+<p class="mu">Así, si cambiás de celular, te mandamos el código directo, sin pasar por recepción.</p>
+<div class="fld"><label class="lbl" for="mail">Mail</label><input id="mail" class="inp" inputmode="email" autocomplete="email" placeholder="tu@email.com"></div>
+<div style="flex: 1"></div>
+<button class="btn pri" @click="go.exp">Guardar y seguir</button>
+<button class="btn ghost" style="align-self: center" @click="go.exp">Ahora no</button>
+</div>
+</template>
+
+<!-- ========== CUOTA VENCIDA ========== -->
+<template v-if="is.bloqueado">
+<div class="scr">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div style="width: 72px; height: 72px; border-radius: 50%; background: #2B1A08; color: #F5B35C; display: flex; align-items: center; justify-content: center; margin-top: 24px"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M7 15h3"></path></svg></div>
+<h1 class="h1">Tu cuota está vencida</h1>
+<p class="mu">Para usar la app, regularizala en recepción. Tu rutina y tus datos quedan guardados.</p>
+<div style="flex: 1"></div>
+<button class="btn sec" @click="go.back">Volver</button>
+</div>
+</template>
+
+<!-- ========== ONBOARDING: EXPERIENCIA ========== -->
+<template v-if="is.exp">
+<div class="scr ob">
+<div class="row">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div class="prog" style="grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1"><div class="pg on new"></div><div class="pg"></div><div class="pg"></div></div>
+</div>
+<p class="eyebrow" style="margin-top: 12px">Bienvenido, Bruno</p>
+<h1 class="h1">¿Es tu primera vez en un gimnasio?</h1>
+
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px">
+<template v-for="o in c.exp">
+<button :class="o.ocls" @click="o.pick"><span class="radio"></span><span>{{o.label}}</span></button>
+</template>
+</div>
+<div style="flex: 1"></div>
+<button class="btn pri" @click="go.afterExp">Continuar</button>
+</div>
+</template>
+
+<!-- ========== ONBOARDING: DATOS BÁSICOS ========== -->
+<template v-if="is.datos">
+<div class="scr ob">
+<div class="row">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div class="prog" style="grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1"><div class="pg on"></div><div class="pg on new"></div><div class="pg"></div></div>
+</div>
+<h1 class="h1" style="margin-top: 8px">Un par de datos</h1>
+<p class="mu">Cuatro preguntas y listo.</p>
+<div class="fld"><p class="lbl">Sexo</p><div class="chips"><template v-for="o in c.sexo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">¿Cuántos días por semana vas a venir?</p><div class="chips"><template v-for="o in c.dias"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">¿Cuánto te movés en el día a día?</p><div class="chips"><template v-for="o in c.act"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div>
+<p class="mu sm" style="margin-top: 8px">Trabajo, caminatas, deportes. Lo usamos para ajustar la intensidad.</p></div>
+<div class="fld"><p class="lbl">¿Tenés alguna lesión, dolor o limitación?</p><div class="chips"><template v-for="o in c.lesA"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div>
+<template v-if="les.a"><textarea class="inp" style="margin-top: 10px" aria-label="Contanos qué te pasa" placeholder="Ej: dolor lumbar cuando paso mucho tiempo sentado"></textarea>
+<p class="mu sm" style="margin-top: 8px">Arrancás igual con tu adaptación, y un profe la revisa por lo que nos contaste.</p></template></div>
+<div style="flex: 1"></div>
+<button class="btn pri" @click="go.asignada">Ver mi rutina</button>
+</div>
+</template>
+
+<!-- ========== ONBOARDING: RUTINA ASIGNADA ========== -->
+<template v-if="is.asignada">
+<div class="scr ob">
+<div class="row">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div class="prog" style="grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1"><div class="pg on"></div><div class="pg on"></div><div class="pg on new"></div></div>
+</div>
+<p class="eyebrow" style="margin-top: 12px">Listo</p>
+<h1 class="h1">Tu rutina de arranque</h1>
+<div class="card now" style="display: flex; flex-direction: column; gap: 6px">
+<p class="h2">Adaptación · {{adaptTitle}}</p>
+<p class="mu">Hacela al menos una semana. Cuando te sientas listo, pedí una rutina armada por los profes.</p>
+</div>
+<template v-if="les.a">
+<div class="banner"><p class="h3">Un profe va a revisar tu rutina</p><p class="mu sm">Por la lesión que nos contaste. Si hace falta cambiar algún ejercicio, te avisamos acá.</p></div>
+</template>
+<div style="display: flex; flex-direction: column; gap: 14px; margin-top: 4px">
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"></path></svg></span><div><p class="h3">Ejercicios guiados</p><p class="mu sm">Series, repeticiones, descanso y cómo hacer cada uno de los ejercicios.</p></div></div>
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"></path><path d="M9 4v14M15 6v14"></path></svg></span><div><p class="h3">Cada máquina en el plano</p><p class="mu sm">Así te familiarizás con el gimnasio.</p></div></div>
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span><div><p class="h3">Un profe revisa tus cambios</p><p class="mu sm">Cuando quieras otra rutina, la pedís desde acá.</p></div></div>
+</div>
+<div style="flex: 1"></div>
+<button class="btn pri" @click="go.app">Empezá a entrenar</button>
+</div>
+</template>
+
+<!-- ========== ONBOARDING: ¿CÓMO QUERÉS ARRANCAR? (ya vengo entrenando) ========== -->
+<template v-if="is.camino">
+<div class="scr ob">
+<div class="row">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div class="prog" style="grid-template-columns: repeat(3, minmax(0, 1fr)); flex: 1"><div class="pg on"></div><div class="pg on new"></div><div class="pg"></div></div>
+</div>
+<h1 class="h1" style="margin-top: 8px">¿Cómo querés arrancar?</h1>
+<p class="mu">Elegí lo que mejor te quede. Lo podés cambiar más adelante.</p>
+<button class="pick" @click="go.cortoOnb">
+<span class="tag">Gratis</span>
+<span class="h2">Rutina según tu objetivo</span>
+<span class="mu sm">Respondés unas preguntas y un profe te asigna una rutina armada para tu objetivo. Mientras tanto, arrancás con una de adaptación.</span>
+<span class="pickgo">Elegir esta →</span>
+</button>
+<button class="pick hl" @click="go.planOnb">
+<span class="tag red">$X / mes</span>
+<span class="h2">Plan personalizado</span>
+<span class="mu sm">Tu coach te evalúa con la ficha 360°, te arma un plan a medida y te hace seguimiento.</span>
+<span class="pickgo">Ver el plan →</span>
+</button>
+</div>
+</template>
+
+<!-- ========== FORMULARIO CORTO (rutina por objetivo / cambio de rutina) ========== -->
+<template v-if="is.corto">
+<div class="scr" style="bottom: 88px">
+<div class="row" style="justify-content: flex-start; gap: 12px">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<p class="h3">{{corto.heading}}</p>
+</div>
+<p class="mu sm">{{corto.sub}}</p>
+<div class="fld"><p class="lbl">Sexo</p><div class="chips"><template v-for="o in c.fsexo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Objetivo · podés marcar varios</p><div class="chips"><template v-for="o in c.objetivo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Días por semana</p><div class="chips"><template v-for="o in c.fdias"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Tiempo por sesión</p><div class="chips"><template v-for="o in c.tiempo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Nivel de esfuerzo</p><div class="chips"><template v-for="o in c.esfuerzo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div>
+<p class="mu sm" style="margin-top: 8px">Qué tan exigente querés que sea la rutina.</p></div>
+<div class="fld"><p class="lbl">¿Tenés alguna lesión, dolor o limitación?</p><div class="chips"><template v-for="o in c.lesC"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div>
+<template v-if="les.c"><textarea class="inp" style="margin-top: 10px" aria-label="Contanos qué te pasa" placeholder="Ej: molestia en la rodilla derecha al bajar escaleras"></textarea></template></div>
+<hr class="hr" style="margin: 4px 0">
+<p class="eyebrow">Opcional</p>
+<div class="ex">
+<button class="exmain" style="width: 100%; padding: 14px 14px; min-height: 56px" :aria-expanded="kgx.exp" aria-controls="kg-panel" @click="go.toggleKg">
+<div style="flex: 1; min-width: 0"><p class="exname" style="font-size: 15px">¿Cuánto levantás?</p><p class="mu sm" style="margin-top: 2px">Pecho, espalda, piernas y hombros</p></div>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="kgx.chev"></path></svg>
+</button>
+<template v-if="kgx.open">
+<div id="kg-panel" class="exnotes" style="gap: 12px">
+<p class="mu sm">El peso que usás para 8 a 10 repeticiones. Si no sabés, dejalo vacío.</p>
+<div class="g2">
+<div class="fld"><label class="lbl" for="c-pecho">Pecho · press banca</label><input id="c-pecho" class="inp" inputmode="decimal" placeholder="kg"></div>
+<div class="fld"><label class="lbl" for="c-espalda">Espalda · remo o jalón</label><input id="c-espalda" class="inp" inputmode="decimal" placeholder="kg"></div>
+<div class="fld"><label class="lbl" for="c-piernas">Piernas · sentadilla o prensa</label><input id="c-piernas" class="inp" inputmode="decimal" placeholder="kg"></div>
+<div class="fld"><label class="lbl" for="c-hombros">Hombros · press militar</label><input id="c-hombros" class="inp" inputmode="decimal" placeholder="kg"></div>
+</div>
+</div>
+</template>
+</div>
+<div class="fld"><label class="lbl" for="c-prev">¿Ya tenías una rutina del gimnasio?</label><textarea id="c-prev" class="inp" placeholder="Ej: la que me armó un profe en marzo, Full Body 3 días"></textarea></div>
+</div>
+<div class="wizft" style="grid-template-columns: 1fr">
+<button class="btn pri" @click="go.sendCorto">Enviar pedido</button>
+</div>
+</template>
+
+<!-- ========== PLAN PERSONALIZADO (pantalla de venta) ========== -->
+<template v-if="is.planp">
+<div class="scr" style="bottom: 88px; gap: 22px">
+<button class="iconbtn" aria-label="Volver" @click="go.back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+
+<div class="hero">
+<span class="hero-mark" aria-hidden="true">360°</span>
+<p class="eyebrow">Sistema Gálatas · Plan personalizado</p>
+<h1 class="h1" style="font-size: 46px; line-height: .95">Un plan hecho para vos</h1>
+<p class="p" style="color: #E4E4E7">Tu coach te evalúa a fondo, te arma la rutina a medida y la va ajustando con tu progreso.</p>
+<div class="price"><span class="pricev">$X</span><span class="mu">por mes</span></div>
+<p class="mu sm"><br></p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px">
+<p class="h2" style="font-size: 22px">Qué incluye</p>
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"></rect><path d="M9 4h6v3H9zM9 12h6M9 16h4"></path></svg></span><div><p class="h3">Evaluación 360°</p><p class="mu sm">Tu experiencia, tu cuerpo, tus objetivos, tus hábitos y tu cabeza. Todo cuenta.</p></div></div>
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"></path></svg></span><div><p class="h3">Rutina a medida</p><p class="mu sm">Armada por tu coach según tus lesiones, tu tiempo y lo que querés lograr.</p></div></div>
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"></path><path d="M15 7h6v6"></path></svg></span><div><p class="h3">Seguimiento y ajustes</p><p class="mu sm">Tu coach ve tu progreso y ajusta el plan cuando hace falta, sin esperar 30 días.</p></div></div>
+<div class="li"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8.2 19z"></path></svg></span><div><p class="h3">Contacto directo</p><p class="mu sm">Le escribís a tu coach por WhatsApp cuando tengas dudas.</p></div></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p class="h2" style="font-size: 22px">Gratis vs. personalizado</p>
+<div class="duo">
+<div class="duoc"><p class="duok">Por objetivo</p><p class="duov">Gratis</p><p class="duos">Rutina del catálogo. Cambios cada 30 días.</p></div>
+<div class="duoc red"><p class="duok">Personalizado</p><p class="duov">$X / mes</p><p class="duos">Tu coach, a medida y con seguimiento.</p></div>
+</div>
+<div class="cmp">
+<div class="hc"></div><div class="hc">Por objetivo</div><div class="hc cp">Personalizado</div>
+<div class="k">Quién la arma</div><div>Rutina del catálogo del gimnasio</div><div class="cp">Tu coach, a medida</div>
+<div class="k">Evaluación</div><div>5 preguntas</div><div class="cp">Ficha 360°</div>
+<div class="k">Cambios</div><div>Cada 30 días</div><div class="cp">Cuando haga falta</div>
+<div class="k">Seguimiento</div><div>No</div><div class="cp">Sí</div>
+<div class="k">Precio</div><div>Gratis</div><div class="cp">$X por mes</div>
+</div>
+</div>
+
+<div class="card" style="display: flex; flex-direction: column; gap: 16px">
+<p class="h2" style="font-size: 22px">Cómo funciona</p>
+<div class="tl"><span class="tlc now">1</span><div><p class="h3">Completás la ficha 360°</p><p class="mu sm">Unos 10 minutos, desde el celu.</p></div></div>
+<div class="tl"><span class="tlc">2</span><div><p class="h3">Pagás en recepción o por transferencia</p><p class="mu sm">El profe confirma el pago en el sistema.</p></div></div>
+<div class="tl"><span class="tlc">3</span><div><p class="h3">Tu coach arma tu plan</p><p class="mu sm">Te avisamos en la app y por WhatsApp cuando esté listo.</p></div></div>
+</div>
+
+<div class="row" style="justify-content: flex-start; gap: 12px">
+<span class="av" style="width: 52px; height: 52px; font-size: 17px">DS</span>
+<div><p class="h3">Coach Diego Sandobal</p><p class="mu sm">Sistema Gálatas · Gálatas Gym</p></div>
+</div>
+
+<template v-if="is.onb">
+<button class="btn ghost" style="align-self: center" @click="go.cortoOnb">Por ahora, prefiero la rutina por objetivo (gratis)</button>
+</template>
+</div>
+<div class="wizft" style="grid-template-columns: 1fr">
+<button class="btn pri" @click="go.planFicha">Quiero mi plan personalizado</button>
+</div>
+</template>
+
+<!-- ========== APP (con header y barra inferior) ========== -->
+<template v-if="is.app">
+<div class="hd" style="border-radius: 0px; padding-left: 22px">
+
+<div style="display: flex; align-items: center; gap: 8px">
+<img src="assets/logo.png" alt="Gálatas Gym" style="height: 44px; width: auto; display: block">
+</div><div style="display: flex; align-items: center; gap: 10px">
+<p class="mu sm" style="text-align: right; line-height: 1.2">Hola,<br><span style="color: #F4F4F5; font-weight: 600; font-size: 15px">Bruno</span></p>
+<span class="av">B</span>
+</div>
+</div>
+
+<!-- ---------- TAB RUTINA ---------- -->
+<template v-if="is.tabRutina">
+<div class="scr inapp">
+
+<template v-if="is.recordar">
+<div class="banner" style="background: #2A0C0F; border-color: #D9232D">
+<p class="h3">Ya podés pedir tu rutina según tu objetivo</p>
+<p class="sm p" style="color: #E4E4E7">Terminaste tu primera semana de adaptación. Respondés unas preguntas y un profe te arma la próxima.</p>
+<button class="btn pri" style="margin-top: 4px; min-height: 44px" @click="go.ficha">Pedirla ahora</button>
+</div>
+</template>
+
+<template v-if="is.pendiente">
+<div class="banner">
+<div class="row" style="justify-content: flex-start; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0414A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><p class="h3">Tu pedido de cambio está en revisión</p></div>
+<p class="mu sm">Un profe va a revisar tus respuestas. Te avisamos acá y por WhatsApp cuando esté lista.</p>
+<button class="btn ghost" style="align-self: flex-start" @click="go.aprobar">Simular aprobación del profe (demo)</button>
+</div>
+</template>
+
+<template v-if="is.planPago">
+<div class="banner">
+<div class="row" style="justify-content: flex-start; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0414A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M7 15h3"></path></svg><p class="h3">Tu plan personalizado espera el pago</p></div>
+<p class="mu sm">Pagá $X en recepción o por transferencia. Cuando el profe lo confirme, tu coach empieza a armarlo.</p>
+<button class="btn ghost" style="align-self: flex-start" @click="go.pagoOk">Simular pago confirmado (demo)</button>
+</div>
+</template>
+
+<template v-if="is.planArmando">
+<div class="banner">
+<div class="row" style="justify-content: flex-start; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F0414A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><p class="h3">Tu coach está armando tu plan</p></div>
+<p class="mu sm">Pago confirmado. Te avisamos acá y por WhatsApp cuando esté listo.</p>
+<button class="btn ghost" style="align-self: flex-start" @click="go.planListo">Simular plan entregado (demo)</button>
+</div>
+</template>
+
+<template v-if="is.showNew">
+<div class="banner" style="background: #2A0C0F; border-color: #D9232D">
+<div class="row"><p class="h3">{{nb.title}}</p><button class="iconbtn" style="width: 36px; height: 36px; background: transparent; border: 0" aria-label="Cerrar aviso" @click="go.hideNew"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<p class="sm p" style="color: #E4E4E7">{{nb.sub}}</p>
+</div>
+</template>
+
+<!-- HOY TOCA: el día que corresponde, con el botón grande para empezar el Modo entrenar -->
+<div class="card now today">
+<div class="row" style="gap: 8px; flex-wrap: nowrap"><p class="eyebrow" style="white-space: nowrap">Hoy toca</p><span class="tag">{{r.title}}&nbsp;·&nbsp;{{r.week}}</span></div>
+<p class="h2" style="font-size: 30px; line-height: 1.02">{{cur.title}}</p>
+<p class="mu sm" style="margin-top: -4px">{{cur.focus}}</p>
+<div class="tstats"><div><span class="tsn">{{today.nEx}}</span><span class="tsl">ejercicios</span></div><div><span class="tsn">{{today.nSets}}</span><span class="tsl">series</span></div><div><span class="tsn">~{{today.mins}}</span><span class="tsl">minutos</span></div></div>
+<template v-if="today.inProg">
+<div class="tprog"><div class="tprog-b" :style="`width: ${today.pct}`"></div></div>
+<p class="mu sm" style="margin-top: -4px">{{today.progTxt}}</p>
+</template>
+<button class="btn pri" @click="go.startTrain"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"></path></svg>{{today.cta}}</button>
+</div>
+
+<div class="segs" role="tablist" aria-label="Días de la rutina">
+<template v-for="t in dayTabs">
+<button :class="t.cls" role="tab" @click="t.pick">{{t.label}}</button>
+</template>
+</div>
+
+<div class="row" style="align-items: flex-end">
+<div><p class="h2" style="font-size: 22px">Ejercicios del día</p><p class="mu sm">Tocá uno para ver cómo se hace</p></div>
+<p class="mu sm" style="white-space: nowrap">{{cur.doneTxt}}</p>
+</div>
+
+<template v-for="g in cur.groups">
+<p class="grp">{{g.name}}</p>
+<template v-for="it in g.items">
+<div :class="it.cls" :style="`animation-delay: ${it.delay}`">
+<div class="exrow">
+<button class="exmain" @click="it.toggle" :aria-label="`Ver notas de ${it.name}`">
+<span class="thumb" aria-hidden="true" :style="`--r: ${it.rot}`"><span class="thumb-n">{{it.num}}</span><svg class="thumb-p" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12.5-7.5z"></path></svg></span>
+<div style="flex: 1; min-width: 0">
+<p class="exname">{{it.name}}</p>
+<div class="exmeta"><span class="pill sr">{{it.series}} × {{it.reps}}</span><span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>{{it.desc}}</span><template v-if="it.hasPill"><span class="pill kgpill">{{it.kgPill}}</span></template><template v-if="it.hasProg"><span class="pill progpill">{{it.prog}}</span></template></div>
+</div>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path :d="it.chev"></path></svg>
+</button>
+<button :class="it.chkCls" :aria-label="`Marcar ${it.name} como hecho`" @click="it.check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></button>
+</div>
+<template v-if="it.isOpen">
+<div class="exnotes">
+<div class="vid" style="height: 160px"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.5l5 3.5-5 3.5z"></path></svg>[Video del ejercicio · lo graba el gimnasio]</div>
+<p class="p">{{it.notes}}</p>
+<template v-if="it.hasKg">
+<div class="kgbox">
+<label class="lbl" :for="it.kgId" style="margin: 0">Peso de hoy</label>
+<div class="kgrow"><input :id="it.kgId" class="inp kg" inputmode="decimal" :placeholder="it.kgPh" :value="it.kgVal" @input="it.setKg"><span class="mu">kg</span></div>
+<p class="mu sm">{{it.kgLast}}</p>
+</div>
+</template>
+<template v-if="it.hasMachine">
+<button class="btn ghost" style="align-self: flex-start; padding: 0" @click="it.goMachine">{{it.mlabel}}</button>
+</template>
+</div>
+</template>
+</div>
+</template>
+</template>
+
+<div class="card" style="display: flex; gap: 12px; align-items: flex-start">
+<span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"></path></svg></span>
+<div><p class="eyebrow">Finisher</p><p class="p" style="margin-top: 2px">{{cur.fin}}</p></div>
+</div>
+
+<button class="btn ghost" style="align-self: center" @click="go.nextWeek">Pasar a la semana siguiente (demo)</button>
+
+<hr class="hr" style="margin: 4px 0">
+
+<template v-if="is.changeCard">
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<p class="h3">¿Querés cambiar de rutina?</p>
+<p class="mu sm">{{cta.txt}}</p>
+<template v-if="cta.canChange">
+<button class="btn pri" @click="go.ficha">Pedir cambio de rutina</button>
+</template>
+<template v-if="cta.locked">
+<button class="btn dis" disabled="disabled">{{cta.lockTxt}}</button>
+</template>
+<template v-if="is.pendiente">
+<button class="btn dis" disabled="disabled">Ya tenés un pedido en revisión</button>
+</template>
+</div>
+</template>
+
+<template v-if="is.upsell">
+<div class="hero" style="padding: 20px 18px">
+<span class="hero-mark" aria-hidden="true" style="font-size: 110px; bottom: -22px">360°</span>
+<p class="eyebrow">Plan personalizado</p>
+<p class="h2" style="font-size: 26px">Entrená con un plan hecho para vos</p>
+<p class="mu sm" style="color: #C9C9D1">Tu coach te evalúa, te arma la rutina a medida y la ajusta con tu progreso.</p>
+<button class="btn pri" @click="go.planApp">Conocer el plan</button>
+</div>
+</template>
+
+<template v-if="is.coachCard">
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<div class="row" style="justify-content: flex-start; gap: 12px"><span class="av">DS</span><div><p class="h3">Tu coach: Diego S.</p><p class="mu sm">Los cambios y ajustes de tu plan los hace tu coach.</p></div></div>
+<a class="btn pri" href="https://wa.me/" style="color: #fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8.2 19z"></path></svg><span>Escribirle a mi coach</span></a>
+</div>
+</template>
+
+</div>
+</template>
+
+<!-- ---------- TAB GIMNASIO (plano + QR) ---------- -->
+<template v-if="is.tabGym">
+<div class="scr inapp">
+<p class="h2">El gimnasio</p>
+<div class="segs">
+<button :class="maqTabs.plano" @click="go.plano">Plano</button>
+<button :class="maqTabs.qr" @click="go.qr">Escanear QR</button>
+</div>
+
+<template v-if="is.plano">
+<template v-if="is.focus">
+<div class="banner" style="background: #2A0C0F; border-color: #D9232D; padding: 12px 14px">
+<div class="row">
+<div style="min-width: 0"><p class="eyebrow">{{fm.label}}&nbsp;·&nbsp;{{fm.zone}}</p><p class="h3" style="margin-top: 2px">{{fm.name}}</p></div>
+<button class="iconbtn" style="width: 36px; height: 36px; background: transparent; border: 0" aria-label="Dejar de resaltar" @click="go.clearFocus"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<button class="btn ghost" style="align-self: flex-start; padding: 0; min-height: 32px" @click="go.openFocus">Cuando llegues: ver cómo se usa →</button>
+</div>
+</template>
+<div class="legend"><span><span class="dot" style="background: #D9232D"></span>En tu rutina de hoy</span><span><span class="dot" style="background: #1C1C20; border: 2px solid #4A4A52"></span>Otras</span><span><span class="dot" style="background: #1C1C20; border: 2px solid #4A4A52; border-radius: 3px"></span>Lugares</span></div>
+<div class="planw">
+<div :class="planCls" :style="`transform-origin: ${planOrigin}`" role="group" aria-label="Plano del gimnasio">
+<!-- Capa 1: piso, zonas, puertas, mobiliario fijo y escala -->
+<svg class="lyr" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true">
+<defs>
+<pattern id="gRub" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".8" fill="#2B2B33"></circle></pattern>
+<filter id="gGlow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.4" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+</defs>
+<rect x="4" y="4" width="340" height="412" fill="#111115"></rect>
+<rect x="6" y="6" width="158" height="168" fill="url(#gRub)"></rect>
+<rect x="218" y="178" width="124" height="146" fill="#141419"></rect>
+<path d="M6 176H342M166 6V176M216 176V324" stroke="#2A2A31" stroke-width="1" stroke-dasharray="4 4" fill="none"></path>
+<path d="M8.5 18V170" stroke="#7D8C9B" stroke-opacity=".5" stroke-width="2"></path>
+<g font-family="Anton, sans-serif" font-size="8.5" letter-spacing="1.6" fill="#75757F">
+<text x="14" y="20">PESO LIBRE</text>
+<text x="174" y="20">MÁQUINAS DE PIERNA</text>
+<text x="14" y="190">POLEAS Y TREN SUPERIOR</text>
+<text x="224" y="190">CARDIO</text>
+<text x="14" y="340">VESTUARIOS</text>
+<text x="174" y="340" fill="#F0414A">RECEPCIÓN</text>
+<text x="268" y="360" font-size="7.5" fill="#A6A6B0">ENTRADA</text>
+</g>
+<path d="M118 358A32 32 0 0 0 150 326M262 368A48 48 0 0 1 310 416" stroke="#4A4A53" stroke-width="1" stroke-dasharray="3 3" fill="none"></path>
+<path d="M118 326V358M262 416V368" stroke="#74747F" stroke-width="1.5"></path>
+<path d="M290 404V390M285 395l5-5 5 5" stroke="#F0414A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M12 400h12v12H12zM26 400h12v12H26zM40 400h12v12H40zM54 400h12v12H54zM68 400h12v12H68zM82 400h12v12H82zM96 400h12v12H96z" fill="#18181D" stroke="#3A3A42" stroke-width="1"></path>
+<rect x="24" y="370" width="84" height="8" rx="2" fill="#1C1C22" stroke="#3A3A42" stroke-width="1"></rect>
+<path d="M188 366h44a12 12 0 0 1 12 12v10" fill="none" stroke="#3A3A42" stroke-width="7" stroke-linecap="round"></path>
+<path d="M176 404h40M176 401v6M196 402v4M216 401v6" stroke="#8C8C96" stroke-width="1" fill="none"></path>
+<text x="220" y="407" font-family="Poppins, sans-serif" font-size="7" font-weight="600" fill="#8C8C96">2 m</text>
+</svg>
+<!-- Capa 2: paredes. wl0 se dibuja con animación; wl1 a wl4 son copias apiladas que solo aparecen en 3D -->
+<svg class="lyr wall wl0" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" stroke="#4E4E58" fill="#4E4E58" stroke-width="5" stroke-linecap="square"><path d="M262 416H4V4H344V416H310" fill="none" pathLength="1"></path><path d="M4 326H118M150 326H166V416" fill="none" pathLength="1"></path><rect x="160" y="170" width="8" height="8" stroke="none"></rect><rect x="212" y="320" width="8" height="8" stroke="none"></rect></svg>
+<svg class="lyr wall wl1" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" stroke="#4E4E58" fill="#4E4E58" stroke-width="5" stroke-linecap="square"><path d="M262 416H4V4H344V416H310" fill="none" pathLength="1"></path><path d="M4 326H118M150 326H166V416" fill="none" pathLength="1"></path><rect x="160" y="170" width="8" height="8" stroke="none"></rect><rect x="212" y="320" width="8" height="8" stroke="none"></rect></svg>
+<svg class="lyr wall wl2" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" stroke="#4E4E58" fill="#4E4E58" stroke-width="5" stroke-linecap="square"><path d="M262 416H4V4H344V416H310" fill="none" pathLength="1"></path><path d="M4 326H118M150 326H166V416" fill="none" pathLength="1"></path><rect x="160" y="170" width="8" height="8" stroke="none"></rect><rect x="212" y="320" width="8" height="8" stroke="none"></rect></svg>
+<svg class="lyr wall wl3" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" stroke="#4E4E58" fill="#4E4E58" stroke-width="5" stroke-linecap="square"><path d="M262 416H4V4H344V416H310" fill="none" pathLength="1"></path><path d="M4 326H118M150 326H166V416" fill="none" pathLength="1"></path><rect x="160" y="170" width="8" height="8" stroke="none"></rect><rect x="212" y="320" width="8" height="8" stroke="none"></rect></svg>
+<svg class="lyr wall wl4" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" stroke="#4E4E58" fill="#4E4E58" stroke-width="5" stroke-linecap="square"><path d="M262 416H4V4H344V416H310" fill="none" pathLength="1"></path><path d="M4 326H118M150 326H166V416" fill="none" pathLength="1"></path><rect x="160" y="170" width="8" height="8" stroke="none"></rect><rect x="212" y="320" width="8" height="8" stroke="none"></rect></svg>
+<!-- Capa 3: cada máquina vista desde arriba, centrada en la posición de su número -->
+<svg class="lyr maq" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" fill="#1C1C22" stroke="#55555F" stroke-width="1.2">
+<g transform="translate(48 72)" style="animation-delay: .5s"><rect x="-23" y="-25" width="46" height="50" rx="2"></rect><path d="M-23 -25h6v6h-6zM17 -25h6v6h-6zM-23 19h6v6h-6zM17 19h6v6h-6z" fill="#3A3A42"></path><path d="M-32 -10H32" stroke="#9A9AA4" stroke-width="2"></path><path d="M-33 -16h4v12h-4zM29 -16h4v12h-4z" fill="#3A3A42"></path></g>
+<g transform="translate(112 72)" style="animation-delay: .54s"><rect x="-6" y="-6" width="12" height="32" rx="3" fill="#26262C"></rect><path d="M-15 -16h4v7h-4zM11 -16h4v7h-4z" fill="#3A3A42"></path><path d="M-26 -12H26" stroke="#9A9AA4" stroke-width="2"></path><path d="M-27 -18h4v12h-4zM23 -18h4v12h-4z" fill="#3A3A42"></path></g>
+<g transform="translate(80 130)" style="animation-delay: .58s"><rect x="-38" y="-8" width="76" height="16" rx="2"></rect><path d="M-34 -5h5v10h-5zM-25 -5h5v10h-5zM-16 -5h5v10h-5zM11 -5h5v10h-5zM20 -5h5v10h-5zM29 -5h5v10h-5z" fill="#3A3A42"></path></g>
+<g transform="translate(130 136)" style="animation-delay: .62s"><rect x="-14" y="-26" width="28" height="9" rx="3" fill="#26262C"></rect><rect x="-14" y="16" width="28" height="9" rx="3" fill="#26262C"></rect></g>
+<g transform="translate(206 66)" style="animation-delay: .66s"><rect x="-17" y="-27" width="34" height="54" rx="3"></rect><path d="M-9 -22H9V4H-9z" fill="#26262C"></path><path d="M-12 -24V24M12 -24V24" stroke="#3A3A42"></path><circle cx="-21" cy="-14" r="4" fill="#3A3A42"></circle><circle cx="21" cy="-14" r="4" fill="#3A3A42"></circle><rect x="-10" y="12" width="20" height="10" rx="2" fill="#26262C"></rect></g>
+<g transform="translate(256 66)" style="animation-delay: .7s"><rect x="-13" y="-11" width="26" height="26" rx="4"></rect><rect x="-10" y="-27" width="20" height="11" rx="1" fill="#3A3A42"></rect><path d="M-16 20H16" stroke="#9A9AA4" stroke-width="3" stroke-linecap="round"></path></g>
+<g transform="translate(306 66)" style="animation-delay: .74s"><rect x="-10" y="-27" width="20" height="54" rx="5"></rect><rect x="13" y="-22" width="8" height="18" rx="1" fill="#3A3A42"></rect><path d="M-13 18H13" stroke="#9A9AA4" stroke-width="3" stroke-linecap="round"></path></g>
+<g transform="translate(206 126)" style="animation-delay: .78s"><rect x="-16" y="-27" width="32" height="54" rx="3"></rect><path d="M-10 -24V20M10 -24V20" stroke="#3A3A42" stroke-width="2"></path><rect x="-14" y="16" width="28" height="9" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(256 126)" style="animation-delay: .82s"><rect x="-14" y="-18" width="28" height="38" rx="3"></rect><rect x="-9" y="-27" width="18" height="8" rx="1" fill="#3A3A42"></rect><rect x="-11" y="12" width="22" height="6" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(306 126)" style="animation-delay: .86s"><rect x="-13" y="-9" width="26" height="26" rx="5"></rect><path d="M-13 -2q-6 8 0 16M13 -2q6 8 0 16" stroke="#9A9AA4" stroke-width="2.5" fill="none" stroke-linecap="round"></path><rect x="-9" y="-26" width="18" height="10" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(44 232)" style="animation-delay: .9s"><rect x="-14" y="-27" width="28" height="12" rx="1" fill="#3A3A42"></rect><rect x="-10" y="4" width="20" height="20" rx="3"></rect><path d="M-22 -7H22" stroke="#9A9AA4" stroke-width="2" stroke-linecap="round"></path><path d="M0 -15V-7"></path></g>
+<g transform="translate(100 232)" style="animation-delay: .94s"><rect x="-30" y="-18" width="60" height="36" rx="2" fill="none" stroke-dasharray="3 2"></rect><rect x="-30" y="-18" width="10" height="36" rx="1" fill="#3A3A42"></rect><rect x="20" y="-18" width="10" height="36" rx="1" fill="#3A3A42"></rect><path d="M-20 -14L-6 0M20 -14L6 0" stroke="#9A9AA4" stroke-width="1"></path></g>
+<g transform="translate(156 232)" style="animation-delay: .98s"><rect x="-10" y="-4" width="20" height="22" rx="3"></rect><path d="M-10 -4q-9 -8 -3 -18M10 -4q9 -8 3 -18" stroke="#9A9AA4" stroke-width="2.5" fill="none" stroke-linecap="round"></path><rect x="-8" y="-28" width="16" height="7" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(100 288)" style="animation-delay: 1.02s"><rect x="-12" y="-4" width="24" height="24" rx="4"></rect><path d="M-15 -2L-5 -24M15 -2L5 -24" stroke="#9A9AA4" stroke-width="3" stroke-linecap="round"></path></g>
+<g transform="translate(172 292)" style="animation-delay: 1.06s"><path d="M-22 -3h6v6h-6zM16 -3h6v6h-6z" fill="#3A3A42"></path><path d="M-16 0H16" stroke="#9A9AA4" stroke-width="2.5"></path><path d="M-8 10h16" stroke-width="2"></path></g>
+<g transform="translate(256 240)" style="animation-delay: 1.1s"><rect x="-27" y="-28" width="21" height="56" rx="4"></rect><rect x="6" y="-28" width="21" height="56" rx="4"></rect><rect x="-24" y="-16" width="15" height="40" rx="2" fill="#26262C"></rect><rect x="9" y="-16" width="15" height="40" rx="2" fill="#26262C"></rect><path d="M-25 -24h17M8 -24h17" stroke="#9A9AA4" stroke-width="2.5" stroke-linecap="round"></path></g>
+<g transform="translate(306 230)" style="animation-delay: 1.14s"><rect x="-15" y="-16" width="10" height="30" rx="5"></rect><rect x="5" y="-16" width="10" height="30" rx="5"></rect><path d="M-19 -12h18M1 -12h18" stroke="#9A9AA4" stroke-width="2" stroke-linecap="round"></path></g>
+<g transform="translate(306 280)" style="animation-delay: 1.18s"><rect x="-15" y="-16" width="10" height="30" rx="5"></rect><rect x="5" y="-16" width="10" height="30" rx="5"></rect><path d="M-19 -12h18M1 -12h18" stroke="#9A9AA4" stroke-width="2" stroke-linecap="round"></path></g>
+<g transform="translate(250 298)" style="animation-delay: 1.22s"><rect x="-22" y="-10" width="30" height="18" rx="2" fill="#26262C" transform="rotate(-6)"></rect><rect x="-8" y="-6" width="30" height="18" rx="2" fill="#2A2A31"></rect><path d="M0 -6v18M8 -6v18M16 -6v18" stroke="#3A3A42"></path></g>
+</svg>
+<!-- Capa 4: las tiras LED rojas del salón, que se encienden después de dibujar las paredes -->
+<svg class="lyr led" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true"><path d="M14 9.5H334M338.5 14V316M14 171H156" stroke="#FF3B45" stroke-width="1.6" stroke-linecap="round" fill="none" filter="url(#gGlow)"></path></svg>
+<template v-for="m in machines">
+<button :class="m.cls" :style="`left: ${m.x}px; top: ${m.y}px`" :aria-label="m.name" @click="m.open"><span class="mkd">{{m.id}}</span></button>
+</template>
+</div>
+</div>
+<div class="row">
+<p class="scale-note"><i aria-hidden="true"></i>A escala · cada cuadro, 1 m</p>
+<button class="iso-t" @click="go.toggleIso"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"></path><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"></path></svg>{{isoTxt}}</button>
+</div>
+<p class="mu sm">Tocá un número para ver la máquina, cómo se usa y qué ejercicios tuyos se hacen ahí.</p>
+</template>
+
+<template v-if="is.qr">
+<div class="qrbox">
+<div class="qrframe"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3zM20 14v.01M20 20h.01M17 20v-3h3"></path></svg></div>
+<p class="mu sm" style="position: absolute; bottom: 16px; left: 0; right: 0; text-align: center">Apuntá al QR pegado en la máquina</p>
+</div>
+<button class="btn pri" @click="go.scan">Simular escaneo (demo)</button>
+</template>
+</div>
+</template>
+
+<!-- ---------- TAB PERFIL ---------- -->
+<template v-if="is.tabPerfil">
+<div class="scr inapp">
+<div class="row" style="justify-content: flex-start; gap: 14px">
+<span class="av" style="width: 56px; height: 56px; font-size: 22px">B</span>
+<div><p class="h2">Bruno</p><p class="mu sm">Socio · DNI {{dni}}</p></div>
+</div>
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<p class="eyebrow">Mis rutinas</p>
+<template v-for="h in historial">
+<div class="row"><div><p class="h3">{{h.title}}</p><p class="mu sm">{{h.sub}}</p></div><span class="sm" :style="`color: ${h.color}; font-weight: 600`">{{h.tag}}</span></div>
+</template>
+</div>
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<p class="eyebrow">Mis pedidos</p>
+<template v-if="noPedidos">
+<div><p class="h3">No tenés pedidos</p><p class="mu sm">{{noPedSub}}</p></div>
+</template>
+<template v-for="pd in pedidos">
+<div><p class="h3">{{pd.title}}</p><p class="mu sm">{{pd.sub}}</p></div>
+</template>
+</div>
+<template v-if="is.changeCard">
+<template v-if="cta.canChange">
+<button class="btn pri" @click="go.ficha">Pedir cambio de rutina</button>
+</template>
+<template v-if="cta.locked">
+<button class="btn dis" disabled="disabled">Cambio de rutina · {{cta.lockTxt}}</button>
+</template>
+<template v-if="is.pendiente">
+<button class="btn dis" disabled="disabled">Ya tenés un pedido en revisión</button>
+</template>
+</template>
+<template v-if="is.upsell">
+<button class="btn sec" @click="go.planApp">Conocer el plan personalizado</button>
+</template>
+<template v-if="is.coachCard">
+<a class="btn pri" href="https://wa.me/" style="color: #fff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8.2 19z"></path></svg><span>Escribirle a mi coach</span></a>
+</template>
+<div class="card" style="display: flex; flex-direction: column; gap: 8px">
+<div class="row" style="justify-content: flex-start; gap: 10px"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M12 7v7M9 11l3 3 3-3"></path></svg></span><p class="h3">Instalá la app en tu celu</p></div>
+<p class="mu sm">Así la abrís como cualquier app y te llegan los avisos de tu rutina. En el navegador, tocá Compartir o el menú de los tres puntos y elegí "Agregar a pantalla de inicio".</p>
+</div>
+<a class="btn sec" href="https://wa.me/" style="color: #F4F4F5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8.2 19z"></path></svg><span>WhatsApp del gimnasio</span></a>
+<button class="btn ghost" style="align-self: center" @click="go.logout">Cerrar sesión</button>
+<button class="btn ghost" style="align-self: center; color: #A3A3AD" @click="go.reset">Reiniciar demo</button>
+</div>
+</template>
+
+<!-- ---------- BARRA INFERIOR ---------- -->
+<nav class="nav" aria-label="Secciones">
+<button :class="navCls.rutina" @click="go.tabRutina"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"></path></svg>Mi rutina</button>
+<button :class="navCls.gym" @click="go.tabGym"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"></path><path d="M9 4v14M15 6v14"></path></svg>Gimnasio</button>
+<button :class="navCls.perfil" @click="go.tabPerfil"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Perfil</button>
+</nav>
+
+<!-- ---------- HOJA DE MÁQUINA ---------- -->
+<template v-if="is.sheet">
+<button class="sheet-bg" aria-label="Cerrar" @click="go.closeSheet"></button>
+<div class="sheet" role="dialog" aria-label="Detalle de máquina">
+<div class="grab"></div>
+<div class="row" style="align-items: flex-start">
+<div><p class="eyebrow">{{mach.label}}&nbsp;·&nbsp;{{mach.zone}}</p><p class="h2" style="margin-top: 4px">{{mach.name}}</p></div>
+<button class="iconbtn" aria-label="Cerrar" @click="go.closeSheet"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div><p class="lbl">Cómo usarla</p><p class="p" style="color: #E4E4E7">{{mach.tip}}</p></div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="lbl" style="margin: 0">En tu rutina</p>
+<template v-if="mach.hasUses">
+<template v-for="u in mach.uses">
+<div class="card" style="padding: 12px 14px"><p class="h3" style="font-size: 15px">{{u.name}}</p><p class="mu sm">{{u.day}} · {{u.sr}}</p></div>
+</template>
+</template>
+<template v-if="mach.noUses">
+<p class="mu sm">{{mach.noUsesTxt}}</p>
+</template>
+</div>
+</div>
+</template>
+</template>
+
+<!-- ========== MODO ENTRENAR: un ejercicio a la vez, series para tildar y timer de descanso ========== -->
+<template v-if="is.train">
+<div class="trhd">
+<div class="row">
+<button class="iconbtn" aria-label="Salir del entrenamiento" @click="go.exitTrain"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+<div class="trmid"><p class="trday">{{tr.dayLbl}}</p><p class="clock">{{tr.clock}}</p></div>
+<span class="trpos">{{tr.pos}}</span>
+</div>
+<div class="sbars" :style="`grid-template-columns: repeat(${tr.n}, minmax(0, 1fr))`"><template v-for="b in tr.bars"><div :class="b.cls"></div></template></div>
+</div>
+
+<div :class="tr.cls" :ref="trRef">
+<div class="tvid"><span class="tvid-n" aria-hidden="true">{{tr.num}}</span><span class="tplay" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12.5-7.5z"></path></svg></span><span class="tvid-l">[Video del ejercicio]</span></div>
+<p class="grp" style="margin-top: 2px">{{tr.g}}</p>
+<h1 class="h1 trn">{{tr.name}}</h1>
+<div class="trmeta"><span class="tpill"><span class="tpn">{{tr.series}} × {{tr.reps}}</span></span><span class="tpill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Descanso {{tr.desc}}</span></div>
+<template v-if="tr.hasWhere"><p class="mu sm" style="display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F0414A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>{{tr.where}}</p></template>
+
+<template v-if="tr.hasKg">
+<div class="kgcard">
+<label class="lbl" :for="tr.kgId" style="margin: 0">Peso de hoy</label>
+<div class="stepper">
+<button class="stp" aria-label="Restar 2,5 kg" @click="go.kgMinus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button>
+<div class="stpv"><input :id="tr.kgId" class="inp kgbig" inputmode="decimal" :placeholder="tr.kgPh" :value="tr.kgVal" @input="go.setTrKg"><span>kg</span></div>
+<button class="stp" aria-label="Sumar 2,5 kg" @click="go.kgPlus"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5v14"></path></svg></button>
+</div>
+<div class="row" style="gap: 8px"><p class="mu sm">{{tr.kgLast}}</p><template v-if="tr.hasDiff"><span :class="tr.diffCls">{{tr.diffTxt}}</span></template></div>
+</div>
+</template>
+
+<div class="row" style="align-items: flex-end"><p class="h2" style="font-size: 20px">Series</p><p class="mu sm">{{tr.setsTxt}}</p></div>
+<div class="sets">
+<template v-for="s in tr.sets">
+<button :class="s.cls" :aria-label="s.lbl" @click="s.toggle"><span class="setn">{{s.n}}</span><span class="setr">{{s.reps}}</span><span class="setkg">{{s.kg}}</span><span class="setc"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span></button>
+</template>
+</div>
+<div class="card"><p class="eyebrow">Cómo hacerlo</p><p class="p" style="margin-top: 8px; color: #CFCFD6">{{tr.notes}}</p></div>
+</div>
+
+<template v-if="rest.on">
+<div class="restbar" role="timer" aria-label="Descanso">
+<div class="ringw"><svg :class="rest.cls" viewBox="0 0 100 100" aria-hidden="true"><circle class="rbg" cx="50" cy="50" r="44"></circle><circle class="rfg" cx="50" cy="50" r="44" stroke-dasharray="276.5" :style="`stroke-dashoffset: ${rest.off}`"></circle></svg><span class="rtime">{{rest.time}}</span></div>
+<div class="rinfo">
+<p class="eyebrow">Descanso</p>
+<p class="rnext">{{rest.next}}</p>
+<div class="rbtns"><button class="rb" aria-label="Restar 15 segundos" @click="go.restMinus">−15</button><button class="rb skip" @click="go.restSkip">Saltar</button><button class="rb" aria-label="Sumar 15 segundos" @click="go.restPlus">+15</button></div>
+</div>
+</div>
+</template>
+<template v-if="flash"><div class="goflash" role="status">¡A la próxima serie!</div></template>
+
+<div class="wizft">
+<button class="btn sec" @click="go.prevEx">Anterior</button>
+<button :class="tr.nextCls" @click="go.nextEx">{{tr.nextTxt}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+</template>
+
+<!-- ========== FIN DEL ENTRENAMIENTO: resumen, récords, semana y tarjeta para compartir ========== -->
+<template v-if="is.fin">
+<div class="confetti" aria-hidden="true"><template v-for="c in fin.conf"><i :style="`left: ${c.l}%; width: ${c.w}px; height: ${c.h}px; background: ${c.c}; animation-delay: ${c.d}s; animation-duration: ${c.t}s`"></i></template></div>
+<div class="scr" style="gap: 18px">
+<p class="eyebrow" style="margin-top: 12px">{{fin.kick}}</p>
+<h1 class="h1" style="font-size: 50px; line-height: .98">Entrenamiento<br><span class="hl">cumplido</span></h1>
+<div class="bigstat"><span class="bign">{{fin.vol}}</span><span class="bigu">kilos levantados hoy</span></div>
+<template v-if="fin.hasCmp"><p :class="fin.cmpCls">{{fin.cmp}}</p></template>
+<div class="stats3">
+<div class="st3"><span class="stn">{{fin.time}}</span><span class="stl">Tiempo</span></div>
+<div class="st3"><span class="stn">{{fin.sets}}</span><span class="stl">Series</span></div>
+<div class="st3"><span class="stn">{{fin.ex}}</span><span class="stl">Ejercicios</span></div>
+</div>
+<template v-if="fin.hasPr">
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<p class="eyebrow">Récords de hoy</p>
+<template v-for="p in fin.prs">
+<div class="pr"><span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"></path></svg></span><div style="flex: 1; min-width: 0"><p class="h3" style="font-size: 15px">{{p.name}}</p><p class="mu sm">{{p.prev}}</p></div><span class="tsn" style="font-size: 20px">{{p.kg}}</span></div>
+</template>
+</div>
+</template>
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<div class="row"><p class="eyebrow">Esta semana</p><p class="mu sm">Racha: <span style="color: #F5F5F6; font-weight: 600">{{fin.streak}}</span></p></div>
+<div class="week"><template v-for="w in fin.week"><span :class="w.cls">{{w.l}}</span></template></div>
+</div>
+<div style="flex: 1"></div>
+<button class="btn pri" @click="go.openShare"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><path d="M17.5 6.5v.01"></path></svg>Compartir en historias</button>
+<button class="btn sec" @click="go.finBack">Volver a mi rutina</button>
+</div>
+
+<template v-if="is.share">
+<button class="sheet-bg" aria-label="Cerrar" @click="go.closeShare"></button>
+<div class="sheet" role="dialog" aria-label="Compartir en historias">
+<div class="grab"></div>
+<div class="row"><p class="eyebrow">Vista previa · historia</p><button class="iconbtn" aria-label="Cerrar" @click="go.closeShare"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="story">
+<div class="led" style="width: 260px; left: -40px; top: 46px; transform: rotate(-12deg); animation-delay: .2s"></div>
+<div class="led" style="width: 220px; left: 60px; top: 300px; transform: rotate(-12deg); animation-delay: .5s; opacity: .6"></div>
+<img src="assets/logo.png" alt="" style="width: 78px; height: auto; display: block">
+<p class="st-k">Sistema Gálatas</p>
+<p class="st-t">{{fin.dayShort}}<br><span class="hl">cumplido</span></p>
+<p class="st-n">{{fin.volFull}} kg</p>
+<p class="st-u">levantados hoy</p>
+<div class="st-row"><div><span class="stn">{{fin.time}}</span><span class="stl">Tiempo</span></div><div><span class="stn">{{fin.setsFull}}</span><span class="stl">Series</span></div></div>
+<template v-if="fin.hasPr"><p class="st-pr">{{fin.pr1}}</p></template>
+<div class="st-bar">@GALATASGIMNASIO</div>
+</div>
+<div class="g2">
+<button class="btn sec" @click="go.shareSave">Guardar</button>
+<button class="btn pri" @click="go.shareIg">Compartir</button>
+</div>
+<p class="mu sm" style="text-align: center">Se abre Instagram con la imagen lista para subir a tu historia.</p>
+</div>
+</template>
+</template>
+
+<!-- ========== FICHA (pedido de cambio) ========== -->
+<template v-if="is.ficha">
+<div class="wizhd">
+<div class="row">
+<button class="iconbtn" aria-label="Volver" @click="go.prevStep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<p class="h3" style="flex: 1; text-align: center">{{wiz.heading}}</p>
+<button class="iconbtn" aria-label="Cerrar" @click="go.closeFicha"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div class="prog"><template v-for="b in wiz.bars"><div :class="b.cls"></div></template></div>
+<p class="mu sm">Paso {{wiz.num}} de 6 · <span style="color: #F4F4F5; font-weight: 600">{{wiz.name}}</span></p>
+</div>
+
+<div :class="wiz.cls">
+
+<template v-if="wiz.s0">
+<p class="mu sm">Completamos lo que ya sabemos de vos. Revisalo y sumá lo que falte.</p>
+<div class="fld"><label class="lbl" for="f-nom">Nombre y apellido</label><input id="f-nom" class="inp" value="Bruno"></div>
+<div class="g2">
+<div class="fld"><label class="lbl" for="f-edad">Edad</label><input id="f-edad" class="inp" inputmode="numeric" placeholder="Ej: 30"></div>
+<div class="fld"><label class="lbl" for="f-fecha">Fecha<br></label><input id="f-fecha" class="inp" value="14/10/2026"></div>
+</div>
+<div class="fld"><p class="lbl">Sexo</p><div class="chips"><template v-for="o in c.fsexo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="g2">
+<div class="fld"><label class="lbl" for="f-alt">Altura (cm)</label><input id="f-alt" class="inp" inputmode="numeric" placeholder="Ej: 175"></div>
+<div class="fld"><label class="lbl" for="f-peso">Peso actual (kg)</label><input id="f-peso" class="inp" inputmode="decimal" placeholder="Ej: 78"></div>
+</div>
+<div class="fld"><label class="lbl" for="f-wa">WhatsApp</label><input id="f-wa" class="inp" inputmode="tel" value="11 5555-5555"></div>
+<div class="fld"><label class="lbl" for="f-mail">Email</label><input id="f-mail" class="inp" inputmode="email" placeholder="tu@email.com"></div>
+<div class="fld"><label class="lbl" for="f-ocu">Ocupación</label><input id="f-ocu" class="inp" placeholder="Ej: Trabajo de oficina"></div>
+<div class="fld"><label class="lbl" for="f-hor">Horarios disponibles</label><input id="f-hor" class="inp" placeholder="Ej: Lunes a viernes de 19 a 21"></div>
+</template>
+
+<template v-if="wiz.s1">
+<div class="fld"><p class="lbl">Nivel de entrenamiento</p><div class="chips"><template v-for="o in c.nivel"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">¿Hace cuánto entrenás?</p><div class="chips"><template v-for="o in c.hace"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Días disponibles por semana</p><div class="chips"><template v-for="o in c.fdias"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Tiempo disponible por sesión</p><div class="chips"><template v-for="o in c.tiempo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+</template>
+
+<template v-if="wiz.s2">
+<p class="mu sm">Las medidas son opcionales. Si no las sabés, el profe te las toma en el gimnasio.</p>
+<div class="g2">
+<div class="fld"><label class="lbl" for="f-gr">% grasa estimado</label><input id="f-gr" class="inp" inputmode="decimal" placeholder="Ej: 18"></div>
+<div class="fld"><label class="lbl" for="f-cin">Cintura (cm)</label><input id="f-cin" class="inp" inputmode="decimal" placeholder="Ej: 84"></div>
+<div class="fld"><label class="lbl" for="f-cad">Cadera (cm)</label><input id="f-cad" class="inp" inputmode="decimal" placeholder="Ej: 98"></div>
+<div class="fld"><label class="lbl" for="f-pie">Pierna (cm)</label><input id="f-pie" class="inp" inputmode="decimal" placeholder="Ej: 58"></div>
+</div>
+<div class="fld"><label class="lbl" for="f-les">Lesiones previas / limitaciones</label><textarea id="f-les" class="inp" placeholder="Ej: molestia en el hombro derecho"></textarea></div>
+<div class="fld"><label class="lbl" for="f-evi">Ejercicios que preferís evitar</label><textarea id="f-evi" class="inp" placeholder="Opcional"></textarea></div>
+<div class="fld"><label class="lbl" for="f-med">Medicaciones actuales <span class="lock"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Solo profes</span></label><textarea id="f-med" class="inp" placeholder="Opcional"></textarea></div>
+<div class="fld"><label class="lbl" for="f-sup">Suplementación</label><input id="f-sup" class="inp" placeholder="Ej: proteína, creatina"></div>
+<div class="fld"><label class="lbl" for="f-qui">Uso de química <span class="lock"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Solo profes</span></label><input id="f-qui" class="inp" placeholder="Opcional"></div>
+</template>
+
+<template v-if="wiz.s3">
+<div class="fld"><p class="lbl">Objetivo principal · podés marcar varios</p><div class="chips"><template v-for="o in c.objetivo"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><label class="lbl" for="f-sec">Objetivo secundario</label><input id="f-sec" class="inp" placeholder="Opcional"></div>
+<div class="fld"><label class="lbl" for="f-que">¿Qué querés lograr exactamente?</label><textarea id="f-que" class="inp" placeholder="Contalo con tus palabras"></textarea></div>
+<div class="fld"><p class="lbl">Zonas donde querés hacer hincapié</p><div class="chips"><template v-for="o in c.zonas"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="g2">
+<div class="fld"><label class="lbl" for="f-po">Peso objetivo (kg)</label><input id="f-po" class="inp" inputmode="decimal" placeholder="Opcional"></div>
+<div class="fld"><label class="lbl" for="f-go">% grasa objetivo</label><input id="f-go" class="inp" inputmode="decimal" placeholder="Opcional"></div>
+</div>
+<div class="fld"><label class="lbl" for="f-meta">Fecha meta estimada</label><input id="f-meta" class="inp" placeholder="Ej: marzo 2027"></div>
+</template>
+
+<template v-if="wiz.s4">
+<div class="g2">
+<div class="fld"><label class="lbl" for="f-sue">Horas de sueño</label><input id="f-sue" class="inp" inputmode="decimal" placeholder="Ej: 7"></div>
+<div class="fld"><label class="lbl" for="f-alc">Alcohol por semana</label><input id="f-alc" class="inp" placeholder="Ej: 2 vasos"></div>
+</div>
+<div class="fld"><p class="lbl">Nivel de estrés (1 a 10)</p><div class="scale"><template v-for="o in c.estres"><button :class="o.ncls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Calidad de alimentación (1 a 10)</p><div class="scale"><template v-for="o in c.alim"><button :class="o.ncls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Ansiedad nocturna (1 a 10)</p><div class="scale"><template v-for="o in c.ans"><button :class="o.ncls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">Nivel de actividad diaria</p><div class="chips"><template v-for="o in c.actf"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+</template>
+
+<template v-if="wiz.s5">
+<div class="fld"><p class="lbl">¿Te considerás constante?</p><div class="chips"><template v-for="o in c.constante"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><label class="lbl" for="f-fre">¿Qué te frena?</label><textarea id="f-fre" class="inp" placeholder="Ej: el trabajo, el cansancio"></textarea></div>
+<div class="fld"><label class="lbl" for="f-mot">¿Qué te motiva?</label><textarea id="f-mot" class="inp" placeholder="Ej: verme y sentirme mejor"></textarea></div>
+<div class="fld"><p class="lbl">Nivel de compromiso (1 a 10)</p><div class="scale"><template v-for="o in c.compromiso"><button :class="o.ncls" @click="o.pick">{{o.label}}</button></template></div></div>
+<div class="fld"><p class="lbl">¿Estás dispuesto/a a modificar hábitos?</p><div class="chips"><template v-for="o in c.dispuesto"><button :class="o.cls" @click="o.pick">{{o.label}}</button></template></div></div>
+</template>
+
+</div>
+
+<div class="wizft">
+<button class="btn sec" @click="go.prevStep">{{wiz.backTxt}}</button>
+<button class="btn pri" @click="go.nextStep">{{wiz.nextTxt}}</button>
+</div>
+</template>
+
+<!-- ========== PEDIDO ENVIADO ========== -->
+<template v-if="is.enviado">
+<div class="scr" style="gap: 20px">
+<button class="iconbtn" aria-label="Volver" @click="go.app"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div style="width: 72px; height: 72px; border-radius: 50%; background: #D9232D; color: #fff; display: flex; align-items: center; justify-content: center; margin-top: 8px; box-shadow: 0 0 0 10px rgba(217, 35, 45, .15), 0 0 40px rgba(217, 35, 45, .45); animation: pop .5s cubic-bezier(.3, 1.6, .5, 1) both"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+<h1 class="h1">{{env.title}}</h1>
+<p class="mu">{{env.desc}}</p>
+<div class="card" style="display: flex; flex-direction: column; gap: 16px">
+<template v-for="s in env.steps">
+<div class="tl"><span :class="s.cls"><template v-if="s.ok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></template><template v-if="s.notOk">{{s.n}}</template></span><div><p class="h3">{{s.t}}</p><p class="mu sm">{{s.d}}</p></div></div>
+</template>
+</div>
+<div style="flex: 1"></div>
+<button class="btn pri" @click="go.app">{{env.btn}}</button>
+</div>
+</template>
+
+</div>
+</script>
+<script src="vendor/vue.global.prod.js"></script>
+<script>
+// Imita lo mínimo del componente del lienzo (que es de React):
+// props, state, setState, forceUpdate y los eventos de ciclo de vida.
+class DCLogic {
+  constructor(props) { this.props = props || {}; this.state = {}; }
+  setState(patch) {
+    if (typeof patch === 'function') patch = patch(this.state, this.props);
+    if (this.__mark) this.__mark();     // guarda cómo estaba el state, para componentDidUpdate
+    Object.assign(this.state, patch);   // el state es reactivo: Vue redibuja solo
+  }
+  // Redibuja aunque el state no cambie (lo usa el reloj del Modo entrenar)
+  forceUpdate() { if (this.__force) this.__force(); }
+}
+</script>
+<script>
+var MACH = [
+  { id: 11, name: 'Rack de sentadilla', zone: 'Peso libre', x: 48, y: 72, tip: 'Ajustá los ganchos a la altura del pecho y los topes de seguridad un poco por debajo de tu sentadilla más profunda.' },
+  { id: 12, name: 'Bancos de press', zone: 'Peso libre', x: 112, y: 72, tip: 'Elegí el ángulo del banco antes de cargar la barra. Pedí que te asistan en las series pesadas.' },
+  { id: 13, name: 'Mancuernas', zone: 'Peso libre', x: 80, y: 130, tip: 'Devolvelas al rack en su lugar al terminar. Empezá liviano y subí de a poco.' },
+  { id: 1, name: 'Prensa 45°', zone: 'Máquinas de pierna', x: 206, y: 66, tip: 'Espalda y cadera bien apoyadas. Destrabá el seguro, bajá controlado y no bloquees las rodillas arriba.' },
+  { id: 2, name: 'Sillón de cuádriceps', zone: 'Máquinas de pierna', x: 256, y: 66, tip: 'Rodilla alineada con el eje de la máquina. El rodillo va sobre el tobillo, no sobre el pie.' },
+  { id: 3, name: 'Camilla de isquios', zone: 'Máquinas de pierna', x: 306, y: 66, tip: 'Cadera pegada al banco. El rodillo va justo arriba del talón.' },
+  { id: 4, name: 'Sentadilla hack', zone: 'Máquinas de pierna', x: 206, y: 126, tip: 'Espalda pegada al respaldo, pies a media plataforma. Destrabá con las manijas laterales.' },
+  { id: 5, name: 'Gemelos de pie', zone: 'Máquinas de pierna', x: 256, y: 126, tip: 'Puntas de pie en el borde del escalón. Bajá hasta estirar completo y subí con pausa.' },
+  { id: 10, name: 'Abductora', zone: 'Máquinas de pierna', x: 306, y: 126, tip: 'Ajustá la apertura inicial con la palanca. Abrí controlado y volvé lento.' },
+  { id: 6, name: 'Polea alta', zone: 'Poleas y tren superior', x: 44, y: 232, tip: 'Trabá los muslos bajo el rodillo. Tirá con los codos, no con las manos.' },
+  { id: 7, name: 'Torre de poleas', zone: 'Poleas y tren superior', x: 100, y: 232, tip: 'Elegí el agarre (soga, barra o manija) y la altura de la polea según el ejercicio.' },
+  { id: 8, name: 'Peck-deck', zone: 'Poleas y tren superior', x: 156, y: 232, tip: 'Ajustá el asiento para que las manijas queden a la altura del hombro.' },
+  { id: 9, name: 'Press convergente', zone: 'Poleas y tren superior', x: 100, y: 288, tip: 'Manijas a la altura del pecho medio. Escápulas atrás y espalda apoyada.' },
+  { id: 14, name: 'Cintas', zone: 'Cardio', x: 256, y: 240, tip: 'Engancháte el clip de seguridad. Subí la pendiente de a poco.' },
+  { id: 15, name: 'Bicicletas', zone: 'Cardio', x: 306, y: 280, tip: 'Asiento a la altura de la cadera parado al lado. Rodilla apenas flexionada abajo.' },
+  // Lugares: para ejercicios sin máquina fija (bancos que se mueven, colchonetas, barra)
+  { id: 'A', lugar: true, name: 'Bancos sueltos', zone: 'Peso libre', x: 130, y: 136, tip: 'Los bancos se mueven: buscalos por esta zona y devolvelos al terminar.' },
+  { id: 'B', lugar: true, name: 'Colchonetas', zone: 'Cardio', x: 250, y: 298, tip: 'Usá una colchoneta limpia y dejala en su lugar al terminar.' },
+  { id: 'C', lugar: true, name: 'Barra de dominadas', zone: 'Poleas y tren superior', x: 172, y: 292, tip: 'Agarrate con las palmas hacia adelante y no balancees el cuerpo.' }
+];
+
+var D1 = "2'–2'30\"", D2 = '60–75"', D3 = '45–60"';
+
+var ADAPT = [
+  { focus: 'Máquinas guiadas · cuerpo completo', fin: 'Bicicleta 10 min a ritmo cómodo', groups: [
+    { name: 'PIERNAS', items: [
+      ['p1', 'Prensa 45°', 3, '12–15', '90"', 'Pies al ancho de hombros. Bajá controlado hasta que la rodilla quede en 90°.', 1],
+      ['p2', 'Camilla de isquios', 3, '12–15', '60"', 'Cadera pegada al banco, bajada lenta.', 3] ] },
+    { name: 'ESPALDA', items: [
+      ['p3', 'Tirones al pecho', 3, '12–15', '90"', 'Pecho arriba, llevá la barra al esternón tirando con los codos.', 6] ] },
+    { name: 'PECHO', items: [
+      ['p4', 'Press en máquina convergente', 3, '12–15', '90"', 'Escápulas atrás, empujá sin despegar la espalda del respaldo.', 9] ] },
+    { name: 'ZONA MEDIA', items: [
+      ['p5', 'Plancha', 3, "20–30 seg", D3, 'Codos debajo de los hombros, abdomen firme, no hundas la cadera.', 'B'] ] } ] },
+  { focus: 'Máquinas guiadas · cuerpo completo', fin: 'Cinta 10 min caminando con pendiente suave', groups: [
+    { name: 'PIERNAS', items: [
+      ['q1', 'Sillón de cuádriceps', 3, '12–15', '60"', 'Pausa de 1 segundo arriba y bajada controlada.', 2],
+      ['q2', 'Abducción de cadera en máquina', 3, '12–15', '60"', 'Abrí controlado y volvé lento.', 10],
+      ['q3', 'Gemelos de pie en máquina', 3, '12–15', '60"', 'Estirá completo abajo y hacé una pausa arriba.', 5] ] },
+    { name: 'ESPALDA', items: [
+      ['q4', 'Remo bajo en polea', 3, '12–15', '90"', 'Pecho arriba, llevá los codos atrás pegados al cuerpo.', 7] ] },
+    { name: 'HOMBROS', items: [
+      ['q5', 'Vuelos posteriores en peck-deck', 3, '12–15', '60"', 'Brazos casi extendidos, abrí con la parte de atrás del hombro.', 8] ] } ] },
+  { focus: 'Máquinas guiadas · cuerpo completo', fin: 'Bicicleta 10 min a ritmo cómodo', groups: [
+    { name: 'PIERNAS', items: [
+      ['r1', 'Sentadilla hack (liviano)', 3, '12–15', '90"', 'Pies a media plataforma, bajá hasta donde puedas sin despegar la cadera.', 4],
+      ['r2', 'Camilla de isquios', 3, '12–15', '60"', 'Cadera pegada al banco, bajada lenta.', 3] ] },
+    { name: 'ESPALDA', items: [
+      ['r3', 'Tirones al pecho', 3, '12–15', '90"', 'Pecho arriba, llevá la barra al esternón tirando con los codos.', 6] ] },
+    { name: 'PECHO', items: [
+      ['r4', 'Cruce de poleas', 3, '12–15', '60"', 'Codos semiflexionados fijos, apretá 1 segundo al cerrar.', 7] ] },
+    { name: 'ZONA MEDIA', items: [
+      ['r5', 'Pallof press en polea', 3, '10 c/l', D3, 'Resistí la rotación con el abdomen firme.', 7] ] } ] }
+];
+
+var FULL = [
+  { title: 'Día 1 — Full Body A', focus: 'Énfasis cuádriceps y empuje horizontal', fin: 'Cinta en pendiente 10 min a ritmo de caminata exigente', groups: [
+    { name: 'CUÁDRICEPS', items: [
+      ['a1', 'Sentadilla libre con barra', 4, '6–8', D1, 'Profundidad hasta romper el paralelo, rodillas acompañan la punta de los pies, tronco firme.', 11],
+      ['a2', 'Sillón de cuádriceps', 3, '10–12', D2, 'Pausa de 1 seg arriba, bajada controlada. Desde S2: drop set en la última serie.', 2] ] },
+    { name: 'ISQUIOTIBIALES', items: [
+      ['a3', 'Camilla de isquios', 3, '10–12', D2, 'Cadera pegada al banco, bajada lenta de 3 seg.', 3] ] },
+    { name: 'ESPALDA', items: [
+      ['a4', 'Tirones al pecho agarre supino', 4, '6–8', D1, 'Pecho arriba, llevar la barra al esternón tirando con los codos.', 6] ] },
+    { name: 'PECHO', items: [
+      ['a5', 'Press banca plano con barra', 4, '6–8', D1, 'Escápulas retraídas, pies firmes, barra baja a la línea del pezón.', 12],
+      ['a6', 'Cruce de poleas', 3, '10–12', D2, 'Codos semiflexionados fijos, apretar 1 seg al cerrar. Desde S2: rest-pause en la última serie.', 7] ] },
+    { name: 'HOMBROS', items: [
+      ['a7', 'Elevaciones laterales con mancuernas', 3, '10–12', D2, 'Subir hasta la altura del hombro sin balanceo. Desde S2: parciales al fallo.', 13] ] },
+    { name: 'TRÍCEPS', items: [
+      ['a8', 'Extensión de tríceps en polea con soga', 3, '10–12', D2, 'Codos pegados al cuerpo, abrir la soga abajo.', 7] ] },
+    { name: 'ZONA MEDIA', items: [
+      ['a9', 'Elevación de piernas colgado', 3, '10–12', D3, 'Sin balanceo, subir con el abdomen, retroversión de pelvis arriba.', 'C'] ] } ] },
+  { title: 'Día 2 — Full Body B', focus: 'Énfasis cadena posterior y tracción', fin: 'Bicicleta 10 min en intervalos: 20 seg fuerte / 40 seg suave', groups: [
+    { name: 'ISQUIOS Y GLÚTEOS', items: [
+      ['b1', 'Peso muerto rumano con barra', 4, '6–8', D1, 'Cadera atrás, barra pegada a las piernas, espalda neutra, bajar hasta media tibia.', 11],
+      ['b2', 'Isquios parado', 3, '10–12', D2, 'Movimiento controlado, sin despegar la cadera.', 3] ] },
+    { name: 'GEMELOS', items: [
+      ['b3', 'Gemelos de pie en máquina', 3, '10–12', D2, 'Estiramiento completo abajo, pausa de 1 seg arriba.', 5] ] },
+    { name: 'ESPALDA', items: [
+      ['b4', 'Remo con barra prono', 4, '6–8', D1, 'Tronco a ~45°, llevar la barra al ombligo, sin tirón de espalda baja.', 12],
+      ['b5', 'Pullover en polea alta con soga', 3, '10–12', D2, 'Brazos casi extendidos, llevar la soga a los muslos. Desde S2: rest-pause en la última serie.', 6] ] },
+    { name: 'PECHO', items: [
+      ['b6', 'Press inclinado con mancuernas', 3, '6–8', D1, 'Banco a 30°, bajar controlado hasta el estiramiento del pecho.', 12] ] },
+    { name: 'HOMBROS', items: [
+      ['b7', 'Vuelos posteriores en peck-deck', 3, '10–12', D2, 'Brazos casi extendidos, abrir con la parte posterior del hombro.', 8] ] },
+    { name: 'BÍCEPS', items: [
+      ['b8', 'Curl bíceps con barra Z', 3, '10–12', D2, 'Codos fijos, sin balanceo. Desde S2: myo-reps en la última serie.', 13] ] },
+    { name: 'ZONA MEDIA', items: [
+      ['b9', 'Pallof press en polea', 3, '10–12 c/l', D3, 'Resistir la rotación, abdomen firme, extender y sostener 2 seg.', 7] ] } ] },
+  { title: 'Día 3 — Full Body C', focus: 'Énfasis unilateral y hombros', fin: 'Bicicleta 8 min: 30 seg fuerte / 30 seg suave', groups: [
+    { name: 'CUÁDRICEPS Y GLÚTEOS', items: [
+      ['c1', 'Sentadilla hack', 4, '6–8', D1, 'Pies a media plataforma, bajar profundo sin despegar la cadera del respaldo.', 4],
+      ['c2', 'Abducción de cadera en máquina', 3, '10–12', D2, 'Tronco inclinado adelante, pausa abierta. Desde S2: parciales al fallo.', 10] ] },
+    { name: 'GEMELOS', items: [
+      ['c3', 'Gemelos en prensa', 3, '10–12', D2, 'Rodillas extendidas sin bloquear, rango completo.', 1] ] },
+    { name: 'ESPALDA', items: [
+      ['c4', 'Remo con mancuerna a un brazo', 3, '6–8 c/l', D1, 'Apoyo firme en banco, llevar el codo hacia la cadera.', 13] ] },
+    { name: 'PECHO', items: [
+      ['c5', 'Press en máquina convergente', 3, '6–8', D1, 'Escápulas atrás, empujar sin despegar la espalda del respaldo.', 9] ] },
+    { name: 'HOMBROS', items: [
+      ['c6', 'Press militar con mancuernas sentado', 3, '6–8', D1, 'Respaldo a 80–90°, bajar hasta la altura de las orejas.', 12],
+      ['c7', 'Elevación lateral en polea a un brazo', 3, '10–12 c/l', D2, 'Polea a la altura de la mano, subir hasta el hombro. Desde S2: drop set en la última serie.', 7] ] },
+    { name: 'BÍCEPS Y TRÍCEPS', items: [
+      ['c8', 'Curl martillo en polea con soga', 3, '10–12', D2, 'Codos fijos, agarre neutro.', 7],
+      ['c9', 'Press francés con barra Z', 3, '10–12', D2, 'Codos apuntando al techo, bajar la barra detrás de la frente.', 12] ] },
+    { name: 'ZONA MEDIA', items: [
+      ['c10', 'Rueda abdominal', 3, '8–12', D3, 'Rodillas apoyadas, no hundir la zona lumbar.', 'B'] ] } ] }
+];
+
+// DNIs de prueba para la demo. Todos arrancan como socios nuevos.
+// DNIs de prueba: qué tiene cada uno en el legajo del gimnasio
+var DEMO_DNIS = [
+  { dni: '11111111', mail: 'b•••••@gmail.com' },
+  { dni: '22222222', mail: '' },
+  { dni: '33333333', mail: 'l•••••@hotmail.com', vencida: true }
+];
+var CODIGO_DEMO = '123456';
+
+// Pesos de ejemplo "de la semana pasada" (kg) para mostrar el registro de cargas en la demo
+var LAST = {
+  p1: 80, p2: 25, p3: 40, p4: 30, q1: 35, q2: 40, q3: 50, q4: 35, q5: 20, r1: 40, r2: 25, r3: 40, r4: 10, r5: 10,
+  a1: 70, a2: 45, a3: 30, a4: 50, a5: 60, a6: 12.5, a7: 8, a8: 20,
+  b1: 70, b2: 25, b3: 60, b4: 50, b5: 20, b6: 22, b7: 30, b8: 25, b9: 10,
+  c1: 80, c2: 50, c3: 100, c4: 22, c5: 40, c6: 18, c7: 7, c8: 15, c9: 25
+};
+// Ejercicios sin carga: no piden peso
+var NOKG = ['p5', 'a9', 'c10'];
+
+// ===== Ayudas del Modo entrenar =====
+// Descanso en segundos a partir del texto de la rutina: "2'–2'30\"" → 120, '60–75"' → 60, '90"' → 90
+function restSecs(d) {
+  var s = String(d).split('–')[0];
+  var m = s.match(/(\d+)'(\d+)?/);
+  if (m) return parseInt(m[1], 10) * 60 + (m[2] ? parseInt(m[2], 10) : 0);
+  return parseInt(s, 10) || 60;
+}
+// Tiempo en formato m:ss (75 → "1:15")
+function mmss(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+// Miles con punto, como se escribe en Argentina (4850 → "4.850")
+function miles(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+// Largo del anillo del timer: 2·π·radio (44)
+var RC = 276.5;
+var DIAS_SEM = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+// Confeti del final: valores fijos (no al azar) para que no "salte" en cada render
+var CONF = (function () {
+  var out = [], cols = ['#D9232D', '#FFFFFF', '#FF3B45', '#8C8C96'];
+  for (var i = 0; i < 28; i++) out.push({ l: (i * 37) % 100, d: ((i * 13) % 10) / 10, t: 2.2 + ((i * 7) % 10) / 10, c: cols[i % 4], w: 6 + (i % 3) * 2, h: 10 + (i % 4) * 3 });
+  return out;
+})();
+
+var PASOS = ['Datos personales', 'Experiencia y disponibilidad', 'Perfil físico actual', 'Objetivo', 'Hábitos', 'Perfil mental'];
+var DIEZ = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = this.initialState();
+  }
+
+  // Estado de arranque de la demo. El botón "Reiniciar demo" vuelve a esto:
+  // los 3 DNIs de prueba quedan como socios nuevos y se borra todo lo cargado.
+  initialState() {
+    return {
+      screen: 'login', tab: 'rutina', day: 0, step: 0,
+      // routine: 'adapt' (adaptación) | 'obj' (rutina por objetivo) | 'perso' (plan personalizado)
+      routine: 'adapt',
+      // pedido de cambio gratis: 'none' | 'pendiente' | 'lista'
+      pedido: 'none',
+      // plan personalizado: 'none' | 'pago' (espera el pago) | 'armando' | 'listo'
+      plan: 'none',
+      open: null, done: {}, week: 1, showNew: false, maq: 'plano', machine: null, focus: null,
+      from: 'app', planFrom: 'app', envType: 'cambio',
+      hist: [], past: [], pesos: {}, lastPesos: {}, kgOpen: false, code: '', codeBad: false, resent: false, push: null,
+      dni: '11111111', registered: {},
+      sel: {
+        exp: 'Sí, es mi primera vez', sexo: 'Masculino', dias: '3', act: 'Ligero',
+        fsexo: 'Masculino', nivel: 'Intermedio', hace: 'Más de 1 año', fdias: '3', tiempo: '60 min', esfuerzo: 'Moderado', lesA: 'No', lesC: 'No',
+        objetivo: ['Recomposición corporal'], zonas: ['Espalda', 'Piernas'],
+        estres: '5', alim: '6', ans: '4', actf: 'Moderado', constante: 'A veces', compromiso: '8', dispuesto: 'Sí'
+      }
+    };
+  }
+
+  // Navegación con historial: 'push' guarda la pantalla actual para poder volver,
+  // 'reset' deja como única salida el login (al entrar a la app),
+  // sin modo reemplaza la pantalla sin guardarla.
+  nav(patch, mode) {
+    var st = this.state, h = st.hist.slice();
+    if (mode === 'push') h.push({ screen: st.screen, tab: st.tab });
+    if (mode === 'reset') h = [{ screen: 'login', tab: 'rutina' }];
+    this.setState(Object.assign({ hist: h, machine: null, open: null }, patch));
+  }
+
+  back() {
+    // Solo se usa en pantallas que tapan la barra inferior (onboarding, formularios, pedido enviado)
+    var st = this.state;
+    var h = st.hist.slice();
+    var prev = h.pop() || { screen: 'login', tab: 'rutina' };
+    this.setState({ hist: h, screen: prev.screen, tab: prev.tab, machine: null, open: null, step: 0 });
+  }
+
+  pick(key, val, multi) {
+    var s = Object.assign({}, this.state.sel);
+    if (multi) {
+      var a = (s[key] || []).slice();
+      var i = a.indexOf(val);
+      if (i > -1) a.splice(i, 1); else a.push(val);
+      s[key] = a;
+    } else { s[key] = val; }
+    this.setState({ sel: s });
+  }
+
+  // rows dice cuántas pastillas van en cada fila, ej. [2, 2] = dos arriba y dos abajo.
+  // Cada pastilla recibe la clase r2, r3… para ocupar su parte del ancho.
+  chips(key, opts, multi, rows) {
+    var s = this.state.sel, self = this;
+    var per = [];
+    (rows || [opts.length]).forEach(function (n) { for (var k = 0; k < n; k++) per.push(n); });
+    return opts.map(function (o, i) {
+      var on = multi ? (s[key] || []).indexOf(o) > -1 : s[key] === o;
+      return { label: o, cls: 'chip r' + (per[i] || 1) + (on ? ' on' : ''), ocls: 'opt' + (on ? ' on' : ''), ncls: 'n' + (on ? ' on' : ''), pick: function () { self.pick(key, o, multi); } };
+    });
+  }
+
+  days() {
+    var st = this.state;
+    // En la demo, la rutina por objetivo y el plan personalizado muestran la Full Body real
+    if (st.routine !== 'adapt') return FULL;
+    var n = parseInt(st.sel.dias, 10) || 3;
+    var out = [];
+    for (var i = 0; i < n; i++) {
+      var base = ADAPT[i % 3];
+      out.push({ title: 'Día ' + (i + 1) + ' — Adaptación', focus: base.focus, fin: base.fin, groups: base.groups });
+    }
+    return out;
+  }
+
+  // ===== Modo entrenar =====
+  // Ejercicios del día en una sola lista (con su grupo muscular), para recorrerlos de a uno
+  dayItems() {
+    var st = this.state, days = this.days(), di = Math.min(st.day, days.length - 1), out = [];
+    days[di].groups.forEach(function (g) { g.items.forEach(function (t) { out.push({ g: g.name, t: t }); }); });
+    return out;
+  }
+
+  // Reloj: corre solo mientras hace falta (entrenando, o durante el conteo del final)
+  componentDidMount() { this.ticker(); }
+  componentDidUpdate(prevProps, prevState) {
+    this.ticker();
+    var st = this.state;
+    // Cada ejercicio nuevo arranca desde arriba de la pantalla
+    if (prevState && prevState.tIdx !== st.tIdx && st.screen === 'train') {
+      try { if (this._trEl) this._trEl.scrollTop = 0; } catch (e) {}
+    }
+    // Las notificaciones de la demo se van solas a los 5 segundos
+    if (prevState && st.push && prevState.push !== st.push) {
+      var self = this, p = st.push;
+      clearTimeout(this._pt);
+      this._pt = setTimeout(function () { if (self.state.push === p) self.setState({ push: null }); }, 5000);
+    }
+  }
+  componentWillUnmount() { if (this._iv) clearInterval(this._iv); this._iv = null; }
+  ticker() {
+    var st = this.state, self = this;
+    var need = st.screen === 'train' || (st.screen === 'fin' && Date.now() - (st.finAt || 0) < 1600);
+    if (need && !this._iv) this._iv = setInterval(function () { self.tick(); }, 250);
+    if (!need && this._iv) { clearInterval(this._iv); this._iv = null; }
+  }
+  tick() {
+    var st = this.state;
+    // Terminó el descanso: vibra (en Android) y muestra el aviso "¡A la próxima serie!"
+    if (st.rest && Date.now() >= st.rest.end) {
+      try { if (navigator.vibrate) navigator.vibrate([180, 90, 180]); } catch (e) {}
+      this.setState({ rest: null, restBeep: Date.now() });
+      return;
+    }
+    this.forceUpdate();
+  }
+
+  // Tildar o destildar una serie. Al tildar, arranca el descanso de ese ejercicio
+  toggleSet(ti, i) {
+    var st = this.state, items = this.dayItems(), x = items[ti];
+    if (!x) return;
+    var di = Math.min(st.day, this.days().length - 1);
+    var key = st.routine + '-' + di + '-' + x.t[0];
+    var s = Object.assign({}, st.sets || {}), n = s[key] || 0;
+    var nn = i < n ? i : i + 1;
+    s[key] = nn;
+    var patch = { sets: s };
+    if (nn > n) {
+      var secs = restSecs(x.t[4]);
+      var next = nn < x.t[2] ? 'Serie ' + (nn + 1) + ' de ' + x.t[1] : (ti < items.length - 1 ? 'Próximo: ' + items[ti + 1].t[1] : null);
+      patch.rest = next ? { end: Date.now() + secs * 1000, total: secs, next: next } : null;
+      patch.restBeep = null;
+    }
+    this.setState(patch);
+  }
+
+  scrollTrTop(e) {
+    try {
+      var root = e && e.currentTarget && e.currentTarget.closest ? e.currentTarget.closest('.ph') : null;
+      var el = root ? root.querySelector('.scr.trs') : null;
+      if (el) el.scrollTop = 0;
+    } catch (x) {}
+  }
+
+  // Botones − y + del peso: de a 2,5 kg, arrancando del peso de la semana pasada
+  stepKg(id, delta, last) {
+    var p = Object.assign({}, this.state.pesos);
+    var v = parseFloat(p[id]) || last || 0;
+    p[id] = String(Math.max(0, Math.round((v + delta) * 2) / 2));
+    this.setState({ pesos: p });
+  }
+
+  // Cierra el entrenamiento: calcula el resumen y pasa al día siguiente
+  finishTrain() {
+    var st = this.state, items = this.dayItems(), days = this.days();
+    var di = Math.min(st.day, days.length - 1);
+    var vol = 0, lastVol = 0, sets = 0, prs = [];
+    items.forEach(function (x) {
+      var t = x.t, n = Math.min(t[2], (st.sets || {})[st.routine + '-' + di + '-' + t[0]] || 0);
+      sets += n;
+      if (NOKG.indexOf(t[0]) > -1) return;
+      // Si no anotó peso, se toma el de la última vez (en la demo, el de ejemplo)
+      var base = st.lastPesos[t[0]] || LAST[t[0]] || 0;
+      var kg = parseFloat(st.pesos[t[0]]) || base;
+      var reps = parseInt(String(t[3]), 10) || 0;
+      vol += kg * reps * n;
+      lastVol += base * reps * t[2];
+      var shown = st.lastPesos[t[0]] || (st.week >= 2 ? LAST[t[0]] : null);
+      if (shown && kg > shown) prs.push({ name: t[1], kg: kg, prev: shown });
+    });
+    var wd = (new Date().getDay() + 6) % 7;
+    var wk = (st.wk || []).slice();
+    if (wk.indexOf(wd) === -1) wk.push(wd);
+    this.nav({
+      screen: 'fin', finAt: Date.now(), rest: null, restBeep: null, share: false, wk: wk, trainStart: null, tIdx: 0,
+      sum: { vol: vol, cmp: (st.week >= 2 && lastVol) ? Math.round((vol - lastVol) / lastVol * 100) : null, secs: st.trainStart ? (Date.now() - st.trainStart) / 1000 : 0, sets: sets, ex: items.length, prs: prs.slice(0, 3), day: days[di].title },
+      day: (di + 1) % days.length
+    });
+  }
+
+  // Lo que se muestra en la tarjeta "Rutina actual" y en el historial del perfil
+  routineInfo() {
+    var st = this.state;
+    var obj = (st.sel.objetivo || []).join(' · ') || 'tu objetivo';
+    if (st.routine === 'perso') return { title: 'Plan personalizado', sub: 'Full Body 3 días · Coach Diego S.', hist: 'Armado a medida por tu coach' };
+    if (st.routine === 'obj') return { title: 'Full Body 3 días', sub: 'Según tu objetivo: ' + obj, hist: 'Rutina por objetivo · asignada por Diego S.' };
+    return { title: 'Adaptación', sub: (st.sel.dias || '3') + ' días por semana', hist: 'Rutina de arranque' };
+  }
+
+  // Cambia la rutina actual y manda la anterior al historial del perfil
+  setRoutine(routine, extra) {
+    var st = this.state, cur = this.routineInfo();
+    var past = [{ title: cur.title, sub: cur.hist }].concat(st.past);
+    this.setState(Object.assign({ routine: routine, past: past, week: 1, day: 0, open: null, done: {}, sets: {}, trainStart: null, showNew: true }, extra));
+  }
+
+  // Datos que se guardan al terminar el onboarding desde un formulario:
+  // los días de la adaptación salen de lo que eligió y el DNI queda registrado
+  onbPatch() {
+    var st = this.state;
+    var reg = Object.assign({}, st.registered);
+    if (st.dni) reg[st.dni] = true;
+    var dias = st.sel.fdias === '1 a 2' ? '2' : st.sel.fdias;
+    return { registered: reg, sel: Object.assign({}, st.sel, { dias: dias, sexo: st.sel.fsexo }) };
+  }
+
+  renderVals() {
+    var self = this, st = this.state, set = function (o) { return function () { self.setState(o); }; };
+    var days = this.days();
+    var di = Math.min(st.day, days.length - 1);
+    var d = days[di];
+    var total = 0, hechos = 0;
+    var onb = st.from === 'onboarding';
+    var perso = st.routine === 'perso';
+    // Hay "semana pasada" a partir de la segunda semana
+    var hayHist = st.week >= 2;
+
+    var groups = d.groups.map(function (g) {
+      return { name: g.name, items: g.items.map(function (t) {
+        var id = t[0];
+        var key = st.routine + '-' + di + '-' + id;
+        // Un ejercicio está hecho cuando tiene todas sus series tildadas (en la lista o en el Modo entrenar)
+        var nDone = (st.sets || {})[key] || 0;
+        var isOpen = st.open === key, isDone = nDone >= t[2];
+        total++; if (isDone) hechos++;
+        // Registro de peso: lo de hoy y lo de la semana pasada
+        var hasKg = NOKG.indexOf(id) === -1;
+        var kgVal = st.pesos[id] || '';
+        var last = st.lastPesos[id] || (hayHist ? LAST[id] : null);
+        var kgPill = !hasKg ? '' : (kgVal ? 'Hoy ' + kgVal + ' kg' : (last ? 'Últ. ' + last + ' kg' : ''));
+        return {
+          // Número grande "01", "02"... como en las placas del Instagram, y entrada escalonada
+          num: (total < 10 ? '0' : '') + total,
+          delay: Math.min((total - 1) * 45, 360) + 'ms',
+          // Ángulo de la línea LED de la miniatura, distinto en cada ejercicio
+          rot: (-26 + (total * 17) % 30) + 'deg',
+          hasProg: nDone > 0 && !isDone, prog: nDone + '/' + t[2] + ' series',
+          name: t[1], series: t[2], reps: t[3], desc: t[4], notes: t[5],
+          hasMachine: !!t[6], mlabel: typeof t[6] === 'string' ? 'Ver dónde se hace en el plano →' : 'Ver máquina ' + t[6] + ' en el plano →',
+          isOpen: isOpen,
+          chev: isOpen ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6',
+          cls: 'ex' + (isDone ? ' done' : ''),
+          chkCls: 'chk' + (isDone ? ' on' : ''),
+          hasKg: hasKg, kgId: 'kg-' + id, kgVal: kgVal, kgPh: last ? String(last) : '0',
+          kgLast: last ? 'Semana pasada: ' + last + ' kg' : 'Anotá con cuánto lo hiciste y la semana que viene te lo recordamos.',
+          hasPill: !!kgPill, kgPill: kgPill,
+          setKg: function (e) {
+            var v = e && e.target ? String(e.target.value) : '';
+            var p = Object.assign({}, self.state.pesos);
+            p[id] = v.replace(',', '.').replace(/[^0-9.]/g, '').slice(0, 5);
+            self.setState({ pesos: p });
+          },
+          toggle: function () { self.setState({ open: isOpen ? null : key }); },
+          // El tilde de la lista marca (o desmarca) todas las series de una
+          check: function () { var s = Object.assign({}, self.state.sets || {}); s[key] = isDone ? 0 : t[2]; self.setState({ sets: s }); },
+          // Lleva al plano y resalta la máquina, sin abrir la explicación
+          goMachine: function () { self.setState({ tab: 'gym', maq: 'plano', machine: null, focus: t[6] }); }
+        };
+      }) };
+    });
+
+    // máquinas usadas hoy y en toda la rutina
+    var hoy = {};
+    d.groups.forEach(function (g) { g.items.forEach(function (t) { if (t[6]) hoy[t[6]] = true; }); });
+    var machines = MACH.map(function (m) {
+      return { id: m.id, name: m.name, x: m.x, y: m.y, cls: 'mk' + (m.lugar ? ' lug' : '') + (hoy[m.id] ? ' hot' : '') + (st.focus === m.id ? ' focus' : ''), open: set({ machine: m.id }) };
+    });
+    // Máquina resaltada al venir desde un ejercicio
+    var fmRaw = st.focus ? MACH.filter(function (x) { return x.id === st.focus; })[0] : null;
+    var fm = fmRaw ? { id: fmRaw.id, name: fmRaw.name, zone: fmRaw.zone, label: (fmRaw.lugar ? 'Lugar ' : 'Máquina ') + fmRaw.id } : { id: '', name: '', zone: '', label: '' };
+    var mach = { id: '', name: '', zone: '', tip: '', label: '', noUsesTxt: '', uses: [], hasUses: false, noUses: true };
+    if (st.machine) {
+      var m = MACH.filter(function (x) { return x.id === st.machine; })[0];
+      var uses = [];
+      days.forEach(function (dd, k) {
+        dd.groups.forEach(function (g) { g.items.forEach(function (t) {
+          if (t[6] === m.id) uses.push({ name: t[1], day: 'Día ' + (k + 1), sr: t[2] + ' × ' + t[3] });
+        }); });
+      });
+      mach = { id: m.id, name: m.name, zone: m.zone, tip: m.tip, label: (m.lugar ? 'Lugar ' : 'Máquina ') + m.id, noUsesTxt: m.lugar ? 'Ningún ejercicio de tu rutina actual se hace acá.' : 'Esta máquina no está en tu rutina actual.', uses: uses, hasUses: uses.length > 0, noUses: uses.length === 0 };
+    }
+
+    var pend = st.pedido === 'pendiente';
+    // Adaptación: el cambio se habilita a la semana. Rutina por objetivo: cada 30 días.
+    // Plan personalizado: no hay cambio gratis, los ajustes los hace el coach.
+    var canChange = !pend && !perso && (st.routine === 'adapt' ? st.week >= 2 : st.week >= 5);
+    var faltan = st.routine === 'adapt' ? 4 : Math.max(1, 30 - (st.week - 1) * 7);
+
+    var ri = this.routineInfo();
+    var r = { title: ri.title, sub: ri.sub, week: 'Semana ' + st.week };
+
+    var historial = [{ title: ri.title, sub: ri.hist, tag: 'Actual', color: '#F0414A' }]
+      .concat(st.past.map(function (p) { return { title: p.title, sub: p.sub, tag: 'Terminada', color: '#A3A3AD' }; }));
+
+    // Pedidos que se ven en el perfil
+    var pedidos = [];
+    var PLAN_TXT = {
+      pago: ['Plan personalizado · Esperando el pago', 'Pagá en recepción o por transferencia.'],
+      armando: ['Plan personalizado · En armado', 'Pago confirmado. Tu coach está armando tu plan.'],
+      listo: ['Plan personalizado · Activo', 'Tu coach: Diego S.']
+    };
+    if (PLAN_TXT[st.plan]) pedidos.push({ title: PLAN_TXT[st.plan][0], sub: PLAN_TXT[st.plan][1] });
+    if (pend) pedidos.push({ title: 'Cambio de rutina · En revisión', sub: 'Un profe lo está mirando. Te avisamos cuando esté lista.' });
+    else if (st.pedido === 'lista') pedidos.push({ title: 'Cambio de rutina · Resuelto', sub: 'Diego S. te asignó una rutina según tu objetivo.' });
+
+    var nb = perso
+      ? { title: 'Tu plan personalizado está listo', sub: 'Tu coach Diego S. lo armó con tu ficha 360°. También te llegó el aviso por WhatsApp.' }
+      : { title: 'Diego te asignó una rutina nueva', sub: 'Full Body 3 días según tu objetivo. También te llegó el aviso por WhatsApp.' };
+
+    var step = st.step;
+    var wiz = {
+      heading: 'Plan personalizado · Ficha 360°',
+      num: step + 1, name: PASOS[step],
+      bars: PASOS.map(function (_, i) { return { cls: 'pg' + (i <= step ? ' on' : '') + (i === step ? ' new' : '') }; }),
+      cls: 'scr wiz ' + (step % 2 ? 'pa' : 'pb'),
+      s0: step === 0, s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4, s5: step === 5,
+      backTxt: step === 0 ? 'Cancelar' : 'Atrás',
+      nextTxt: step === 5 ? 'Enviar ficha' : 'Siguiente'
+    };
+
+    var corto = onb
+      ? { heading: 'Rutina según tu objetivo', sub: 'Contanos qué buscás y un profe te asigna una rutina armada para tu objetivo.' }
+      : { heading: 'Pedido de cambio de rutina', sub: 'Un profe revisa tus respuestas y te asigna una rutina nueva según tu objetivo.' };
+
+    // Pantalla de confirmación: cambio gratis o plan personalizado
+    var mientras = onb ? ' Mientras tanto, arrancá con la rutina de adaptación.' : ' Mientras tanto, seguí con tu rutina.';
+    var envSteps = st.envType === 'plan'
+      ? [['Ficha 360° enviada', 'Hoy'], ['Pago', 'Pagá $X en recepción o por transferencia. El profe lo confirma en el sistema.'], ['Tu coach arma tu plan', 'Con todo lo que contaste en la ficha'], ['Plan listo', 'Te avisamos en la app y por WhatsApp']]
+      : [['Pedido enviado', 'Hoy'], ['En revisión', 'Un profe lo está mirando'], ['Rutina lista', 'Te avisamos en la app y por WhatsApp']];
+    var env = {
+      title: st.envType === 'plan' ? 'Ficha enviada' : 'Pedido enviado',
+      desc: (st.envType === 'plan' ? 'Para que tu coach empiece a armar tu plan, solo falta el pago.' : 'Un profe va a revisar tus respuestas y asignarte la rutina.') + mientras,
+      btn: onb ? 'Ir a mi rutina' : 'Volver a mi rutina',
+      steps: envSteps.map(function (s, i) {
+        return { t: s[0], d: s[1], n: i + 1, ok: i === 0, notOk: i !== 0, cls: 'tlc' + (i === 0 ? ' ok' : (i === 1 ? ' now' : '')) };
+      })
+    };
+
+    // ===== Modo entrenar: datos para "Hoy toca", la pantalla del ejercicio, el timer y el resumen =====
+    var now = Date.now();
+    var items = this.dayItems(), setsMap = st.sets || {}, nEx = items.length;
+    var nSets = 0, estSec = 0, doneSets = 0;
+    items.forEach(function (x) {
+      nSets += x.t[2];
+      estSec += x.t[2] * (40 + restSecs(x.t[4]));   // ~40 seg por serie + su descanso
+      doneSets += Math.min(x.t[2], setsMap[st.routine + '-' + di + '-' + x.t[0]] || 0);
+    });
+    var inProg = !!st.trainStart && st.trainDay === di;
+    var today = {
+      nEx: nEx, nSets: nSets, mins: Math.max(20, Math.round((estSec / 60 + 10) / 5) * 5),
+      inProg: inProg, cta: inProg ? 'Seguir entrenando' : 'Empezar entrenamiento',
+      pct: Math.round(doneSets / Math.max(1, nSets) * 100) + '%', progTxt: doneSets + ' de ' + nSets + ' series hechas'
+    };
+
+    var ti = Math.min(st.tIdx || 0, Math.max(0, nEx - 1));
+    var cx = items[ti] || { g: '', t: ['x', '', 0, '', '', '', null] };
+    var ct = cx.t, cn = setsMap[st.routine + '-' + di + '-' + ct[0]] || 0;
+    var cHasKg = NOKG.indexOf(ct[0]) === -1;
+    var lastKg = st.lastPesos[ct[0]] || (hayHist ? LAST[ct[0]] : null);
+    var curKg = st.pesos[ct[0]] || '';
+    var diff = (curKg && lastKg) ? Math.round((parseFloat(curKg) - lastKg) * 10) / 10 : null;
+    var mInfo = ct[6] ? MACH.filter(function (m) { return m.id === ct[6]; })[0] : null;
+    var kgShow = curKg || lastKg;
+    var tr = {
+      dayLbl: d.title, clock: st.trainStart ? mmss((now - st.trainStart) / 1000) : '0:00',
+      pos: ('0' + (ti + 1)).slice(-2) + '/' + ('0' + nEx).slice(-2), n: nEx,
+      bars: items.map(function (x, i) {
+        var dn = (setsMap[st.routine + '-' + di + '-' + x.t[0]] || 0) >= x.t[2];
+        return { cls: 'sb' + (i === ti ? ' cur' : '') + (dn ? ' on' : '') };
+      }),
+      g: cx.g, num: ('0' + (ti + 1)).slice(-2), name: ct[1], series: ct[2], reps: ct[3], desc: ct[4], notes: ct[5],
+      hasWhere: !!mInfo, where: mInfo ? (mInfo.lugar ? 'Lugar ' : 'Máquina ') + mInfo.id + ' · ' + mInfo.name : '',
+      hasKg: cHasKg, kgId: 'tkg-' + ct[0], kgVal: curKg, kgPh: lastKg ? String(lastKg) : '0',
+      kgLast: lastKg ? 'Semana pasada: ' + lastKg + ' kg' : 'Primera vez: anotá con cuánto lo hacés',
+      hasDiff: diff !== null && diff !== 0, diffTxt: (diff > 0 ? '+' : '') + diff + ' kg', diffCls: 'dchip' + (diff > 0 ? ' up' : ' down'),
+      sets: (function () {
+        var a = [];
+        for (var i = 0; i < ct[2]; i++) (function (i) {
+          var on = i < cn;
+          // Los ejercicios por tiempo ("20–30 seg") no llevan la palabra "reps"
+          a.push({ n: i + 1, reps: /seg/.test(String(ct[3])) ? ct[3] : ct[3] + ' reps', kg: cHasKg ? (kgShow ? kgShow + ' kg' : '— kg') : '',
+            cls: 'set' + (on ? ' on' : '') + (i === cn ? ' next' : ''),
+            lbl: (on ? 'Desmarcar' : 'Marcar') + ' serie ' + (i + 1),
+            toggle: function () { self.toggleSet(ti, i); } });
+        })(i);
+        return a;
+      })(),
+      setsTxt: cn + ' de ' + ct[2] + ' hechas',
+      // pa / pb alterna en cada ejercicio para que la animación de entrada se repita
+      cls: 'scr trs ' + (ti % 2 ? 'pa' : 'pb') + (st.rest ? ' resting' : ''),
+      nextTxt: ti === nEx - 1 ? 'Terminar' : 'Siguiente',
+      nextCls: 'btn pri' + (cn >= ct[2] ? ' ready' : '')
+    };
+
+    var rest = { on: false, time: '0:00', off: 0, cls: 'ring', next: '' };
+    if (st.rest) {
+      var rem = Math.max(0, (st.rest.end - now) / 1000);
+      rest = { on: true, time: mmss(Math.ceil(rem)), off: (RC * (1 - rem / st.rest.total)).toFixed(1), cls: 'ring' + (rem <= 10 ? ' hot' : ''), next: st.rest.next };
+    }
+    var flash = !st.rest && !!st.restBeep && now - st.restBeep < 2600;
+
+    // Resumen final: los números "cuentan" hasta su valor en 1,3 segundos
+    var sm = st.sum || { vol: 0, cmp: null, secs: 0, sets: 0, ex: 0, prs: [], day: '' };
+    var fp = Math.min(1, (now - (st.finAt || 0)) / 1300), fe = 1 - Math.pow(1 - fp, 3);
+    var tTxt = sm.secs >= 600 ? Math.round(sm.secs / 60) + ' min' : mmss(sm.secs);
+    var kgTxt = function (v) { return String(v).replace('.', ',') + ' kg'; };
+    var hoyWd = (new Date().getDay() + 6) % 7;
+    var fin = {
+      kick: sm.day, dayShort: (sm.day.split('—')[0] || '').trim(),
+      vol: miles(sm.vol * fe), volFull: miles(sm.vol),
+      hasCmp: sm.cmp !== null, cmp: (sm.cmp >= 0 ? '+' : '') + sm.cmp + '% de kilos que la semana pasada', cmpCls: 'cmpchip' + (sm.cmp >= 0 ? ' up' : ''),
+      time: tTxt, sets: Math.round(sm.sets * fe), setsFull: sm.sets, ex: sm.ex,
+      hasPr: sm.prs.length > 0,
+      prs: sm.prs.map(function (p) { return { name: p.name, kg: kgTxt(p.kg), prev: 'Antes: ' + kgTxt(p.prev) }; }),
+      pr1: sm.prs.length ? 'Nuevo récord · ' + sm.prs[0].name + ' ' + kgTxt(sm.prs[0].kg) : '',
+      week: DIAS_SEM.map(function (l, i) { return { l: l, cls: 'wd' + ((st.wk || []).indexOf(i) > -1 ? ' on' : '') + (i === hoyWd ? ' today' : '') }; }),
+      streak: st.week + (st.week === 1 ? ' semana' : ' semanas'),
+      conf: CONF
+    };
+
+    var scr = st.screen;
+    return {
+      today: today, tr: tr, rest: rest, flash: flash, fin: fin,
+      // Referencia a la pantalla del ejercicio, para volver arriba al cambiar de ejercicio
+      trRef: this._trRefFn || (this._trRefFn = function (el) { self._trEl = el; }),
+      is: {
+        login: scr === 'login', codigo: scr === 'codigo', mail: scr === 'mail', bloqueado: scr === 'bloqueado', exp: scr === 'exp', datos: scr === 'datos', asignada: scr === 'asignada',
+        camino: scr === 'camino', corto: scr === 'corto', planp: scr === 'planp',
+        app: scr === 'app', ficha: scr === 'ficha', enviado: scr === 'enviado',
+        train: scr === 'train', fin: scr === 'fin', share: !!st.share,
+        tabRutina: st.tab === 'rutina', tabGym: st.tab === 'gym', tabPerfil: st.tab === 'perfil',
+        pendiente: pend, showNew: st.showNew,
+        // Recordatorio: terminó la primera semana de adaptación y todavía no pidió la rutina nueva
+        recordar: st.routine === 'adapt' && st.week >= 2 && st.pedido === 'none' && st.plan === 'none',
+        planPago: st.plan === 'pago', planArmando: st.plan === 'armando',
+        changeCard: !perso, coachCard: perso, upsell: !perso && st.plan === 'none',
+        onb: st.planFrom === 'onboarding',
+        plano: st.maq === 'plano', qr: st.maq === 'qr',
+        sheet: !!st.machine,
+        focus: !!fmRaw
+      },
+      fm: fm, nb: nb, corto: corto, env: env,
+      push: st.push ? { show: true, t: st.push[0], d: st.push[1] } : { show: false, t: '', d: '' },
+      les: { a: st.sel.lesA === 'Sí', c: st.sel.lesC === 'Sí' },
+      code: st.code,
+      cod: (function () {
+        var info = DEMO_DNIS.filter(function (x) { return x.dni === st.dni; })[0] || { mail: 'tu mail' };
+        return info.mail
+          ? { hasMail: true, bad: st.codeBad, title: 'Revisá tu mail', txt: 'Te mandamos un código a ' + info.mail + ', el mail que figura en tu legajo del gimnasio.', resendTxt: st.resent ? 'Listo, te lo reenviamos' : '¿No te llegó? Reenviar código' }
+          : { hasMail: false, bad: st.codeBad, title: 'Pedí tu código en recepción', txt: 'No tenemos tu mail en el legajo. En recepción te dan un código de alta para confirmar que sos vos.', resendTxt: '' };
+      })(),
+      // Sección opcional "¿Cuánto levantás?": arranca plegada
+      kgx: { open: st.kgOpen, exp: st.kgOpen ? 'true' : 'false', chev: st.kgOpen ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6' },
+      adaptTitle: (st.sel.dias || '3') + ' días',
+      c: {
+        exp: this.chips('exp', ['Sí, es mi primera vez', 'Hace mucho que no entreno', 'No, ya vengo entrenando']),
+        sexo: this.chips('sexo', ['Masculino', 'Femenino', 'No binario']),
+        dias: this.chips('dias', ['2', '3', '4', '5']),
+        lesA: this.chips('lesA', ['No', 'Sí']), lesC: this.chips('lesC', ['No', 'Sí']),
+        act: this.chips('act', ['Sedentario', 'Ligero', 'Moderado', 'Alto'], false, [2, 2]),
+        fsexo: this.chips('fsexo', ['Masculino', 'Femenino', 'No binario']),
+        nivel: this.chips('nivel', ['Principiante', 'Intermedio', 'Avanzado']),
+        hace: this.chips('hace', ['Nunca', 'Hasta 6 meses', '6 meses a 1 año', 'Más de 1 año', 'Más de 3 años'], false, [3, 2]),
+        fdias: this.chips('fdias', ['1 a 2', '3', '4', '5', '6']),
+        tiempo: this.chips('tiempo', ['45 min', '60 min', '75 min', '90 min o más'], false, [2, 2]),
+        esfuerzo: this.chips('esfuerzo', ['Suave', 'Moderado', 'Exigente']),
+        objetivo: this.chips('objetivo', ['Bajar % grasa', 'Ganar masa muscular', 'Recomposición corporal', 'Tonificar', 'Salud general', 'Otro'], true, [2, 2, 2]),
+        zonas: this.chips('zonas', ['Glúteos', 'Piernas', 'Espalda', 'Hombros', 'Brazos', 'Abdomen', 'Todo el cuerpo'], true, [4, 3]),
+        estres: this.chips('estres', DIEZ), alim: this.chips('alim', DIEZ), ans: this.chips('ans', DIEZ),
+        actf: this.chips('actf', ['Sedentario', 'Ligero', 'Moderado', 'Alto'], false, [2, 2]),
+        constante: this.chips('constante', ['Sí', 'No', 'A veces']),
+        compromiso: this.chips('compromiso', DIEZ),
+        dispuesto: this.chips('dispuesto', ['Sí', 'No', 'Parcialmente'])
+      },
+      r: r,
+      dayTabs: days.map(function (_, i) { return { label: 'Día ' + (i + 1), cls: 'seg' + (i === di ? ' on' : ''), pick: set({ day: i, open: null }) }; }),
+      cur: { title: d.title, focus: d.focus, fin: d.fin, groups: groups, doneTxt: hechos + ' de ' + total + ' hechos' },
+      cta: {
+        canChange: canChange, locked: !pend && !canChange, lockTxt: 'Disponible en ' + faltan + ' días',
+        txt: st.routine === 'adapt'
+          ? 'Después de tu primera semana de adaptación podés pedir una rutina según tu objetivo.'
+          : 'Podés pedir un cambio cada 30 días. Respondés unas preguntas y un profe te asigna la nueva.'
+      },
+      dni: st.dni,
+      demoDnis: DEMO_DNIS.map(function (x) {
+        return {
+          dni: x.dni,
+          estado: x.vencida ? 'Cuota vencida' : (st.registered[x.dni] ? 'Ya registrado' : (x.mail ? 'Socio nuevo' : 'Sin mail en el legajo')),
+          cls: 'opt' + (st.dni === x.dni ? ' on' : ''),
+          pick: set({ dni: x.dni })
+        };
+      }),
+      machines: machines, mach: mach,
+      // Vista del plano: 2D (desde arriba) o 3D (inclinado, con paredes con altura)
+      // Si venís desde un ejercicio (focus), la vista "vuela" hasta esa máquina y vuelve
+      planCls: 'plan' + (st.iso ? ' iso' : (fmRaw ? ' fly' : '')),
+      planOrigin: (fmRaw && !st.iso) ? fmRaw.x + 'px ' + fmRaw.y + 'px' : '50% 50%',
+      isoTxt: st.iso ? 'Vista plano' : 'Vista 3D',
+      maqTabs: { plano: 'seg' + (st.maq === 'plano' ? ' on' : ''), qr: 'seg' + (st.maq === 'qr' ? ' on' : '') },
+      navCls: { rutina: 'navb' + (st.tab === 'rutina' ? ' on' : ''), gym: 'navb' + (st.tab === 'gym' ? ' on' : ''), perfil: 'navb' + (st.tab === 'perfil' ? ' on' : '') },
+      historial: historial, pedidos: pedidos, noPedidos: pedidos.length === 0,
+      noPedSub: st.routine === 'adapt' ? 'Podés pedir un cambio después de tu primera semana.' : 'Podés pedir un cambio cada 30 días.',
+      wiz: wiz,
+      go: {
+        back: function () { self.back(); },
+        toggleIso: function () { self.setState({ iso: !self.state.iso }); },
+        // ----- Modo entrenar -----
+        startTrain: function () {
+          var patch = { screen: 'train', rest: null, restBeep: null };
+          if (!inProg) Object.assign(patch, { trainStart: Date.now(), trainDay: di, tIdx: 0 });
+          self.nav(patch, 'push');
+        },
+        // Salir no borra nada: al volver, "Seguir entrenando" retoma donde estabas
+        exitTrain: function () { self.back(); self.setState({ rest: null }); },
+        // Al cambiar de ejercicio, la pantalla vuelve arriba (se busca desde el botón que se tocó)
+        prevEx: function (e) { if (ti > 0) { self.scrollTrTop(e); self.setState({ tIdx: ti - 1 }); } },
+        nextEx: function (e) { if (ti < nEx - 1) { self.scrollTrTop(e); self.setState({ tIdx: ti + 1 }); } else self.finishTrain(); },
+        // Si no hay semana pasada, en la demo el − y + arrancan de un peso de ejemplo
+        kgMinus: function () { self.stepKg(ct[0], -2.5, lastKg || LAST[ct[0]] || 0); },
+        kgPlus: function () { self.stepKg(ct[0], 2.5, lastKg || LAST[ct[0]] || 0); },
+        setTrKg: function (e) {
+          var v = e && e.target ? String(e.target.value) : '';
+          var p = Object.assign({}, self.state.pesos);
+          p[ct[0]] = v.replace(',', '.').replace(/[^0-9.]/g, '').slice(0, 5);
+          self.setState({ pesos: p });
+        },
+        restMinus: function () { var r = self.state.rest; if (r) self.setState({ rest: Object.assign({}, r, { end: Math.max(Date.now() + 1000, r.end - 15000) }) }); },
+        restPlus: function () {
+          var r = self.state.rest; if (!r) return;
+          var end = r.end + 15000;
+          self.setState({ rest: Object.assign({}, r, { end: end, total: Math.max(r.total, (end - Date.now()) / 1000) }) });
+        },
+        restSkip: set({ rest: null }),
+        // ----- Fin y tarjeta para historias -----
+        openShare: set({ share: true }),
+        closeShare: set({ share: false }),
+        shareIg: set({ share: false, push: ['Listo para compartir', 'Se abre Instagram con tu historia ya armada (demo).'] }),
+        shareSave: set({ share: false, push: ['Imagen guardada', 'La historia quedó en tu galería (demo).'] }),
+        finBack: function () { self.nav({ screen: 'app', tab: 'rutina', share: false }, 'reset'); },
+        // Reinicio completo de la demo
+        reset: function () { self.setState(self.initialState()); },
+        // Guarda lo que se tipea en el DNI (solo números, máximo 8)
+        setDni: function (e) {
+          var v = e && e.target ? String(e.target.value) : '';
+          self.setState({ dni: v.replace(/\D/g, '').slice(0, 8) });
+        },
+        // Si el DNI ya hizo el onboarding va directo a su rutina; si no, arranca las preguntas de cero
+        // Cuota vencida: no entra. Ya registrado en este celu: entra directo. Primera vez: pide código.
+        login: function () {
+          var info = DEMO_DNIS.filter(function (x) { return x.dni === st.dni; })[0] || {};
+          if (info.vencida) self.nav({ screen: 'bloqueado' }, 'push');
+          else if (st.registered[st.dni]) self.nav({ screen: 'app', tab: 'rutina' }, 'reset');
+          else self.nav({ screen: 'codigo', code: '', codeBad: false, resent: false }, 'push');
+        },
+        setCode: function (e) {
+          var v = e && e.target ? String(e.target.value) : '';
+          self.setState({ code: v.replace(/\D/g, '').slice(0, 6), codeBad: false });
+        },
+        resend: set({ resent: true }),
+        // Código correcto: si el legajo tenía mail, sigue al onboarding; si no, le pedimos el mail
+        verify: function () {
+          if (st.code !== CODIGO_DEMO) { self.setState({ codeBad: true }); return; }
+          var info = DEMO_DNIS.filter(function (x) { return x.dni === st.dni; })[0] || { mail: 'x' };
+          var fresh = { routine: 'adapt', pedido: 'none', plan: 'none', week: 1, day: 0, done: {}, showNew: false, past: [], pesos: {}, lastPesos: {}, focus: null, push: null };
+          self.nav(Object.assign(fresh, { screen: info.mail ? 'exp' : 'mail' }), 'reset');
+        },
+        hidePush: set({ push: null }),
+        exp: function () { self.nav({ screen: 'exp' }, 'push'); },
+        // "Ya vengo entrenando" elige entre rutina por objetivo y plan personalizado
+        afterExp: function () {
+          if (st.sel.exp === 'No, ya vengo entrenando') self.nav({ screen: 'camino' }, 'push');
+          else self.nav({ screen: 'datos' }, 'push');
+        },
+        asignada: function () { self.nav({ screen: 'asignada' }, 'push'); },
+        cortoOnb: function () { self.nav({ screen: 'corto', from: 'onboarding', kgOpen: false }, 'push'); },
+        toggleKg: function () { self.setState({ kgOpen: !st.kgOpen }); },
+        planOnb: function () { self.nav({ screen: 'planp', planFrom: 'onboarding' }, 'push'); },
+        planApp: function () { self.nav({ screen: 'planp', planFrom: 'app' }, 'push'); },
+        planFicha: function () { self.nav({ screen: 'ficha', step: 0, from: st.planFrom }, 'push'); },
+        // Al entrar a la app el DNI queda registrado para el próximo ingreso
+        app: function () {
+          var reg = Object.assign({}, st.registered);
+          if (st.dni) reg[st.dni] = true;
+          self.nav({ screen: 'app', tab: 'rutina', registered: reg }, 'reset');
+        },
+        tabRutina: set({ tab: 'rutina', machine: null, focus: null }),
+        tabGym: set({ tab: 'gym', focus: null }),
+        tabPerfil: set({ tab: 'perfil', machine: null, focus: null }),
+        clearFocus: set({ focus: null }),
+        openFocus: function () { self.setState({ machine: st.focus }); },
+        plano: set({ maq: 'plano' }), qr: set({ maq: 'qr' }),
+        scan: set({ maq: 'plano', machine: 2 }),
+        closeSheet: set({ machine: null }),
+        // El cambio de rutina gratis usa el formulario corto
+        ficha: function () { self.nav({ screen: 'corto', from: 'app', kgOpen: false }, 'push'); },
+        sendCorto: function () {
+          var patch = { screen: 'enviado', envType: 'cambio', pedido: 'pendiente' };
+          if (onb) Object.assign(patch, self.onbPatch());
+          self.nav(patch);
+        },
+        closeFicha: function () { self.back(); },
+        prevStep: function () {
+          if (st.step === 0) self.back();
+          else self.setState({ step: st.step - 1 });
+        },
+        // La ficha 360° es la del plan personalizado
+        nextStep: function () {
+          if (st.step < 5) { self.setState({ step: st.step + 1 }); return; }
+          var patch = { screen: 'enviado', envType: 'plan', plan: 'pago', step: 0 };
+          if (onb) Object.assign(patch, self.onbPatch());
+          self.nav(patch);
+        },
+        // Demo: pasa la semana. Lo que anotaste hoy queda como "semana pasada"
+        nextWeek: function () {
+          var patch = { week: st.week + 1, lastPesos: Object.assign({}, st.lastPesos, st.pesos), pesos: {}, done: {}, sets: {}, wk: [], trainStart: null, open: null };
+          // Aviso cuando termina la primera semana de adaptación
+          if (st.routine === 'adapt' && st.week === 1 && st.pedido === 'none' && st.plan === 'none')
+            patch.push = ['Ya podés pedir tu rutina', 'Terminaste tu primera semana de adaptación. Pedí tu rutina según tu objetivo.'];
+          self.setState(patch);
+        },
+        aprobar: function () { self.setRoutine('obj', { pedido: 'lista', push: ['Tu rutina nueva está lista', 'Diego te asignó Full Body 3 días según tu objetivo.'] }); },
+        pagoOk: set({ plan: 'armando', push: ['Pago confirmado', 'Tu coach ya está armando tu plan personalizado.'] }),
+        planListo: function () { self.setRoutine('perso', { plan: 'listo', pedido: pend ? 'none' : st.pedido, push: ['Tu plan personalizado está listo', 'Tu coach Diego S. lo armó con tu ficha 360°.'] }); },
+        hideNew: set({ showNew: false }),
+        logout: set({ screen: 'login', tab: 'rutina', machine: null, focus: null, hist: [], push: null })
+      }
+    };
+  }
+}
+</script>
+<script>
+// Arranque: el state pasa a ser reactivo y renderVals() se recalcula cuando cambia.
+(function () {
+  var V = Vue;
+  var inst = new Component({});
+  inst.state = V.reactive(inst.state);
+  var tick = V.ref(0);      // sube con forceUpdate y obliga a recalcular renderVals()
+  var version = V.ref(0);   // sube con cada cambio, para avisar componentDidUpdate
+  var prev = null;
+  inst.__mark = function () {
+    if (!prev) prev = Object.assign({}, inst.state);
+    version.value++;
+  };
+  inst.__force = function () { inst.__mark(); tick.value++; };
+  var vals = V.computed(function () { tick.value; return inst.renderVals(); });
+  var keys = Object.keys(inst.renderVals());
+  V.createApp({
+    template: '#tpl',
+    setup: function () {
+      var out = {};
+      keys.forEach(function (k) { out[k] = V.computed(function () { return vals.value[k]; }); });
+      // Después de que Vue actualiza la pantalla, igual que React
+      V.watch(version, function () {
+        var p = prev; prev = null;
+        if (inst.componentDidUpdate) inst.componentDidUpdate(inst.props, p || {});
+      }, { flush: 'post' });
+      V.onMounted(function () { if (inst.componentDidMount) inst.componentDidMount(); });
+      V.onBeforeUnmount(function () { if (inst.componentWillUnmount) inst.componentWillUnmount(); });
+      return out;
+    }
+  }).mount('#app');
+})();
+</script>
+<script>
+(function () {
+  function fit() {
+    var s = Math.min(1, (window.innerHeight - 48) / 844, (window.innerWidth - 48) / 390);
+    document.documentElement.style.setProperty('--s', String(Math.max(.5, s)));
+  }
+  fit(); window.addEventListener('resize', fit);
+})();
+</script>
+</body>
+</html>

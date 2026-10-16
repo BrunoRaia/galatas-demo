@@ -1,0 +1,1605 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Gálatas — Panel de rutinas</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Poppins:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#0B0B0D}
+a{color:#F0414A}a:hover{color:#FF6B72}
+/* ===== Base: misma identidad que la app del socio (negro, rojo marca #D9232D, Anton + Poppins) ===== */
+.pg{position:relative;min-height:100vh;display:flex;flex-wrap:wrap;background:radial-gradient(70% 50% at 100% 0%,rgba(150,18,26,.22),rgba(150,18,26,0) 60%),#0B0B0D;color:#F5F5F6;font-family:'Poppins',system-ui,sans-serif;font-size:14.5px;line-height:1.5}
+.pg *{box-sizing:border-box}
+.side{flex:1 1 240px;max-width:100%;background:#0E0E11;border-right:1px solid #1E1E23;padding:20px 14px;display:flex;flex-direction:column;gap:3px}
+.main{flex:999 1 560px;min-width:0;padding:28px 32px 48px;display:flex;flex-direction:column;gap:22px;animation:inUp .4s cubic-bezier(.2,.75,.25,1) both}
+@keyframes inUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.sec-t{font-weight:600;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#6F6F79;margin:16px 10px 4px}
+.ni{appearance:none;border:0;background:transparent;color:#A6A6B0;display:flex;align-items:center;gap:10px;width:100%;min-height:40px;padding:0 10px;border-radius:8px;font:500 14px 'Poppins',sans-serif;cursor:pointer;text-align:left;position:relative;transition:background-color .15s ease,color .15s ease}
+.ni:hover{background:#17171B;color:#F5F5F6}
+.ni.on{background:linear-gradient(90deg,#2A0C0F,rgba(42,12,15,0));color:#fff}
+.ni.on::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:#D9232D;box-shadow:0 0 12px rgba(217,35,45,.9)}
+.ni.on svg{color:#F0414A}
+.badge{margin-left:auto;background:#D9232D;color:#fff;border-radius:999px;font:400 12px/1 'Anton',sans-serif;letter-spacing:.04em;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;padding:0 7px}
+.badge.gray{background:#26262C;color:#CFCFD6}
+.h1{font-family:'Anton',sans-serif;font-weight:400;font-size:44px;line-height:1;margin:0;text-transform:uppercase;letter-spacing:.005em}
+.h1::after{content:'';display:block;width:48px;height:4px;background:#D9232D;margin-top:14px;animation:dashIn .5s .15s cubic-bezier(.2,.75,.25,1) both}
+@keyframes dashIn{from{width:0}to{width:48px}}
+.h2{font-family:'Anton',sans-serif;font-weight:400;font-size:24px;line-height:1.1;margin:0;text-transform:uppercase;letter-spacing:.01em}
+.h3{font-weight:600;font-size:15.5px;margin:0}
+.mu{color:#A6A6B0;margin:0}
+.sm{font-size:13px}
+.p{margin:0}
+.eyebrow{font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#F0414A;margin:0;display:block}
+.eyebrow::before{content:'';display:inline-block;width:18px;height:2px;background:currentColor;vertical-align:middle;margin:-2px 10px 0 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.card{background:#141418;border:1px solid #24242A;border-radius:12px;padding:18px 20px}
+/* ===== Botones ===== */
+.btn{appearance:none;border:0;border-radius:8px;min-height:42px;padding:0 16px;font:600 12.5px 'Poppins',sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;text-decoration:none;transition:transform .12s ease,background-color .15s ease,border-color .15s ease,box-shadow .15s ease}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:#D9232D;color:#fff;box-shadow:0 10px 24px -10px rgba(217,35,45,.7)}
+.btn.pri:hover{background:#E8343E}
+.btn.sec{background:#18181D;color:#F5F5F6;border:1px solid #303037}
+.btn.sec:hover{border-color:#55555F}
+.btn.ghost{background:transparent;color:#F0414A;padding:0 6px;text-transform:none;letter-spacing:0;font-size:14px;box-shadow:none}
+.btn.sm{min-height:36px;padding:0 12px;font-size:11.5px}
+.btn.ghost.sm{font-size:13.5px}
+/* ===== Pestañas y tabla de pedidos ===== */
+.tabs{display:flex;gap:4px;border-bottom:1px solid #24242A;flex-wrap:wrap}
+.tab{appearance:none;border:0;background:transparent;color:#A6A6B0;font:600 14px 'Poppins',sans-serif;padding:10px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;gap:8px;align-items:center;transition:color .15s ease,border-color .15s ease}
+.tab:hover{color:#fff}
+.tab.on{color:#fff;border-bottom-color:#D9232D;box-shadow:0 8px 14px -12px rgba(217,35,45,.9)}
+.tblbox{overflow-x:auto;border:1px solid #24242A;border-radius:12px;background:#141418}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{text-align:left;font:600 10.5px 'Poppins',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8C8C96;padding:12px 16px;border-bottom:1px solid #24242A;background:#111115}
+td{padding:12px 16px;border-bottom:1px solid #1E1E23;vertical-align:middle}
+tbody tr{animation:fadeIn .35s ease both}
+tr:last-child td{border-bottom:0}
+tr.hov td{transition:background-color .15s ease}
+tr.hov:hover td{background:#18181D}
+tr.sel td{background:#1E0B0D}
+.who{white-space:nowrap;appearance:none;border:0;background:transparent;color:#F5F5F6;display:flex;align-items:center;gap:10px;cursor:pointer;padding:0;font:600 14.5px 'Poppins',sans-serif;text-align:left}
+.av{width:34px;height:34px;border-radius:50%;background:#1E0B0D;border:1px solid #D9232D;color:#fff;display:inline-flex;align-items:center;justify-content:center;font:400 14px/1 'Anton',sans-serif;letter-spacing:.04em;flex:none}
+.av.lg{width:56px;height:56px;font-size:22px}
+.alert{color:#F5B35C;display:inline-flex}
+.tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600;background:transparent;color:#D8D8DE;border:1px solid #3A3A42;white-space:nowrap}
+.tag.red{background:#2A0C0F;color:#FF8A8F;border-color:#7A1A20}
+.tag.warn{background:#2B1A08;color:#F5B35C;border-color:#6B4310}
+.tag.ok{background:#0F2418;color:#7FD6A2;border-color:#1F5A37}
+.grid2{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.colL{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.colR{flex:1 1 340px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
+.dl .k{font-size:10.5px;font-weight:600;color:#8C8C96;text-transform:uppercase;letter-spacing:.14em;margin:0}
+.dl .v{margin:2px 0 0;font-weight:500}
+.dl .v.warn{color:#F5B35C}
+.dl .full{grid-column:1 / -1}
+.secn{font:400 18px/1 'Anton',sans-serif;color:#D9232D;margin-right:8px}
+.sech{appearance:none;width:100%;border:0;background:transparent;color:inherit;display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;text-align:left;font:inherit;min-height:56px;transition:background-color .15s ease}
+.sech:hover{background:#17171B;border-radius:12px}
+.subt{font-weight:600;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#8C8C96;margin:0}
+/* ===== Formularios ===== */
+.inp{width:100%;background:#0F0F12;border:1px solid #2C2C33;border-radius:8px;min-height:40px;padding:8px 10px;color:#F5F5F6;font:500 14px 'Poppins',sans-serif;transition:border-color .15s ease,box-shadow .15s ease}
+.inp:focus{outline:none;border-color:#D9232D;box-shadow:0 0 0 3px rgba(217,35,45,.22)}
+.inp::placeholder{color:#6F6F79}
+textarea.inp{min-height:110px;resize:vertical}
+select.inp{cursor:pointer}
+.lbl{display:block;font-size:10.5px;font-weight:600;color:#8C8C96;text-transform:uppercase;letter-spacing:.14em;margin:0 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{appearance:none;border:1px solid #303037;background:transparent;color:#D8D8DE;border-radius:999px;min-height:34px;padding:0 12px;font:500 13.5px 'Poppins',sans-serif;cursor:pointer;transition:background-color .15s ease,border-color .15s ease}
+.chip.on{background:#D9232D;border-color:#D9232D;color:#fff}
+/* ===== Coincidencias del catálogo y pesos ===== */
+.match{border:1px solid #24242A;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;background:#111115;transition:border-color .15s ease}
+.match.best{border-color:#D9232D;background:radial-gradient(120% 140% at 100% 0%,#3A0B10 0%,#141418 60%)}
+.wt{display:flex;flex-direction:column}
+.wrow{display:grid;grid-template-columns:minmax(0,1.6fr) 72px 130px;gap:10px;align-items:center;padding:8px 0;border-top:1px solid #1E1E23;font-size:14px}
+.wrow.whead{border-top:0;padding-top:0;font-weight:600;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8C8C96}
+.wcur{display:flex;align-items:center;gap:6px}
+.dif{font:400 14px/1 'Anton',sans-serif;letter-spacing:.04em;min-width:44px}
+.dif.up{color:#7FD6A2}
+.dif.eq{color:#8C8C96}
+.dif.down{color:#F5B35C}
+/* ===== Editor de rutinas ===== */
+.lib{flex:1 1 300px;min-width:0;max-width:100%;display:flex;flex-direction:column;gap:12px}
+.ed{flex:999 1 620px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.libl{display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto;padding-right:4px}
+.libi{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#141418;border:1px solid #24242A;border-radius:10px;padding:8px 8px 8px 12px;transition:border-color .15s ease}
+.libi:hover{border-color:#3A3A42}
+.add{appearance:none;width:34px;height:34px;border-radius:8px;border:1px solid #7A1A20;background:#2A0C0F;color:#FF8A8F;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex:none;transition:background-color .15s ease,transform .12s ease}
+.add:hover{background:#D9232D;color:#fff}
+.add:active{transform:scale(.92)}
+.dtabs{display:flex;gap:6px;flex-wrap:wrap}
+.dtab{appearance:none;border:1px solid #303037;background:#141418;color:#A6A6B0;border-radius:8px;min-height:40px;padding:0 16px;font:400 15px 'Anton',sans-serif;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s ease,color .15s ease}
+.dtab.on{background:#D9232D;border-color:#D9232D;color:#fff;box-shadow:0 8px 18px -10px rgba(217,35,45,.8)}
+.erow{display:grid;grid-template-columns:minmax(200px,2.2fr) 70px 90px 110px minmax(180px,3fr) 36px;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid #1E1E23}
+.ehead{border-top:0;color:#8C8C96;font-weight:600;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding-top:10px;padding-bottom:6px}
+.egrp{font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#F0414A;padding:14px 12px 4px;border-top:1px solid #24242A;display:flex;align-items:center;gap:10px}
+.egrp::before{content:'';width:18px;height:2px;background:#D9232D;flex:none}
+.etbl{background:#141418;border:1px solid #24242A;border-radius:12px;overflow-x:auto}
+.etbl-in{min-width:820px}
+.del{appearance:none;width:34px;height:34px;border-radius:8px;border:0;background:transparent;color:#6F6F79;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex:none;transition:background-color .15s ease,color .15s ease}
+.del:hover{background:#2A0C0F;color:#FF8A8F}
+.strip{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toast{position:absolute;top:20px;right:24px;z-index:10;background:rgba(20,20,24,.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid #1F5A37;border-radius:12px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;max-width:440px;box-shadow:0 12px 40px rgba(0,0,0,.55);animation:toastIn .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes toastIn{from{opacity:0;transform:translateY(-14px) scale(.97)}to{opacity:1;transform:none}}
+.okc{width:30px;height:30px;border-radius:50%;background:#1F5A37;color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.back{appearance:none;border:0;background:transparent;color:#A6A6B0;font:600 13.5px 'Poppins',sans-serif;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:6px;min-height:32px;transition:color .15s ease}
+.back:hover{color:#fff}
+.empty{padding:40px;text-align:center;color:#8C8C96;margin:0}
+.demobar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px dashed #3A3A42;border-radius:10px;padding:8px 12px;background:rgba(14,14,17,.8)}
+.demot{font-weight:600;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#8C8C96;margin:0}
+.seg2{display:inline-flex;background:#121216;border:1px solid #2C2C33;border-radius:10px;padding:3px;gap:3px}
+.seg2 button{appearance:none;border:0;background:transparent;color:#A6A6B0;border-radius:7px;min-height:34px;padding:0 14px;font:600 12.5px 'Poppins',sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background-color .2s ease,color .2s ease}
+.seg2 button.on{background:#D9232D;color:#fff;box-shadow:0 6px 16px -8px rgba(217,35,45,.85)}
+.dex{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:12px 0;border-top:1px solid #1E1E23}
+.why{grid-column:1 / -1;margin:0;color:#A6A6B0;font-size:13px;display:flex;gap:6px;align-items:flex-start}
+.why svg{flex:none;margin-top:2px;color:#F0414A}
+.chk{display:flex;gap:8px;align-items:flex-start}
+.checks{display:flex;flex-wrap:wrap;gap:8px 18px;border-top:1px solid #222228;padding-top:12px}
+.rule{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 12px;border:1px solid #24242A;border-radius:10px;background:#111115;transition:border-color .15s ease,background-color .15s ease}
+.rule.on{border-color:#D9232D;background:#1E0B0D}
+.note{display:flex;gap:12px;align-items:flex-start;background:#111115;border:1px solid #24242A;border-radius:10px;padding:12px 16px;color:#CFCFD6;font-size:14px;margin:0}
+.note svg{flex:none;margin-top:1px;color:#F0414A}
+.warnbox{border:1px solid #6B4310;background:#1A1209;border-radius:10px;padding:12px 14px;color:#F5D7A8;font-size:14px;margin:0}
+.drop{border:2px dashed #3A3A42;border-radius:14px;background:#0F0F12;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:border-color .2s ease}
+.drop:hover{border-color:#D9232D}
+/* ===== Plano a escala (el mismo dibujo que ve el socio, 1,5 veces más grande: cada cuadro = 1 m = 30px) ===== */
+.plan{position:relative;width:522px;max-width:100%;height:630px;background-color:#0E0E11;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:30px 30px;border:1px solid #24242A;border-radius:12px;overflow:hidden;cursor:crosshair;flex:none}
+.lyr{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.wall path{stroke-dasharray:1 1;animation:draw 1.3s cubic-bezier(.6,0,.3,1) .1s both}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.led path{animation:ledOn 1.3s 1.2s ease both}
+@keyframes ledOn{0%{opacity:0}18%{opacity:.95}26%{opacity:.2}38%{opacity:1}52%{opacity:.6}64%{opacity:1}100%{opacity:1}}
+.maq g{animation:fadeIn .5s ease both}
+.zone{position:absolute;border:1px dashed #3A3A42;border-radius:12px;color:#8C8C96;font:400 12px 'Anton',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;pointer-events:none}
+.pmk{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;background:transparent;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.pmk .mkd{width:32px;height:32px;border-radius:50%;border:2px solid #5A5A64;background:#18181D;color:#E6E6EA;font:400 15px/1 'Anton',sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.6);transition:transform .15s ease,background-color .15s ease}
+.pmk:hover .mkd{transform:scale(1.1);border-color:#8C8C96}
+.pmk.lug .mkd{border-radius:8px}
+.pmk.on{z-index:2}
+.pmk.on .mkd{width:38px;height:38px;background:#D9232D;border:3px solid #fff;color:#fff;box-shadow:0 0 0 8px rgba(217,35,45,.25),0 0 22px 4px rgba(217,35,45,.5)}
+.plan-cap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.elist{display:flex;flex-direction:column;gap:6px}
+.mkb{width:30px;height:30px;border-radius:50%;border:2px solid #5A5A64;background:#18181D;display:inline-flex;align-items:center;justify-content:center;font:400 13px/1 'Anton',sans-serif;flex:none}
+.mkb.lug{border-radius:8px}
+@media (prefers-reduced-motion: reduce){.pg *,.pg *::before,.pg *::after,.main{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div class="pg">
+
+<!-- ================= MENÚ LATERAL (el del sistema de gestión, con la sección nueva) ================= -->
+<aside class="side" aria-label="Menú del sistema">
+<img src="/_blob/599c75c18c351c4f03c12f48c1ad373a" alt="Gálatas Gym" style="width: 150px; height: auto; display: block; margin: 0 auto 10px">
+<p class="sec-t">Gestión</p>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>Tablero</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Agenda</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5M16 4.5a3.5 3.5 0 0 1 0 7M18 15c2 .6 3 2.2 3.5 5"></path></svg>Socios</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10M7 12h10M7 17h6"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>Planes personalizados</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>Profesores</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="9" r="3"></circle><circle cx="16" cy="9" r="3"></circle><path d="M2 20c.8-3 3-4.5 6-4.5s5.2 1.5 6 4.5M14 15.6c.6-.1 1.3-.1 2-.1 3 0 5.2 1.5 6 4.5"></path></svg>Equipo</button>
+<p class="sec-t">App de rutinas</p>
+<button class="{{navCls.pedidos}}" onClick="{{go.navPedidos}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 9h8M8 12h5"></path></svg>Pedidos<span class="badge">{{kpi.pend}}</span></button>
+<button class="{{navCls.rutinas}}" onClick="{{go.navRutinas}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"></path></svg>Rutinas</button>
+<sc-if value="{{conIa}}" hint-placeholder-val="{{false}}">
+<button class="{{navCls.metodo}}" onClick="{{go.navMetodo}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Método Gálatas</button>
+</sc-if>
+<button class="{{navCls.ejercicios}}" onClick="{{go.navEjercicios}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M10 9.5l4.5 2.5-4.5 2.5z"></path></svg>Ejercicios</button>
+<button class="{{navCls.plano}}" onClick="{{go.navPlano}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"></path><path d="M9 4v14M15 6v14"></path></svg>Plano y máquinas</button>
+<p class="sec-t">Plata</p>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M16.5 7H10a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6H7"></path></svg>Finanzas</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle></svg>Caja diaria</button>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>Rentabilidad</button>
+<p class="sec-t">Contenido</p>
+<button class="ni"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v2a2 2 0 0 0 2 2h2l6 4V5L7 9H5a2 2 0 0 0-2 2zM17 8a5 5 0 0 1 0 8"></path></svg>Community</button>
+<div style="flex: 1; min-height: 24px"></div>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 10px; border-top: 1px solid #1F1F24">
+<span class="av">D</span>
+<div><p class="h3" style="font-size: 14px">Diego</p><p class="mu sm">Dueño</p></div>
+</div>
+</aside>
+
+<!-- ================= CONTENIDO ================= -->
+<main class="main">
+
+<div class="demobar" role="group" aria-label="Modo de la demo">
+<p class="demot">Demo · Cómo se arman las rutinas</p>
+<div class="seg2"><button class="{{modoCls.man}}" onClick="{{go.modoMan}}">Manual</button><button class="{{modoCls.comb}}" onClick="{{go.modoComb}}">Combinado</button><button class="{{modoCls.ia}}" onClick="{{go.modoIa}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"></path></svg>Con IA</button></div>
+<p class="mu sm">{{modoTxt}}</p>
+</div>
+
+<!-- ---------- PEDIDOS ---------- -->
+<sc-if value="{{is.bandeja}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">App de rutinas</p>
+<h1 class="h1">Pedidos de los socios</h1>
+<p class="mu">Altas con lesión, rutinas por objetivo y planes personalizados que llegan desde la app.</p>
+</div>
+
+<div class="tabs" role="tablist">
+<button class="{{tabCls.pend}}" role="tab" onClick="{{go.fPend}}">Por atender <span class="badge">{{kpi.pend}}</span></button>
+<button class="{{tabCls.pago}}" role="tab" onClick="{{go.fPago}}">Esperando pago <span class="badge gray">{{kpi.pago}}</span></button>
+<button class="{{tabCls.res}}" role="tab" onClick="{{go.fRes}}">Resueltos <span class="badge gray">{{kpi.res}}</span></button>
+</div>
+
+<div class="tblbox">
+<table>
+<thead><tr><th>Socio</th><th>Tipo</th><th>Resumen</th><th>Estado</th><th>Asignado a</th><th>Enviado</th><th></th></tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="q" hint-placeholder-count="5">
+<tr class="hov">
+<td><div style="display: flex; align-items: center; gap: 8px"><button class="who" onClick="{{q.open}}"><span class="av">{{q.ini}}</span>{{q.name}}</button><sc-if value="{{q.hasFlag}}" hint-placeholder-val="{{false}}"><span class="alert" role="img" aria-label="Declaró una lesión o medicación"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17h-19z"></path><path d="M12 10v4M12 17.5v.01"></path></svg></span></sc-if></div></td>
+<td><span class="{{q.tipoCls}}">{{q.tipo}}</span></td>
+<td>{{q.resumen}}</td>
+<td><span class="{{q.estCls}}">{{q.est}}</span></td>
+<td>{{q.asig}}</td>
+<td class="mu">{{q.cuando}}</td>
+<td style="text-align: right"><button class="btn sec sm" onClick="{{q.open}}">{{q.cta}}</button></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}"><p class="empty">No hay pedidos en esta lista.</p></sc-if>
+</div>
+</sc-if>
+
+<!-- ---------- DETALLE DEL PEDIDO ---------- -->
+<sc-if value="{{is.detalle}}" hint-placeholder-val="{{false}}">
+<button class="back" style="align-self: flex-start" onClick="{{go.navPedidos}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Pedidos</button>
+<div class="row" style="align-items: flex-start">
+<div style="display: flex; align-items: center; gap: 16px">
+<span class="av lg">{{req.ini}}</span>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 class="h1" style="font-size: 34px">{{req.name}}</h1>
+<div class="strip"><span class="{{req.tipoCls}}">{{req.tipo}}</span><span class="{{req.estCls}}">{{req.est}}</span><span class="mu sm">Enviado {{req.cuando}}</span><span class="mu sm">·</span><span class="mu sm">Asignado a: <span style="color: #F4F4F5; font-weight: 600">{{req.asig}}</span></span><span class="mu sm">·</span><span class="mu sm">Rutina actual: <span style="color: #F4F4F5; font-weight: 600">{{req.actual}}</span></span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px">
+<div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end">
+<sc-if value="{{req.canAsignarme}}" hint-placeholder-val="{{false}}"><button class="btn sec" onClick="{{go.asignarme}}">Asignármelo</button></sc-if>
+<sc-if value="{{req.altaPend}}" hint-placeholder-val="{{false}}"><button class="btn sec" onClick="{{go.editAlta}}">Ajustar adaptación</button><button class="btn pri" onClick="{{go.revisada}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Marcar como revisada</button></sc-if>
+<sc-if value="{{req.objDraft}}" hint-placeholder-val="{{false}}"><button class="btn sec" onClick="{{go.regen}}">Regenerar</button><button class="btn sec" onClick="{{go.editDraft}}">Editar borrador</button><button class="btn pri" onClick="{{go.aprobarIa}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Aprobar y enviar</button></sc-if>
+<sc-if value="{{req.isPago}}" hint-placeholder-val="{{false}}"><button class="btn pri" onClick="{{go.pagado}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M7 15h3"></path></svg>Marcar como pagado</button></sc-if>
+<sc-if value="{{req.canArmar}}" hint-placeholder-val="{{false}}"><button class="btn pri" onClick="{{go.armar}}">Armar plan</button></sc-if>
+<sc-if value="{{req.canEditarPlan}}" hint-placeholder-val="{{false}}"><button class="btn sec" onClick="{{go.armar}}">Editar plan</button></sc-if>
+</div>
+<sc-if value="{{req.objDraft}}" hint-placeholder-val="{{false}}"><p class="mu sm">Nada le llega al socio hasta que lo apruebes.</p></sc-if>
+</div>
+</div>
+
+<!-- ===== Alta con lesión: el socio ya tiene su adaptación; el profe la revisa ===== -->
+<sc-if value="{{req.isAlta}}" hint-placeholder-val="{{false}}">
+<div class="grid2">
+<div class="colL">
+<div class="card" style="display: flex; flex-direction: column; gap: 16px">
+<p class="h2">Datos del alta</p>
+<div class="dl">
+<sc-for list="{{altaRows}}" as="f" hint-placeholder-count="4">
+<div class="{{f.wrap}}"><p class="k">{{f.k}}</p><p class="{{f.cls}}">{{f.v}}</p></div>
+</sc-for>
+</div>
+</div>
+</div>
+<div class="colR">
+<div class="card" style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">Adaptación asignada</p>
+<p class="h3">{{req.actual}}</p>
+<p class="mu sm">Se la asignó la app al darse de alta y ya la puede hacer. Revisá si hace falta cambiar algún ejercicio por la lesión.</p>
+</div>
+<sc-if value="{{req.altaRes}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 6px; border-color: #1F5A37">
+<p class="eyebrow" style="color: #7FD6A2">Revisada</p>
+<p class="mu sm">Un profe revisó la adaptación por la lesión declarada.</p>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ===== Rutina por objetivo: borrador de IA y/o catálogo ===== -->
+<sc-if value="{{req.isObj}}" hint-placeholder-val="{{true}}">
+<div class="grid2">
+<div class="colL">
+<sc-if value="{{req.objDraft}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 14px; border-color: #D9232D; background: radial-gradient(120% 100% at 100% 0%, #3A0B10 0%, #141418 55%)">
+<div class="row"><span class="tag red"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"></path></svg>Borrador generado por IA</span><span class="mu sm">{{ai.meta}}</span></div>
+<p class="h2" style="font-size: 26px">{{ai.title}}</p>
+<sc-if value="{{ai.hasLes}}" hint-placeholder-val="{{false}}"><p class="warnbox">Declaró una lesión: {{ai.les}}. Revisá los ejercicios de piernas antes de aprobar.</p></sc-if>
+<div class="dtabs"><sc-for list="{{ai.tabs}}" as="t" hint-placeholder-count="3"><button class="{{t.cls}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for></div>
+<div><p class="h3">{{ai.day.title}}</p><p class="mu sm">{{ai.day.focus}}</p></div>
+<div>
+<sc-for list="{{ai.day.items}}" as="x" hint-placeholder-count="6">
+<div class="dex"><span style="font-weight: 600">{{x.name}}</span><span class="mu sm" style="white-space: nowrap">{{x.s}} × {{x.r}} · {{x.d}}</span><p class="why"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"></path></svg><span>{{x.why}}</span></p></div>
+</sc-for>
+</div>
+<sc-if value="{{ai.day.hasFin}}" hint-placeholder-val="{{true}}"><p class="mu sm" style="margin: 0">Finisher: <span style="color: #F4F4F5">{{ai.day.fin}}</span></p></sc-if>
+<div class="checks"><sc-for list="{{ai.checks}}" as="c" hint-placeholder-count="4"><div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7FD6A2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><p class="p sm">{{c}}</p></div></sc-for></div>
+</div>
+</sc-if>
+<div class="card" style="display: flex; flex-direction: column; gap: 18px">
+<p class="h2">Respuestas del socio</p>
+<div class="dl">
+<sc-for list="{{resp}}" as="f" hint-placeholder-count="6">
+<div class="{{f.wrap}}"><p class="k">{{f.k}}</p><p class="{{f.cls}}">{{f.v}}</p></div>
+</sc-for>
+</div>
+<sc-if value="{{req.hasPesosInfo}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #222227; padding-top: 16px">
+<p class="subt">Cuánto levanta · opcional</p>
+<div class="dl">
+<sc-for list="{{respPesos}}" as="f" hint-placeholder-count="4">
+<div><p class="k">{{f.k}}</p><p class="v">{{f.v}}</p></div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{req.hasPrevia}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #222227; padding-top: 16px">
+<p class="subt">Rutina que ya tenía</p>
+<p class="p">{{req.previa}}</p>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div class="colR">
+<sc-if value="{{req.objDraft}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<p class="eyebrow">Por qué armó esta rutina</p>
+<p class="mu sm">Reglas del Método Gálatas que aplicó para este socio.</p>
+<sc-for list="{{ai.reglas}}" as="g" hint-placeholder-count="4"><div class="chk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px; color: #F0414A"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"></path></svg><p class="p sm">{{g}}</p></div></sc-for>
+<button class="btn ghost" style="align-self: flex-start" onClick="{{go.navMetodo}}">Ver el Método Gálatas →</button>
+</div>
+</sc-if>
+<sc-if value="{{req.objMatches}}" hint-placeholder-val="{{true}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<p class="eyebrow">{{matchTitle}}</p>
+<p class="mu sm">Del catálogo, según objetivo, días por semana y nivel de esfuerzo.</p>
+<sc-for list="{{matches}}" as="m" hint-placeholder-count="2">
+<div class="{{m.cls}}">
+<div class="row" style="gap: 8px"><p class="h3">{{m.name}}</p><span class="{{m.tagCls}}">{{m.tag}}</span></div>
+<p class="mu sm">{{m.meta}}</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn pri sm" onClick="{{m.assign}}">Asignar</button><button class="btn sec sm" onClick="{{m.edit}}">Ajustar antes de asignar</button></div>
+</div>
+</sc-for>
+<sc-if value="{{noMatch}}" hint-placeholder-val="{{false}}"><p class="mu">No hay rutinas del catálogo para este objetivo.</p></sc-if>
+<button class="btn ghost" style="align-self: flex-start" onClick="{{go.navRutinas}}">Ver todas las rutinas →</button>
+</div>
+</sc-if>
+<sc-if value="{{req.objRes}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 8px; border-color: #1F5A37">
+<p class="eyebrow" style="color: #7FD6A2">Rutina asignada</p>
+<p class="h3">{{req.asignada}}</p>
+<p class="mu sm">El socio ya la ve en la app. Puede pedir otro cambio en 30 días.</p>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ===== Plan personalizado: ficha 360° + seguimiento ===== -->
+<sc-if value="{{req.isPerso}}" hint-placeholder-val="{{false}}">
+<div class="grid2">
+<div class="colL">
+<div class="row">
+<p class="h2">Ficha 360°</p>
+<button class="btn ghost" onClick="{{go.toggleAll}}">{{secAllTxt}}</button>
+</div>
+<sc-for list="{{secs}}" as="s" hint-placeholder-count="6">
+<div class="card" style="padding: 0">
+<button class="sech" aria-expanded="{{s.exp}}" onClick="{{s.toggle}}">
+<span class="h2" style="font-size: 20px; flex: 1"><span class="secn">{{s.n}}</span>{{s.t}}</span>
+<sc-if value="{{s.hasAlert}}" hint-placeholder-val="{{false}}"><span class="tag warn">Revisar</span></sc-if>
+<span class="mu sm">{{s.sum}}</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.chev}}"></path></svg>
+</button>
+<sc-if value="{{s.open}}" hint-placeholder-val="{{false}}">
+<div class="dl" style="padding: 0 20px 20px">
+<sc-for list="{{s.rows}}" as="f" hint-placeholder-count="6">
+<div class="{{f.wrap}}"><p class="k">{{f.k}}</p><p class="{{f.cls}}">{{f.v}}</p></div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+<div class="colR">
+<sc-if value="{{req.hasAlerts}}" hint-placeholder-val="{{false}}">
+<div class="card" style="border-color: #6B4310; background: #1A1209">
+<p class="eyebrow" style="color: #F5B35C">Antes de armar el plan</p>
+<sc-for list="{{req.alerts}}" as="a" hint-placeholder-count="1"><p class="p" style="margin-top: 8px">{{a}}</p></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{req.isPago}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 6px">
+<p class="eyebrow">Esperando el pago</p>
+<p class="p">$X por mes</p>
+<p class="mu sm">El socio paga en recepción o por transferencia. Cuando lo marques como pagado, el pedido pasa a Por atender.</p>
+</div>
+</sc-if>
+
+<sc-if value="{{req.canRenovar}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<p class="eyebrow">Renovación mensual</p>
+<p class="mu sm">Si no renueva, conserva la última versión de su plan y vuelve a poder pedir cambios gratis. Si nunca había tenido rutina, arranca como socio nuevo.</p>
+<button class="btn sec sm" style="align-self: flex-start" onClick="{{go.noRenovo}}">Marcar como no renovado</button>
+</div>
+</sc-if>
+<sc-if value="{{req.venc}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 6px; border-color: #6B4310">
+<p class="eyebrow" style="color: #F5B35C">Plan vencido</p>
+<p class="mu sm">No renovó. Conserva la última versión de su plan y puede pedir cambios gratis como cualquier socio.</p>
+</div>
+</sc-if>
+
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<div class="row"><p class="eyebrow">Seguimiento de pesos</p><span class="tag">Lo anota el socio</span></div>
+<sc-if value="{{hasPesos}}" hint-placeholder-val="{{false}}">
+<div class="wt">
+<div class="wrow whead"><span>Ejercicio</span><span>Sem. pasada</span><span>Esta semana</span></div>
+<sc-for list="{{pesos}}" as="w" hint-placeholder-count="4">
+<div class="wrow"><span>{{w.ej}}</span><span class="mu">{{w.prev}} kg</span><span class="wcur"><input class="inp" style="width: 72px; min-height: 36px; text-align: center" inputmode="decimal" aria-label="Peso de esta semana en {{w.ej}}" value="{{w.cur}}" onChange="{{w.on}}"><span class="{{w.dcls}}">{{w.dif}}</span></span></div>
+</sc-for>
+</div>
+<p class="mu sm">Podés corregir un valor si ves que el socio lo cargó mal.</p>
+</sc-if>
+<sc-if value="{{noPesos}}" hint-placeholder-val="{{true}}"><p class="mu sm">Cuando arranque el plan, acá vas a ver los pesos que anota en la app.</p></sc-if>
+</div>
+
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<div class="row"><p class="eyebrow">Observaciones del coach</p><span class="tag">Uso interno</span></div>
+<p class="mu sm">El socio no ve estas notas. Quedan guardadas para los próximos ajustes.</p>
+<textarea class="inp" aria-label="Observaciones del coach" placeholder="Ej: corregir la técnica de sentadilla antes de subir cargas"></textarea>
+<button class="btn sec" style="align-self: flex-start">Guardar nota</button>
+</div>
+</div>
+</div>
+</sc-if>
+</sc-if>
+
+<!-- ---------- RUTINAS (adaptación + catálogo) ---------- -->
+<sc-if value="{{is.catalogo}}" hint-placeholder-val="{{false}}">
+<div class="row" style="align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">App de rutinas</p>
+<h1 class="h1">Rutinas</h1>
+<p class="mu">Las de adaptación se asignan solas al darse de alta. Las de objetivo se asignan a los pedidos.</p>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<button class="btn sec" onClick="{{go.importarCat}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5"></path><path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"></path></svg>Importar desde PDF o Word</button>
+<button class="btn pri" onClick="{{go.catNew}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Nueva rutina</button>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="h2">Adaptación</p>
+<p class="mu sm">Para el socio siempre se llama «Adaptación», sin importar la variante.</p>
+<div class="tblbox">
+<table>
+<thead><tr><th>Rutina</th><th>Se asigna a</th><th>Días</th><th></th></tr></thead>
+<tbody>
+<sc-for list="{{adaptList}}" as="c" hint-placeholder-count="4">
+<tr class="hov"><td style="font-weight: 600">{{c.name}}</td><td class="mu">{{c.para}}</td><td>{{c.dias}}</td><td style="text-align: right"><button class="btn sec sm" onClick="{{c.edit}}">Editar</button></td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<p class="h2">Por objetivo</p>
+<p class="mu sm">{{catTxt}}</p>
+<div class="tblbox">
+<table>
+<thead><tr><th>Rutina</th><th>Objetivos</th><th>Días</th><th>Esfuerzo</th><th></th></tr></thead>
+<tbody>
+<sc-for list="{{cat}}" as="c" hint-placeholder-count="4">
+<tr class="hov">
+<td style="font-weight: 600">{{c.name}}</td>
+<td><div class="strip"><sc-for list="{{c.objs}}" as="o" hint-placeholder-count="2"><span class="tag">{{o}}</span></sc-for></div></td>
+<td>{{c.dias}}</td>
+<td>{{c.esf}}</td>
+<td style="text-align: right"><button class="btn sec sm" onClick="{{c.edit}}">Editar</button></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+</sc-if>
+
+<!-- ---------- IMPORTAR RUTINA DESDE PDF O WORD ---------- -->
+<sc-if value="{{is.importar}}" hint-placeholder-val="{{false}}">
+<button class="back" style="align-self: flex-start" onClick="{{go.impBack}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>{{imp.backTxt}}</button>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">{{imp.eyebrow}}</p>
+<h1 class="h1">Importar rutina</h1>
+<p class="mu" style="max-width: 760px">Subí una rutina que ya tengas en PDF o Word. La IA la lee y la pasa al formato de la app; vos la revisás en el editor antes de guardarla.</p>
+</div>
+<div class="grid2">
+<div class="colL">
+<div class="drop">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: #2A0C0F; color: #F0414A; border: 1px solid #7A1A20; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5"></path><path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"></path></svg></span>
+<p class="h3">Arrastrá el archivo acá</p>
+<p class="mu sm">PDF o Word (.docx), hasta 10 MB</p>
+<button class="btn sec sm">Elegir archivo</button>
+</div>
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<p class="subt">Archivos de prueba (demo)</p>
+<sc-for list="{{impFiles}}" as="f" hint-placeholder-count="2">
+<div class="rule"><span class="mkb lug" style="width: 36px; height: 36px; font-size: 11px">{{f.ext}}</span><div style="flex: 1; min-width: 0"><p class="p" style="font-weight: 600">{{f.name}}</p><p class="mu sm">{{f.sub}}</p></div><button class="btn pri sm" onClick="{{f.go}}">Importar</button></div>
+</sc-for>
+</div>
+</div>
+<div class="colR">
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<p class="eyebrow">Cómo funciona</p>
+<div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7FD6A2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><p class="p sm">Reconoce ejercicios, series, repeticiones, descansos y notas, aunque cada archivo tenga otro formato.</p></div>
+<div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7FD6A2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><p class="p sm">Busca cada ejercicio en la biblioteca y te marca los que no encuentra.</p></div>
+<div class="chk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7FD6A2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><p class="p sm">No se guarda nada hasta que lo revisás.</p></div>
+<p class="mu sm" style="border-top: 1px solid #222227; padding-top: 10px; margin: 0">{{imp.costo}}</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ---------- MÉTODO GÁLATAS (modos con IA) ---------- -->
+<sc-if value="{{is.metodo}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">Rutinas · IA</p>
+<h1 class="h1">Método Gálatas</h1>
+<p class="mu" style="max-width: 760px">Las reglas para que la IA le de las rutinas a los socios.</p>
+</div>
+<p class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 7.5v.01"></path></svg><span>La IA solo propone: nada le llega al socio sin que un profe lo apruebe. Usa solo ejercicios de la biblioteca y nunca recibe el nombre ni el DNI del socio.</span></p>
+<div class="grid2">
+<div class="colL">
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<div class="row"><p class="h2">REGLAS</p><span class="tag red">Ejemplos</span></div>
+<p class="mu sm">Escribirlas como si se las dijeras a un profe nuevo</p>
+<sc-for list="{{rules}}" as="r" hint-placeholder-count="6">
+<div class="rule"><span class="secn">{{r.n}}</span><p class="p" style="flex: 1">{{r.txt}}</p><button class="del" aria-label="Quitar regla {{r.n}}" onClick="{{r.del}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+</sc-for>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<input class="inp" style="flex: 1 1 320px; width: auto" aria-label="Nueva regla" placeholder="Ej: a los mayores de 60, nada de saltos" value="{{newRule}}" onChange="{{go.setRule}}">
+<button class="btn sec" onClick="{{go.addRule}}">Agregar regla</button>
+</div>
+</div>
+<div class="card" style="display: flex; flex-direction: column; gap: 12px">
+<div class="row"><p class="h2">Rutinas de ejemplo</p><div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn sec sm" onClick="{{go.importarMet}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5"></path><path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"></path></svg>Importar PDF o Word</button><button class="btn sec sm" onClick="{{go.catNew}}">Armar en el editor</button></div></div>
+<p class="mu sm">Rutinas reales armadas previamente. La IA las toma como referencia de estilo: cómo ordena, cuántas series, qué notas deja.</p>
+<sc-for list="{{cat}}" as="c" hint-placeholder-count="4">
+<div class="rule" style="padding: 10px 12px"><div style="flex: 1; min-width: 0"><p class="p" style="font-weight: 600">{{c.name}}</p><p class="mu sm">{{c.para}}</p></div><button class="btn sec sm" onClick="{{c.edit}}">Ver</button></div>
+</sc-for>
+</div>
+</div>
+<div class="colR">
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<p class="eyebrow">Biblioteca de ejercicios</p>
+<p class="p"><span style="font: 700 28px 'Barlow Condensed', sans-serif">{{libCount}}</span> ejercicios del gimnasio</p>
+<p class="mu sm">La IA solo elige de esta lista. Cada ejercicio ya tiene dónde se hace y su video.</p>
+<button class="btn ghost" style="align-self: flex-start" onClick="{{go.navEjercicios}}">Ver ejercicios →</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ---------- EJERCICIOS (biblioteca) ---------- -->
+<sc-if value="{{is.ejercicios}}" hint-placeholder-val="{{false}}">
+<div class="row" style="align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">App de rutinas</p>
+<h1 class="h1">Ejercicios</h1>
+<p class="mu" style="max-width: 760px">La biblioteca del gimnasio. Cada ejercicio tiene dónde se hace y su video: es lo que ve el socio al abrirlo en su rutina.</p>
+</div>
+<button class="btn pri" onClick="{{go.exNew}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Nuevo ejercicio</button>
+</div>
+<div class="strip">
+<span class="tag">{{exStats.total}} ejercicios</span>
+<span class="tag ok">Videos cargados: {{exStats.conVideo}}</span>
+<span class="tag warn">Faltan grabar: {{exStats.sinVideo}}</span>
+</div>
+<div class="grid2">
+<div class="colL">
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+<input class="inp" style="flex: 1 1 220px; width: auto" aria-label="Buscar ejercicio" placeholder="Buscar ejercicio" value="{{exQ}}" onChange="{{go.setExQ}}">
+<div class="chips"><sc-for list="{{exFilters}}" as="o" hint-placeholder-count="7"><button class="{{o.cls}}" onClick="{{o.pick}}">{{o.label}}</button></sc-for></div>
+</div>
+<div class="tblbox">
+<table>
+<thead><tr><th>Ejercicio</th><th>Grupo</th><th>Dónde se hace</th><th>Video</th><th></th></tr></thead>
+<tbody>
+<sc-for list="{{exRows}}" as="x" hint-placeholder-count="8">
+<tr class="{{x.cls}}">
+<td style="font-weight: 600">{{x.name}}</td>
+<td class="mu">{{x.g}}</td>
+<td><span style="display: inline-flex; align-items: center; gap: 8px"><span class="{{x.mkCls}}" style="width: 26px; height: 26px; font-size: 11px">{{x.locId}}</span>{{x.locName}}</span></td>
+<td><span class="{{x.vCls}}">{{x.vTxt}}</span></td>
+<td style="text-align: right"><button class="btn sec sm" onClick="{{x.edit}}">Editar</button></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+<div class="colR">
+<sc-if value="{{exf.show}}" hint-placeholder-val="{{false}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 14px">
+<div class="row"><p class="h2">{{exf.title}}</p><button class="del" aria-label="Cerrar" onClick="{{go.exClose}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div><label class="lbl" for="ex-n">Nombre</label><input id="ex-n" class="inp" value="{{exf.name}}" onChange="{{go.exSetName}}" placeholder="Ej: Hip thrust con barra"></div>
+<div><label class="lbl" for="ex-g">Grupo muscular</label><select id="ex-g" class="inp" value="{{exf.g}}" onChange="{{go.exSetG}}"><sc-for list="{{grupos}}" as="o" hint-placeholder-count="6"><option value="{{o}}">{{o}}</option></sc-for></select></div>
+<div><label class="lbl" for="ex-l">Dónde se hace</label><select id="ex-l" class="inp" value="{{exf.loc}}" onChange="{{go.exSetLoc}}"><sc-for list="{{locOpts}}" as="o" hint-placeholder-count="10"><option value="{{o.v}}">{{o.l}}</option></sc-for></select>
+<p class="mu sm" style="margin-top: 6px">Las máquinas y los lugares se cargan en Plano y máquinas.</p></div>
+<div><label class="lbl" for="ex-v">Video</label><input id="ex-v" class="inp" value="{{exf.video}}" onChange="{{go.exSetVideo}}" placeholder="Link de YouTube (no listado)"></div>
+<div><label class="lbl" for="ex-t">Notas técnicas</label><textarea id="ex-t" class="inp" style="min-height: 80px" placeholder="Lo que el socio lee antes de hacerlo"></textarea></div>
+<div style="display: flex; gap: 10px"><button class="btn pri" onClick="{{go.exSave}}">Guardar</button><button class="btn ghost" onClick="{{go.exClose}}">Cancelar</button></div>
+</div>
+</sc-if>
+<sc-if value="{{exf.hide}}" hint-placeholder-val="{{true}}">
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<p class="eyebrow">Cómo cargar los videos</p>
+<p class="p sm">Grabalos con el celu, subilos a YouTube como «no listado» y pegá el link en el ejercicio.</p>
+<p class="mu sm">Un video no listado no aparece en búsquedas: solo lo ve quien tiene el link, que en este caso es la app. Y no ocupa espacio en el servidor del gimnasio.</p>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- ---------- PLANO Y MÁQUINAS ---------- -->
+<sc-if value="{{is.plano}}" hint-placeholder-val="{{false}}">
+<div class="row" style="align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">App de rutinas</p>
+<h1 class="h1">Plano y máquinas</h1>
+<p class="mu" style="max-width: 760px">El plano a escala que ve el socio en la app. Cada máquina es un elemento propio: se resalta desde la rutina, se toca y se vincula con su QR.</p>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<button class="btn sec" onClick="{{go.cambiarCroquis}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M7 9l5-5 5 5"></path><path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"></path></svg>Actualizar plano</button>
+<button class="btn sec" onClick="{{go.imprimirQr}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path d="M14 14h3v3h-3zM20 14v.01M20 20h.01M17 20v-3h3"></path></svg>Imprimir QR</button>
+</div>
+</div>
+<div class="grid2">
+<div style="flex: 0 1 522px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<p class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 7.5v.01"></path></svg><span>{{pl.hint}}</span></p>
+<div class="plan" role="group" aria-label="Plano del gimnasio" onClick="{{go.placeAt}}">
+<!-- Mismo plano que ve el socio: piso, paredes que se dibujan, máquinas vistas desde arriba y luces LED -->
+<svg class="lyr" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true">
+<defs>
+<pattern id="pRub" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r=".8" fill="#2B2B33"></circle></pattern>
+<filter id="pGlow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.4" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+</defs>
+<rect x="4" y="4" width="340" height="412" fill="#111115"></rect>
+<rect x="6" y="6" width="158" height="168" fill="url(#pRub)"></rect>
+<rect x="218" y="178" width="124" height="146" fill="#141419"></rect>
+<path d="M6 176H342M166 6V176M216 176V324" stroke="#2A2A31" stroke-width="1" stroke-dasharray="4 4" fill="none"></path>
+<path d="M8.5 18V170" stroke="#7D8C9B" stroke-opacity=".5" stroke-width="2"></path>
+<g font-family="Anton, sans-serif" font-size="8.5" letter-spacing="1.6" fill="#75757F">
+<text x="14" y="20">PESO LIBRE</text>
+<text x="174" y="20">MÁQUINAS DE PIERNA</text>
+<text x="14" y="190">POLEAS Y TREN SUPERIOR</text>
+<text x="224" y="190">CARDIO</text>
+<text x="14" y="340">VESTUARIOS</text>
+<text x="174" y="340" fill="#F0414A">RECEPCIÓN</text>
+<text x="268" y="360" font-size="7.5" fill="#A6A6B0">ENTRADA</text>
+</g>
+<path d="M118 358A32 32 0 0 0 150 326M262 368A48 48 0 0 1 310 416" stroke="#4A4A53" stroke-width="1" stroke-dasharray="3 3" fill="none"></path>
+<path d="M118 326V358M262 416V368" stroke="#74747F" stroke-width="1.5"></path>
+<path d="M290 404V390M285 395l5-5 5 5" stroke="#F0414A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M12 400h12v12H12zM26 400h12v12H26zM40 400h12v12H40zM54 400h12v12H54zM68 400h12v12H68zM82 400h12v12H82zM96 400h12v12H96z" fill="#18181D" stroke="#3A3A42" stroke-width="1"></path>
+<rect x="24" y="370" width="84" height="8" rx="2" fill="#1C1C22" stroke="#3A3A42" stroke-width="1"></rect>
+<path d="M188 366h44a12 12 0 0 1 12 12v10" fill="none" stroke="#3A3A42" stroke-width="7" stroke-linecap="round"></path>
+<path d="M176 404h40M176 401v6M196 402v4M216 401v6" stroke="#8C8C96" stroke-width="1" fill="none"></path>
+<text x="220" y="407" font-family="Poppins, sans-serif" font-size="7" font-weight="600" fill="#8C8C96">2 m</text>
+</svg>
+<svg class="lyr wall" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" stroke="#4E4E58" fill="#4E4E58" stroke-width="5" stroke-linecap="square"><path d="M262 416H4V4H344V416H310" fill="none" pathLength="1"></path><path d="M4 326H118M150 326H166V416" fill="none" pathLength="1"></path><rect x="160" y="170" width="8" height="8" stroke="none"></rect><rect x="212" y="320" width="8" height="8" stroke="none"></rect></svg>
+<svg class="lyr maq" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true" fill="#1C1C22" stroke="#55555F" stroke-width="1.2">
+<g transform="translate(48 72)" style="animation-delay: .5s"><rect x="-23" y="-25" width="46" height="50" rx="2"></rect><path d="M-23 -25h6v6h-6zM17 -25h6v6h-6zM-23 19h6v6h-6zM17 19h6v6h-6z" fill="#3A3A42"></path><path d="M-32 -10H32" stroke="#9A9AA4" stroke-width="2"></path><path d="M-33 -16h4v12h-4zM29 -16h4v12h-4z" fill="#3A3A42"></path></g>
+<g transform="translate(112 72)" style="animation-delay: .54s"><rect x="-6" y="-6" width="12" height="32" rx="3" fill="#26262C"></rect><path d="M-15 -16h4v7h-4zM11 -16h4v7h-4z" fill="#3A3A42"></path><path d="M-26 -12H26" stroke="#9A9AA4" stroke-width="2"></path><path d="M-27 -18h4v12h-4zM23 -18h4v12h-4z" fill="#3A3A42"></path></g>
+<g transform="translate(80 130)" style="animation-delay: .58s"><rect x="-38" y="-8" width="76" height="16" rx="2"></rect><path d="M-34 -5h5v10h-5zM-25 -5h5v10h-5zM-16 -5h5v10h-5zM11 -5h5v10h-5zM20 -5h5v10h-5zM29 -5h5v10h-5z" fill="#3A3A42"></path></g>
+<g transform="translate(130 136)" style="animation-delay: .62s"><rect x="-14" y="-26" width="28" height="9" rx="3" fill="#26262C"></rect><rect x="-14" y="16" width="28" height="9" rx="3" fill="#26262C"></rect></g>
+<g transform="translate(206 66)" style="animation-delay: .66s"><rect x="-17" y="-27" width="34" height="54" rx="3"></rect><path d="M-9 -22H9V4H-9z" fill="#26262C"></path><path d="M-12 -24V24M12 -24V24" stroke="#3A3A42"></path><circle cx="-21" cy="-14" r="4" fill="#3A3A42"></circle><circle cx="21" cy="-14" r="4" fill="#3A3A42"></circle><rect x="-10" y="12" width="20" height="10" rx="2" fill="#26262C"></rect></g>
+<g transform="translate(256 66)" style="animation-delay: .7s"><rect x="-13" y="-11" width="26" height="26" rx="4"></rect><rect x="-10" y="-27" width="20" height="11" rx="1" fill="#3A3A42"></rect><path d="M-16 20H16" stroke="#9A9AA4" stroke-width="3" stroke-linecap="round"></path></g>
+<g transform="translate(306 66)" style="animation-delay: .74s"><rect x="-10" y="-27" width="20" height="54" rx="5"></rect><rect x="13" y="-22" width="8" height="18" rx="1" fill="#3A3A42"></rect><path d="M-13 18H13" stroke="#9A9AA4" stroke-width="3" stroke-linecap="round"></path></g>
+<g transform="translate(206 126)" style="animation-delay: .78s"><rect x="-16" y="-27" width="32" height="54" rx="3"></rect><path d="M-10 -24V20M10 -24V20" stroke="#3A3A42" stroke-width="2"></path><rect x="-14" y="16" width="28" height="9" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(256 126)" style="animation-delay: .82s"><rect x="-14" y="-18" width="28" height="38" rx="3"></rect><rect x="-9" y="-27" width="18" height="8" rx="1" fill="#3A3A42"></rect><rect x="-11" y="12" width="22" height="6" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(306 126)" style="animation-delay: .86s"><rect x="-13" y="-9" width="26" height="26" rx="5"></rect><path d="M-13 -2q-6 8 0 16M13 -2q6 8 0 16" stroke="#9A9AA4" stroke-width="2.5" fill="none" stroke-linecap="round"></path><rect x="-9" y="-26" width="18" height="10" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(44 232)" style="animation-delay: .9s"><rect x="-14" y="-27" width="28" height="12" rx="1" fill="#3A3A42"></rect><rect x="-10" y="4" width="20" height="20" rx="3"></rect><path d="M-22 -7H22" stroke="#9A9AA4" stroke-width="2" stroke-linecap="round"></path><path d="M0 -15V-7"></path></g>
+<g transform="translate(100 232)" style="animation-delay: .94s"><rect x="-30" y="-18" width="60" height="36" rx="2" fill="none" stroke-dasharray="3 2"></rect><rect x="-30" y="-18" width="10" height="36" rx="1" fill="#3A3A42"></rect><rect x="20" y="-18" width="10" height="36" rx="1" fill="#3A3A42"></rect><path d="M-20 -14L-6 0M20 -14L6 0" stroke="#9A9AA4" stroke-width="1"></path></g>
+<g transform="translate(156 232)" style="animation-delay: .98s"><rect x="-10" y="-4" width="20" height="22" rx="3"></rect><path d="M-10 -4q-9 -8 -3 -18M10 -4q9 -8 3 -18" stroke="#9A9AA4" stroke-width="2.5" fill="none" stroke-linecap="round"></path><rect x="-8" y="-28" width="16" height="7" rx="1" fill="#3A3A42"></rect></g>
+<g transform="translate(100 288)" style="animation-delay: 1.02s"><rect x="-12" y="-4" width="24" height="24" rx="4"></rect><path d="M-15 -2L-5 -24M15 -2L5 -24" stroke="#9A9AA4" stroke-width="3" stroke-linecap="round"></path></g>
+<g transform="translate(172 292)" style="animation-delay: 1.06s"><path d="M-22 -3h6v6h-6zM16 -3h6v6h-6z" fill="#3A3A42"></path><path d="M-16 0H16" stroke="#9A9AA4" stroke-width="2.5"></path><path d="M-8 10h16" stroke-width="2"></path></g>
+<g transform="translate(256 240)" style="animation-delay: 1.1s"><rect x="-27" y="-28" width="21" height="56" rx="4"></rect><rect x="6" y="-28" width="21" height="56" rx="4"></rect><rect x="-24" y="-16" width="15" height="40" rx="2" fill="#26262C"></rect><rect x="9" y="-16" width="15" height="40" rx="2" fill="#26262C"></rect><path d="M-25 -24h17M8 -24h17" stroke="#9A9AA4" stroke-width="2.5" stroke-linecap="round"></path></g>
+<g transform="translate(306 230)" style="animation-delay: 1.14s"><rect x="-15" y="-16" width="10" height="30" rx="5"></rect><rect x="5" y="-16" width="10" height="30" rx="5"></rect><path d="M-19 -12h18M1 -12h18" stroke="#9A9AA4" stroke-width="2" stroke-linecap="round"></path></g>
+<g transform="translate(306 280)" style="animation-delay: 1.18s"><rect x="-15" y="-16" width="10" height="30" rx="5"></rect><rect x="5" y="-16" width="10" height="30" rx="5"></rect><path d="M-19 -12h18M1 -12h18" stroke="#9A9AA4" stroke-width="2" stroke-linecap="round"></path></g>
+<g transform="translate(250 298)" style="animation-delay: 1.22s"><rect x="-22" y="-10" width="30" height="18" rx="2" fill="#26262C" transform="rotate(-6)"></rect><rect x="-8" y="-6" width="30" height="18" rx="2" fill="#2A2A31"></rect><path d="M0 -6v18M8 -6v18M16 -6v18" stroke="#3A3A42"></path></g>
+</svg>
+<svg class="lyr led" viewBox="0 0 348 420" preserveAspectRatio="none" aria-hidden="true"><path d="M14 9.5H334M338.5 14V316M14 171H156" stroke="#FF3B45" stroke-width="1.6" stroke-linecap="round" fill="none" filter="url(#pGlow)"></path></svg>
+<sc-for list="{{pl.marks}}" as="m" hint-placeholder-count="18"><button class="{{m.cls}}" style="left: {{m.x}}px; top: {{m.y}}px" aria-label="{{m.aria}}" onClick="{{m.pick}}"><span class="mkd">{{m.id}}</span></button></sc-for>
+</div>
+<div class="plan-cap"><p class="mu sm">Plano a escala · cada cuadro es 1 metro · 17 × 21 m</p><p class="mu sm">Generado desde las medidas del salón</p></div>
+</div>
+<div class="colR">
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<div class="row"><p class="eyebrow">Máquinas</p><button class="btn ghost sm" onClick="{{go.addMaq}}">+ Agregar</button></div>
+<div class="elist">
+<sc-for list="{{pl.maqs}}" as="e" hint-placeholder-count="15">
+<div class="{{e.rowCls}}"><span class="mkb">{{e.id}}</span><div style="flex: 1; min-width: 0"><p class="p" style="font-weight: 600; font-size: 14px">{{e.name}}</p><p class="mu sm">{{e.zone}}</p></div><button class="btn sec sm" onClick="{{e.pick}}">{{e.btn}}</button></div>
+</sc-for>
+</div>
+</div>
+<div class="card" style="display: flex; flex-direction: column; gap: 10px">
+<div class="row"><p class="eyebrow">Lugares</p><button class="btn ghost sm" onClick="{{go.addLugar}}">+ Agregar</button></div>
+<p class="mu sm">Para ejercicios sin máquina fija, como bancos que se mueven o colchonetas. Se marca la zona donde suelen estar.</p>
+<div class="elist">
+<sc-for list="{{pl.lugs}}" as="e" hint-placeholder-count="3">
+<div class="{{e.rowCls}}"><span class="mkb lug">{{e.id}}</span><div style="flex: 1; min-width: 0"><p class="p" style="font-weight: 600; font-size: 14px">{{e.name}}</p><p class="mu sm">{{e.zone}}</p></div><button class="btn sec sm" onClick="{{e.pick}}">{{e.btn}}</button></div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- ---------- EDITOR DE RUTINA ---------- -->
+<sc-if value="{{is.editor}}" hint-placeholder-val="{{false}}">
+<button class="back" style="align-self: flex-start" onClick="{{go.edBack}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>{{edx.backTxt}}</button>
+<div class="row" style="align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="eyebrow">{{edx.eyebrow}}</p>
+<h1 class="h1" style="font-size: 34px">{{edx.title}}</h1>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<sc-if value="{{edx.isPerso}}" hint-placeholder-val="{{false}}"><button class="btn sec" onClick="{{go.borrador}}">Guardar borrador</button></sc-if>
+<button class="btn pri" onClick="{{go.guardar}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>{{edx.cta}}</button>
+</div>
+</div>
+
+<sc-if value="{{edx.hasStrip}}" hint-placeholder-val="{{true}}">
+<div class="card strip" style="padding: 12px 16px">
+<span class="mu sm" style="margin-right: 4px">{{edx.stripLbl}}</span>
+<sc-for list="{{edx.tags}}" as="t" hint-placeholder-count="4"><span class="{{t.cls}}">{{t.txt}}</span></sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{edx.hasMissing}}" hint-placeholder-val="{{false}}">
+<div class="warnbox" style="display: flex; flex-direction: column; gap: 10px">
+<p class="p" style="font-weight: 600">{{edx.missingTxt}}</p>
+<sc-for list="{{edx.missing}}" as="mi" hint-placeholder-count="2">
+<div class="row" style="gap: 10px"><span>{{mi.name}}</span><div style="display: flex; gap: 8px"><button class="btn sec sm" onClick="{{mi.add}}">Agregar a la biblioteca</button><button class="btn sec sm" onClick="{{mi.drop}}">Quitar</button></div></div>
+</sc-for>
+</div>
+</sc-if>
+
+<div class="grid2">
+<!-- Biblioteca -->
+<div class="lib">
+<div class="card" style="display: flex; flex-direction: column; gap: 12px; padding: 16px">
+<p class="h2">Biblioteca</p>
+<input class="inp" aria-label="Buscar ejercicio" placeholder="Buscar ejercicio" value="{{libQ}}" onChange="{{onQ}}">
+<div class="chips"><sc-for list="{{libFilters}}" as="o" hint-placeholder-count="7"><button class="{{o.cls}}" onClick="{{o.pick}}">{{o.label}}</button></sc-for></div>
+<div class="libl">
+<sc-for list="{{lib}}" as="l" hint-placeholder-count="8">
+<div class="libi"><div><p class="p" style="font-weight: 600; font-size: 14px">{{l.name}}</p><p class="mu sm">{{l.g}}</p></div><button class="add" aria-label="Agregar {{l.name}} al día" onClick="{{l.add}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button></div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<!-- Editor -->
+<div class="ed">
+<sc-if value="{{edx.isPerso}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+<span class="mu sm">Partir de:</span>
+<div class="chips"><sc-for list="{{tpls}}" as="t" hint-placeholder-count="5"><button class="{{t.cls}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for></div>
+</div>
+</sc-if>
+
+<div class="dtabs">
+<sc-for list="{{dayTabs}}" as="t" hint-placeholder-count="3"><button class="{{t.cls}}" onClick="{{t.pick}}">{{t.label}}</button></sc-for>
+<button class="dtab" onClick="{{go.addDay}}">+ Día</button>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div><label class="lbl" for="d-tit">Nombre del día</label><input id="d-tit" class="inp" value="{{day.title}}" onChange="{{day.onTitle}}"></div>
+<div><label class="lbl" for="d-foc">Énfasis</label><input id="d-foc" class="inp" value="{{day.focus}}" onChange="{{day.onFocus}}"></div>
+</div>
+
+<div class="etbl">
+<div class="etbl-in">
+<div class="erow ehead"><span>Ejercicio</span><span>Series</span><span>Reps</span><span>Descanso</span><span>Notas técnicas</span><span></span></div>
+<sc-for list="{{day.groups}}" as="g" hint-placeholder-count="3">
+<div class="egrp">{{g.name}}</div>
+<sc-for list="{{g.items}}" as="it" hint-placeholder-count="2">
+<div class="erow">
+<span style="font-weight: 600; display: flex; flex-direction: column; gap: 4px; align-items: flex-start">{{it.name}}<sc-if value="{{it.missing}}" hint-placeholder-val="{{false}}"><span class="tag warn" style="font-size: 12px">No está en la biblioteca</span></sc-if></span>
+<input class="inp" aria-label="Series" value="{{it.s}}" onChange="{{it.onS}}">
+<input class="inp" aria-label="Repeticiones" value="{{it.r}}" onChange="{{it.onR}}">
+<input class="inp" aria-label="Descanso" value="{{it.d}}" onChange="{{it.onD}}">
+<input class="inp" aria-label="Notas técnicas" placeholder="Notas para el socio" value="{{it.n}}" onChange="{{it.onN}}">
+<button class="del" aria-label="Quitar {{it.name}}" onClick="{{it.del}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</sc-for>
+</sc-for>
+<sc-if value="{{day.empty}}" hint-placeholder-val="{{false}}"><p class="empty">Agregá ejercicios desde la biblioteca.</p></sc-if>
+</div>
+</div>
+
+<div><label class="lbl" for="d-fin">Finisher</label><input id="d-fin" class="inp" placeholder="Ej: bicicleta 10 min en intervalos" value="{{day.fin}}" onChange="{{day.onFin}}"></div>
+<p class="mu sm">{{edx.note}}</p>
+</div>
+</div>
+</sc-if>
+
+</main>
+
+<sc-if value="{{toast.show}}" hint-placeholder-val="{{false}}">
+<div class="toast" role="status">
+<span class="okc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+<div style="flex: 1; display: flex; flex-direction: column; gap: 8px"><div><p class="h3">{{toast.title}}</p><p class="mu sm">{{toast.sub}}</p></div>
+<sc-if value="{{toast.hasWa}}" hint-placeholder-val="{{false}}"><a class="btn sec sm" style="align-self: flex-start" href="{{toast.wa}}" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.4-4A8 8 0 1 1 8.2 19z"></path></svg>Avisar por WhatsApp</a></sc-if></div>
+<button class="del" aria-label="Cerrar aviso" onClick="{{go.hideToast}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+var D1 = "2'–2'30\"", D2 = '60–75"', D3 = '45–60"';
+
+// Catálogo de rutinas por objetivo (de ejemplo). tpl = qué ejercicios carga el editor.
+var CAT = [
+  { id: 'fb3', name: 'Full Body 3 días', obj: ['Recomposición corporal', 'Tonificar'], dias: '3', esf: 'Moderado', tpl: 'full' },
+  { id: 'fb3s', name: 'Full Body 3 días · suave', obj: ['Tonificar', 'Salud general'], dias: '3', esf: 'Suave', tpl: 'suave' },
+  { id: 'tp4', name: 'Torso / Pierna 4 días', obj: ['Ganar masa muscular', 'Recomposición corporal'], dias: '4', esf: 'Exigente', tpl: 'tp4' },
+  { id: 'qg3', name: 'Quema grasa 3 días', obj: ['Bajar % grasa'], dias: '3', esf: 'Moderado', tpl: 'qg3' }
+];
+
+// Rutinas de adaptación: se asignan solas al darse de alta, según los días por semana
+var ADAPT = [
+  { name: 'Adaptación 2 días', dias: '2' }, { name: 'Adaptación 3 días', dias: '3' },
+  { name: 'Adaptación 4 días', dias: '4' }, { name: 'Adaptación 5 días', dias: '5' }
+];
+
+// Pedidos de ejemplo.
+// tipo: 'alta' (alta con lesión) | 'obj' (rutina por objetivo, formulario corto) | 'perso' (plan personalizado, ficha 360°)
+// estado: 'pend' (por atender) | 'pago' (esperando pago) | 'res' (resuelto)
+var REQS = [
+  { id: 'martina', name: 'Martina L.', ini: 'ML', tipo: 'alta', cuando: 'hoy, 9:05', asig: 'Sin asignar', estado: 'pend', actual: 'Adaptación 3 días',
+    a: { sexo: 'Femenino', dias: '3', act: 'Ligero', lesion: 'Dolor lumbar cuando paso mucho tiempo sentada' } },
+  { id: 'bruno', name: 'Bruno', ini: 'B', tipo: 'obj', cuando: 'hoy, 11:20', asig: 'Sin asignar', estado: 'pend', actual: 'Adaptación · semana 2',
+    r: { sexo: 'Masculino', obj: 'Recomposición corporal', dias: '3', tiempo: '60 min', esf: 'Moderado', lesion: '', pesos: { pecho: '60', espalda: '50', piernas: '70', hombros: '' }, previa: '' } },
+  { id: 'matias', name: 'Matías G.', ini: 'MG', tipo: 'obj', cuando: 'hace 2 días', asig: 'Sin asignar', estado: 'pend', actual: 'Adaptación · semana 3',
+    r: { sexo: 'Masculino', obj: 'Ganar masa muscular', dias: '5', tiempo: '75 min', esf: 'Exigente', lesion: '', pesos: { pecho: '90', espalda: '80', piernas: '140', hombros: '30' }, previa: 'Torso / Pierna 4 días que me armó un profe el año pasado' } },
+  { id: 'lucia', name: 'Lucía P.', ini: 'LP', tipo: 'obj', cuando: 'hace 3 días', asig: 'Seba R.', estado: 'pend', actual: 'Adaptación · semana 4',
+    r: { sexo: 'Femenino', obj: 'Tonificar', dias: '3', tiempo: '45 min', esf: 'Suave', lesion: 'Molestia en la rodilla derecha al bajar escaleras', pesos: {}, previa: '' } },
+  { id: 'juan', name: 'Juan R.', ini: 'JR', tipo: 'perso', cuando: 'hace 4 días', asig: 'Diego S.', estado: 'pend', actual: 'Adaptación · semana 2', pesos: [],
+    f: { edad: '41', sexo: 'Masculino', fecha: '11/10/2026', altura: '178', peso: '92', wa: '11 3333-3333', ocup: 'Contador', horarios: 'Lunes, miércoles y viernes de 7 a 8', nivel: 'Principiante', hace: 'Hasta 6 meses', dias: '3', tiempo: '60 min', grasa: '28', cintura: '98', objetivo: 'Salud general, Bajar % grasa', lograr: 'Tener más energía y bajar la panza', zonas: 'Todo el cuerpo', sueno: '7', alcohol: '2 o 3 cervezas', estres: '6', alim: '5', ans: '3', act: 'Sedentario', constante: 'A veces', frena: 'El trabajo', motiva: 'Mis hijos', compromiso: '8', dispuesto: 'Sí' } },
+  { id: 'carla', name: 'Carla M.', ini: 'CM', tipo: 'perso', cuando: 'ayer, 19:05', asig: 'Diego S.', estado: 'pago', actual: 'Adaptación · semana 1', pesos: [],
+    f: { edad: '34', sexo: 'Femenino', fecha: '13/10/2026', altura: '164', peso: '68', wa: '11 4444-4444', ocup: 'Docente', horarios: 'Lunes a jueves de 8 a 10', nivel: 'Principiante', hace: 'Hasta 6 meses', dias: '4', tiempo: '60 min', grasa: '30', cintura: '82', cadera: '104', pierna: '60', lesiones: 'Hernia de disco L5, operada en 2022', evitar: 'Peso muerto convencional', supl: 'Proteína', quimica: 'No', objetivo: 'Bajar % grasa, Tonificar', secundario: 'Mejorar la postura', lograr: 'Bajar 6 kg para marzo y sentirme más fuerte', zonas: 'Glúteos, Abdomen', pesoObj: '62', grasaObj: '25', meta: 'Marzo 2027', sueno: '6', alcohol: 'Fines de semana', estres: '7', alim: '5', ans: '6', act: 'Sedentario', constante: 'No', frena: 'Los horarios del trabajo', motiva: 'Mi salud', compromiso: '9', dispuesto: 'Sí' } },
+  { id: 'nico', name: 'Nicolás A.', ini: 'NA', tipo: 'perso', cuando: 'hace 6 semanas', asig: 'Diego S.', estado: 'res', actual: 'Plan personalizado · semana 6',
+    pesos: [['Sentadilla libre con barra', '60', '65'], ['Press banca plano con barra', '50', '52.5'], ['Remo con barra prono', '45', '45'], ['Peso muerto rumano con barra', '60', '65'], ['Press militar con mancuernas sentado', '16', '14']],
+    f: { edad: '29', sexo: 'Masculino', nivel: 'Intermedio', hace: 'Más de 1 año', dias: '3', tiempo: '45 min', meds: 'Enalapril', objetivo: 'Bajar % grasa', zonas: 'Abdomen', compromiso: '7' } },
+  { id: 'sofia', name: 'Sofía T.', ini: 'ST', tipo: 'obj', cuando: 'hace 5 días', asig: 'Seba R.', estado: 'res', actual: 'Torso / Pierna 4 días', asignada: 'Torso / Pierna 4 días',
+    r: { sexo: 'Femenino', obj: 'Ganar masa muscular', dias: '4', tiempo: '60 min', esf: 'Exigente', lesion: '', pesos: {}, previa: '' } }
+];
+
+var LIB = [
+  ['Sentadilla libre con barra', 'Piernas'], ['Sentadilla hack', 'Piernas'], ['Prensa 45°', 'Piernas'], ['Sillón de cuádriceps', 'Piernas'],
+  ['Camilla de isquios', 'Piernas'], ['Isquios parado', 'Piernas'], ['Peso muerto rumano con barra', 'Piernas'], ['Abducción de cadera en máquina', 'Piernas'],
+  ['Gemelos de pie en máquina', 'Piernas'], ['Gemelos en prensa', 'Piernas'],
+  ['Tirones al pecho agarre supino', 'Espalda'], ['Remo con barra prono', 'Espalda'], ['Remo con mancuerna a un brazo', 'Espalda'], ['Remo bajo en polea', 'Espalda'], ['Pullover en polea alta con soga', 'Espalda'],
+  ['Press banca plano con barra', 'Pecho'], ['Press inclinado con mancuernas', 'Pecho'], ['Press en máquina convergente', 'Pecho'], ['Cruce de poleas', 'Pecho'],
+  ['Press militar con mancuernas sentado', 'Hombros'], ['Elevaciones laterales con mancuernas', 'Hombros'], ['Elevación lateral en polea a un brazo', 'Hombros'], ['Vuelos posteriores en peck-deck', 'Hombros'],
+  ['Curl bíceps con barra Z', 'Brazos'], ['Curl martillo en polea con soga', 'Brazos'], ['Extensión de tríceps en polea con soga', 'Brazos'], ['Press francés con barra Z', 'Brazos'],
+  ['Elevación de piernas colgado', 'Zona media'], ['Pallof press en polea', 'Zona media'], ['Rueda abdominal', 'Zona media'], ['Plancha', 'Zona media']
+];
+
+// Ejercicios de cada rutina: [grupo, ejercicio, series, reps, descanso, notas]
+var TPL = {
+  full: [
+    { title: 'Full Body A', focus: 'Énfasis cuádriceps y empuje horizontal', fin: 'Cinta en pendiente 10 min a ritmo de caminata exigente', items: [
+      ['CUÁDRICEPS', 'Sentadilla libre con barra', '4', '6–8', D1, 'Profundidad hasta romper el paralelo, rodillas acompañan la punta de los pies, tronco firme'],
+      ['CUÁDRICEPS', 'Sillón de cuádriceps', '3', '10–12', D2, 'Pausa de 1 seg arriba, bajada controlada. Desde S2: drop set en la última serie'],
+      ['ISQUIOTIBIALES', 'Camilla de isquios', '3', '10–12', D2, 'Cadera pegada al banco, bajada lenta de 3 seg'],
+      ['ESPALDA', 'Tirones al pecho agarre supino', '4', '6–8', D1, 'Pecho arriba, llevar la barra al esternón tirando con los codos'],
+      ['PECHO', 'Press banca plano con barra', '4', '6–8', D1, 'Escápulas retraídas, pies firmes, barra baja a la línea del pezón'],
+      ['PECHO', 'Cruce de poleas', '3', '10–12', D2, 'Codos semiflexionados fijos, apretar 1 seg al cerrar. Desde S2: rest-pause en la última serie'],
+      ['HOMBROS', 'Elevaciones laterales con mancuernas', '3', '10–12', D2, 'Subir hasta la altura del hombro sin balanceo. Desde S2: parciales al fallo'],
+      ['TRÍCEPS', 'Extensión de tríceps en polea con soga', '3', '10–12', D2, 'Codos pegados al cuerpo, abrir la soga abajo'],
+      ['ZONA MEDIA', 'Elevación de piernas colgado', '3', '10–12', D3, 'Sin balanceo, subir con el abdomen, retroversión de pelvis arriba'] ] },
+    { title: 'Full Body B', focus: 'Énfasis cadena posterior y tracción', fin: 'Bicicleta 10 min en intervalos: 20 seg fuerte / 40 seg suave', items: [
+      ['ISQUIOTIBIALES Y GLÚTEOS', 'Peso muerto rumano con barra', '4', '6–8', D1, 'Cadera atrás, barra pegada a las piernas, espalda neutra, bajar hasta media tibia'],
+      ['ISQUIOTIBIALES Y GLÚTEOS', 'Isquios parado', '3', '10–12', D2, ''],
+      ['GEMELOS', 'Gemelos de pie en máquina', '3', '10–12', D2, 'Estiramiento completo abajo, pausa de 1 seg arriba'],
+      ['ESPALDA', 'Remo con barra prono', '4', '6–8', D1, 'Tronco a ~45°, llevar la barra al ombligo, sin tirón de espalda baja'],
+      ['ESPALDA', 'Pullover en polea alta con soga', '3', '10–12', D2, 'Brazos casi extendidos, llevar la soga a los muslos. Desde S2: rest-pause en la última serie'],
+      ['PECHO', 'Press inclinado con mancuernas', '3', '6–8', D1, 'Banco a 30°, bajar controlado hasta el estiramiento del pecho'],
+      ['HOMBROS', 'Vuelos posteriores en peck-deck', '3', '10–12', D2, 'Brazos casi extendidos, abrir con la parte posterior del hombro'],
+      ['BÍCEPS', 'Curl bíceps con barra Z', '3', '10–12', D2, 'Codos fijos, sin balanceo. Desde S2: myo-reps en la última serie'],
+      ['ZONA MEDIA', 'Pallof press en polea', '3', '10–12 c/l', D3, 'Resistir la rotación, abdomen firme, extender y sostener 2 seg'] ] },
+    { title: 'Full Body C', focus: 'Énfasis unilateral y hombros', fin: 'Bicicleta 8 min: 30 seg fuerte / 30 seg suave', items: [
+      ['CUÁDRICEPS Y GLÚTEOS', 'Sentadilla hack', '4', '6–8', D1, 'Pies a media plataforma, bajar profundo sin despegar la cadera del respaldo'],
+      ['CUÁDRICEPS Y GLÚTEOS', 'Abducción de cadera en máquina', '3', '10–12', D2, 'Tronco inclinado adelante, pausa abierta. Desde S2: parciales al fallo'],
+      ['GEMELOS', 'Gemelos en prensa', '3', '10–12', D2, 'Rodillas extendidas sin bloquear, rango completo'],
+      ['ESPALDA', 'Remo con mancuerna a un brazo', '3', '6–8 c/l', D1, 'Apoyo firme en banco, llevar el codo hacia la cadera'],
+      ['PECHO', 'Press en máquina convergente', '3', '6–8', D1, 'Escápulas atrás, empujar sin despegar la espalda del respaldo'],
+      ['HOMBROS', 'Press militar con mancuernas sentado', '3', '6–8', D1, 'Respaldo a 80–90°, bajar hasta la altura de las orejas'],
+      ['HOMBROS', 'Elevación lateral en polea a un brazo', '3', '10–12 c/l', D2, 'Polea a la altura de la mano, subir hasta el hombro. Desde S2: drop set en la última serie'],
+      ['BÍCEPS Y TRÍCEPS', 'Curl martillo en polea con soga', '3', '10–12', D2, 'Codos fijos, agarre neutro'],
+      ['BÍCEPS Y TRÍCEPS', 'Press francés con barra Z', '3', '10–12', D2, 'Codos apuntando al techo, bajar la barra detrás de la frente'],
+      ['ZONA MEDIA', 'Rueda abdominal', '3', '8–12', D3, 'Rodillas apoyadas, no hundir la zona lumbar'] ] }
+  ],
+  suave: [
+    { title: 'Día 1', focus: 'Máquinas guiadas · cuerpo completo', fin: 'Bicicleta 10 min a ritmo cómodo', items: [
+      ['PIERNAS', 'Prensa 45°', '3', '12–15', '90"', ''], ['PIERNAS', 'Camilla de isquios', '3', '12–15', '60"', ''],
+      ['ESPALDA', 'Tirones al pecho agarre supino', '3', '12–15', '90"', ''], ['PECHO', 'Press en máquina convergente', '3', '12–15', '90"', ''],
+      ['ZONA MEDIA', 'Plancha', '3', '20–30 seg', D3, ''] ] },
+    { title: 'Día 2', focus: 'Máquinas guiadas · cuerpo completo', fin: 'Cinta 10 min con pendiente suave', items: [
+      ['PIERNAS', 'Sillón de cuádriceps', '3', '12–15', '60"', ''], ['PIERNAS', 'Abducción de cadera en máquina', '3', '12–15', '60"', ''],
+      ['ESPALDA', 'Remo bajo en polea', '3', '12–15', '90"', ''], ['HOMBROS', 'Vuelos posteriores en peck-deck', '3', '12–15', '60"', ''] ] },
+    { title: 'Día 3', focus: 'Máquinas guiadas · cuerpo completo', fin: 'Bicicleta 10 min a ritmo cómodo', items: [
+      ['PIERNAS', 'Sentadilla hack', '3', '12–15', '90"', ''], ['ESPALDA', 'Tirones al pecho agarre supino', '3', '12–15', '90"', ''],
+      ['PECHO', 'Cruce de poleas', '3', '12–15', '60"', ''], ['ZONA MEDIA', 'Pallof press en polea', '3', '10 c/l', D3, ''] ] }
+  ],
+  tp4: [
+    { title: 'Torso A', focus: 'Fuerza en empujes y tracciones', fin: '', items: [
+      ['PECHO', 'Press banca plano con barra', '4', '6–8', D1, ''], ['ESPALDA', 'Remo con barra prono', '4', '6–8', D1, ''],
+      ['HOMBROS', 'Press militar con mancuernas sentado', '3', '8–10', D1, ''], ['BRAZOS', 'Curl bíceps con barra Z', '3', '10–12', D2, ''],
+      ['BRAZOS', 'Extensión de tríceps en polea con soga', '3', '10–12', D2, ''] ] },
+    { title: 'Pierna A', focus: 'Cuádriceps y cadena posterior', fin: '', items: [
+      ['CUÁDRICEPS', 'Sentadilla libre con barra', '4', '6–8', D1, ''], ['ISQUIOTIBIALES', 'Peso muerto rumano con barra', '4', '8–10', D1, ''],
+      ['CUÁDRICEPS', 'Sillón de cuádriceps', '3', '10–12', D2, ''], ['GEMELOS', 'Gemelos de pie en máquina', '4', '10–12', D2, ''] ] },
+    { title: 'Torso B', focus: 'Volumen en pecho, espalda y hombros', fin: '', items: [
+      ['PECHO', 'Press inclinado con mancuernas', '4', '8–10', D1, ''], ['ESPALDA', 'Tirones al pecho agarre supino', '4', '8–10', D1, ''],
+      ['HOMBROS', 'Elevaciones laterales con mancuernas', '4', '12–15', D2, ''], ['ESPALDA', 'Pullover en polea alta con soga', '3', '12', D2, ''],
+      ['BRAZOS', 'Curl martillo en polea con soga', '3', '10–12', D2, ''] ] },
+    { title: 'Pierna B', focus: 'Glúteos e isquios', fin: '', items: [
+      ['CUÁDRICEPS Y GLÚTEOS', 'Sentadilla hack', '4', '8–10', D1, ''], ['ISQUIOTIBIALES', 'Camilla de isquios', '4', '10–12', D2, ''],
+      ['GLÚTEOS', 'Abducción de cadera en máquina', '3', '12–15', D2, ''], ['GEMELOS', 'Gemelos en prensa', '4', '12–15', D2, ''],
+      ['ZONA MEDIA', 'Rueda abdominal', '3', '8–12', D3, ''] ] }
+  ],
+  qg3: [
+    { title: 'Circuito A', focus: 'Circuito de cuerpo completo, poco descanso', fin: 'Cinta 15 min en pendiente', items: [
+      ['PIERNAS', 'Prensa 45°', '3', '15', '45"', ''], ['ESPALDA', 'Remo bajo en polea', '3', '15', '45"', ''],
+      ['PECHO', 'Press en máquina convergente', '3', '15', '45"', ''], ['ZONA MEDIA', 'Plancha', '3', '30 seg', '30"', ''] ] },
+    { title: 'Circuito B', focus: 'Circuito de cuerpo completo, poco descanso', fin: 'Bicicleta 12 min en intervalos', items: [
+      ['PIERNAS', 'Sentadilla hack', '3', '15', '45"', ''], ['ESPALDA', 'Tirones al pecho agarre supino', '3', '15', '45"', ''],
+      ['HOMBROS', 'Elevaciones laterales con mancuernas', '3', '15', '45"', ''], ['ZONA MEDIA', 'Pallof press en polea', '3', '12 c/l', '30"', ''] ] },
+    { title: 'Circuito C', focus: 'Circuito de cuerpo completo, poco descanso', fin: 'Cinta 15 min en pendiente', items: [
+      ['PIERNAS', 'Peso muerto rumano con barra', '3', '12', '45"', ''], ['PECHO', 'Cruce de poleas', '3', '15', '45"', ''],
+      ['PIERNAS', 'Abducción de cadera en máquina', '3', '15', '45"', ''], ['ZONA MEDIA', 'Rueda abdominal', '3', '10', '30"', ''] ] }
+  ],
+  blank: [
+    { title: 'Día 1', focus: '', fin: '', items: [] }, { title: 'Día 2', focus: '', fin: '', items: [] }, { title: 'Día 3', focus: '', fin: '', items: [] }
+  ]
+};
+
+// Día extra que la IA agrega cuando el socio pide 5 días
+var EXTRA = { title: 'Hombros y brazos', focus: 'Día extra por el quinto día disponible', fin: '', items: [
+  ['HOMBROS', 'Press militar con mancuernas sentado', '4', '8–10', D1, ''], ['HOMBROS', 'Elevación lateral en polea a un brazo', '3', '12–15 c/l', D2, ''],
+  ['HOMBROS', 'Vuelos posteriores en peck-deck', '3', '12–15', D2, ''], ['BRAZOS', 'Curl bíceps con barra Z', '3', '10–12', D2, ''],
+  ['BRAZOS', 'Press francés con barra Z', '3', '10–12', D2, ''] ] };
+
+// Borrador que "generó" la IA para cada pedido: de qué rutina parte, qué reglas aplicó y qué cambió por una lesión
+var AI = {
+  bruno: { base: 'full', title: 'Full Body 3 días · Recomposición', reglas: ['Recomposición: ejercicios base en 6–8 reps y accesorios en 10–12', '3 días por semana: cuerpo completo cada día (A, B y C)', '60 minutos: hasta 9 ejercicios por día', 'Esfuerzo moderado: técnicas de intensidad recién desde la semana 2'] },
+  matias: { base: 'tp4', extra: true, title: 'Torso / Pierna + Hombros y brazos · 5 días', reglas: ['Ganar masa muscular: más volumen, en 8–12 reps', '5 días: Torso / Pierna más un día de hombros y brazos', '75 minutos: hasta 7 ejercicios por día', 'Ya entrenaba con Torso / Pierna: se mantiene la base que conoce'] },
+  lucia: { base: 'suave', title: 'Full Body 3 días · Tonificación suave',
+    reglas: ['Molestia en la rodilla: sin sentadillas, prensa con rango corto', 'Tonificar: 12–15 reps con descansos cortos', 'Esfuerzo suave: máquinas guiadas, sin peso libre pesado', '45 minutos: máximo 5 ejercicios por día'],
+    swap: { 'Sentadilla hack': 'Abducción de cadera en máquina' },
+    why: { 'Prensa 45°': 'Con rango corto, sin bajar de 90°, por la molestia en la rodilla.', 'Abducción de cadera en máquina': 'Reemplaza a la sentadilla hack: glúteo sin cargar la rodilla.' } }
+};
+
+// Por qué la IA eligió cada ejercicio
+var WHY = {
+  'Sentadilla libre con barra': 'Ejercicio base de piernas. Va primero, cuando está más fresco, para cuidar la técnica.',
+  'Sentadilla hack': 'Cuádriceps con la espalda apoyada: menos exigencia técnica que la sentadilla libre.',
+  'Prensa 45°': 'Piernas con carga alta y la espalda apoyada.',
+  'Sillón de cuádriceps': 'Aísla cuádriceps después del ejercicio pesado del día.',
+  'Camilla de isquios': 'Equilibra el trabajo de cuádriceps.',
+  'Isquios parado': 'Isquios a una pierna, para corregir diferencias entre lados.',
+  'Peso muerto rumano con barra': 'Isquios y glúteos con carga. Pide técnica, por eso va primero.',
+  'Abducción de cadera en máquina': 'Glúteo medio sin carga sobre la columna.',
+  'Gemelos de pie en máquina': 'Completa el trabajo de piernas.',
+  'Gemelos en prensa': 'Gemelos en la misma prensa, sin cambiar de máquina.',
+  'Tirones al pecho agarre supino': 'Tracción vertical: compensa los empujes del día.',
+  'Remo con barra prono': 'Tracción horizontal pesada para el grosor de la espalda.',
+  'Remo con mancuerna a un brazo': 'Espalda a un brazo, con apoyo que cuida la zona lumbar.',
+  'Remo bajo en polea': 'Tracción guiada, fácil de aprender.',
+  'Pullover en polea alta con soga': 'Dorsales sin que trabajen los bíceps.',
+  'Press banca plano con barra': 'Empuje horizontal principal para pecho.',
+  'Press inclinado con mancuernas': 'Parte alta del pecho, con más recorrido que con barra.',
+  'Press en máquina convergente': 'Empuje guiado: carga segura sin necesitar compañero.',
+  'Cruce de poleas': 'Pecho con tensión constante, como cierre.',
+  'Press militar con mancuernas sentado': 'Hombros; sentado para proteger la espalda.',
+  'Elevaciones laterales con mancuernas': 'Deltoides lateral, para el ancho de hombros.',
+  'Elevación lateral en polea a un brazo': 'Deltoides lateral con tensión en todo el recorrido.',
+  'Vuelos posteriores en peck-deck': 'Parte trasera del hombro: ayuda a la postura.',
+  'Curl bíceps con barra Z': 'Bíceps; la barra Z cuida las muñecas.',
+  'Curl martillo en polea con soga': 'Bíceps y antebrazo con agarre neutro.',
+  'Extensión de tríceps en polea con soga': 'Tríceps, después de los empujes.',
+  'Press francés con barra Z': 'Tríceps en estiramiento; complementa la polea.',
+  'Elevación de piernas colgado': 'Zona media exigente, sin tirar del cuello.',
+  'Pallof press en polea': 'Zona media anti-rotación: fortalece sin flexionar la columna.',
+  'Rueda abdominal': 'Zona media avanzada, con las rodillas apoyadas.',
+  'Plancha': 'Zona media básica y segura.'
+};
+
+// Reglas de ejemplo del Método Gálatas (las reales las escribe Diego)
+var RULES = [
+  'A un principiante no le doy peso libre pesado las primeras 4 semanas: máquinas guiadas.',
+  'Si hay hernia o dolor lumbar, nada de carga sobre la columna (sentadilla libre, peso muerto convencional).',
+  'Siempre arranco por el ejercicio más pesado del día.',
+  'Con 45 minutos, máximo 5 ejercicios; con 60, hasta 9.',
+  'Por cada empuje, una tracción: pecho y espalda equilibrados.',
+  'Técnicas de intensidad (drop set, rest-pause) recién desde la segunda semana.'
+];
+
+// Lugares donde se hacen los ejercicios: máquinas (con número) y lugares sin máquina fija (con letra).
+// x, y = posición en el croquis, en la misma escala que el plano de la app del socio (340 × 420).
+var PLACES = [
+  { id: 1, name: 'Prensa 45°', zone: 'Máquinas de pierna', x: 206, y: 66 }, { id: 2, name: 'Sillón de cuádriceps', zone: 'Máquinas de pierna', x: 256, y: 66 },
+  { id: 3, name: 'Camilla de isquios', zone: 'Máquinas de pierna', x: 306, y: 66 }, { id: 4, name: 'Sentadilla hack', zone: 'Máquinas de pierna', x: 206, y: 126 },
+  { id: 5, name: 'Gemelos de pie', zone: 'Máquinas de pierna', x: 256, y: 126 }, { id: 6, name: 'Polea alta', zone: 'Poleas y tren superior', x: 44, y: 232 },
+  { id: 7, name: 'Torre de poleas', zone: 'Poleas y tren superior', x: 100, y: 232 }, { id: 8, name: 'Peck-deck', zone: 'Poleas y tren superior', x: 156, y: 232 },
+  { id: 9, name: 'Press convergente', zone: 'Poleas y tren superior', x: 100, y: 288 }, { id: 10, name: 'Abductora', zone: 'Máquinas de pierna', x: 306, y: 126 },
+  { id: 11, name: 'Rack de sentadilla', zone: 'Peso libre', x: 48, y: 72 }, { id: 12, name: 'Bancos de press', zone: 'Peso libre', x: 112, y: 72 },
+  { id: 13, name: 'Mancuernas', zone: 'Peso libre', x: 80, y: 130 }, { id: 14, name: 'Cintas', zone: 'Cardio', x: 256, y: 240 },
+  { id: 15, name: 'Bicicletas', zone: 'Cardio', x: 306, y: 280 },
+  { id: 'A', lugar: true, name: 'Bancos sueltos', zone: 'Peso libre', x: 130, y: 136 },
+  { id: 'B', lugar: true, name: 'Colchonetas', zone: 'Cardio', x: 250, y: 298 },
+  { id: 'C', lugar: true, name: 'Barra de dominadas', zone: 'Poleas y tren superior', x: 172, y: 292 }
+];
+var ZONES = [
+  { name: 'Peso libre', l: 10, t: 10, w: 150, h: 160 }, { name: 'Máquinas de pierna', l: 170, t: 10, w: 168, h: 160 },
+  { name: 'Poleas y tren superior', l: 10, t: 180, w: 200, h: 140 }, { name: 'Cardio', l: 220, t: 180, w: 118, h: 140 },
+  { name: 'Vestuarios', l: 10, t: 330, w: 150, h: 78 }, { name: 'Recepción · Entrada', l: 170, t: 330, w: 168, h: 78 }
+];
+var ESC = 1.5; // el croquis del panel se dibuja 1,5 veces más grande que en el celular
+
+// Dónde se hace cada ejercicio de la biblioteca (número de máquina o letra de lugar) y si ya tiene video
+var LOC = {
+  'Sentadilla libre con barra': 11, 'Sentadilla hack': 4, 'Prensa 45°': 1, 'Sillón de cuádriceps': 2, 'Camilla de isquios': 3, 'Isquios parado': 3,
+  'Peso muerto rumano con barra': 11, 'Abducción de cadera en máquina': 10, 'Gemelos de pie en máquina': 5, 'Gemelos en prensa': 1,
+  'Tirones al pecho agarre supino': 6, 'Remo con barra prono': 11, 'Remo con mancuerna a un brazo': 'A', 'Remo bajo en polea': 7,
+  'Pullover en polea alta con soga': 6, 'Press banca plano con barra': 12, 'Press inclinado con mancuernas': 12, 'Press en máquina convergente': 9,
+  'Cruce de poleas': 7, 'Press militar con mancuernas sentado': 'A', 'Elevaciones laterales con mancuernas': 13, 'Elevación lateral en polea a un brazo': 7,
+  'Vuelos posteriores en peck-deck': 8, 'Curl bíceps con barra Z': 13, 'Curl martillo en polea con soga': 7, 'Extensión de tríceps en polea con soga': 7,
+  'Press francés con barra Z': 'A', 'Elevación de piernas colgado': 'C', 'Pallof press en polea': 7, 'Rueda abdominal': 'B', 'Plancha': 'B'
+};
+var CON_VIDEO = ['Prensa 45°', 'Sentadilla libre con barra', 'Press banca plano con barra', 'Tirones al pecho agarre supino', 'Remo bajo en polea', 'Plancha'];
+var GRUPOS = ['Piernas', 'Espalda', 'Pecho', 'Hombros', 'Brazos', 'Zona media'];
+
+// Archivos de prueba para la importación (demo)
+var IMP_FILES = [
+  { key: 'docx', ext: 'DOC', name: 'Rutina fuerza 4 días.docx', sub: 'Word · 2 páginas', tpl: 'tp4', title: 'Fuerza 4 días',
+    missing: [{ day: 0, item: ['PECHO', 'Fondos en paralelas', '3', '8–10', D1, ''] }, { day: 3, item: ['GLÚTEOS', 'Hip thrust con barra', '4', '8–10', D1, ''] }] },
+  { key: 'pdf', ext: 'PDF', name: 'Adaptación mujeres 3 días.pdf', sub: 'PDF · 1 página', tpl: 'suave', title: 'Adaptación mujeres 3 días', missing: [] }
+];
+
+function placeById(id) { return PLACES.filter(function (p) { return String(p.id) === String(id); })[0]; }
+function placeLabel(p) { return p ? (p.lugar ? 'Lugar ' : 'Máquina ') + p.id + ' · ' + p.name : 'Sin lugar'; }
+
+function aiDays(id) {
+  var c = AI[id] || AI.bruno;
+  var arr = TPL[c.base].slice();
+  if (c.extra) arr = arr.concat([EXTRA]);
+  if (c.swap) arr = arr.map(function (d) {
+    return Object.assign({}, d, { items: d.items.map(function (t) { return c.swap[t[1]] ? [t[0], c.swap[t[1]]].concat(t.slice(2)) : t; }) });
+  });
+  return arr;
+}
+
+var uid = 1;
+function fromTpl(key) { return fromDays(TPL[key] || TPL.blank); }
+function fromDays(arr) {
+  return arr.map(function (d) {
+    return { title: d.title, focus: d.focus, fin: d.fin, items: d.items.map(function (t) {
+      return { uid: uid++, g: t[0], name: t[1], s: t[2], r: t[3], d: t[4], n: t[5] };
+    }) };
+  });
+}
+function v(x) { return x ? x : '—'; }
+function kg(x) { return x ? x + ' kg' : '—'; }
+function primerNombre(n) { return String(n).split(' ')[0]; }
+function waLink(nombre, que) {
+  return 'https://wa.me/?text=' + encodeURIComponent('Hola ' + primerNombre(nombre) + '! ' + que + ' Abrí la app de Gálatas para verla.');
+}
+
+// Qué tanto coincide una rutina del catálogo con lo que pidió el socio (0 a 3)
+function score(c, r) {
+  var s = 0;
+  if (c.obj.indexOf(r.obj) > -1) s++;
+  if (c.dias === r.dias) s++;
+  if (c.esf === r.esf) s++;
+  return s;
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: 'bandeja', filtro: 'pend', reqId: 'bruno',
+      reqs: REQS.map(function (r) { return Object.assign({}, r, { pesos: (r.pesos || []).map(function (p) { return p.slice(); }) }); }),
+      // Editor: mode 'perso' | 'obj' (ajustar del catálogo) | 'ia' (ajustar borrador) | 'alta' | 'cat' (rutina del catálogo) | 'imp' (importada)
+      edMode: 'perso', edCat: 'fb3', edFrom: 'fb3', edTitle: '', ed: fromTpl('full'), edDay: 0, libQ: '', libF: 'Todos',
+      missing: [], impFrom: 'catalogo',
+      secOpen: {}, toast: null,
+      // Demo: 'man' = manual (catálogo) | 'comb' = combinado (IA + catálogo) | 'ia' = la IA arma todo y un profe aprueba
+      modo: 'man', aiDay: 0, regen: 0, rules: RULES.slice(), newRule: '',
+      // Biblioteca de ejercicios
+      ex: LIB.map(function (l) { return { name: l[0], g: l[1], loc: LOC[l[0]] || 'A', video: CON_VIDEO.indexOf(l[0]) > -1 ? 'https://youtu.be/demo' : '' }; }),
+      exQ: '', exF: 'Todos', exSel: null, exForm: null,
+      // Croquis: posiciones editables y elemento seleccionado para ubicar
+      pos: PLACES.reduce(function (o, p) { o[String(p.id)] = { x: p.x, y: p.y }; return o; }, {}), plSel: null
+    };
+  }
+
+  setReq(id, patch) {
+    this.setState({ reqs: this.state.reqs.map(function (r) { return r.id === id ? Object.assign({}, r, patch) : r; }) });
+  }
+
+  updDay(patchFn) {
+    var st = this.state;
+    var ed = st.ed.map(function (d, i) { return i === st.edDay ? patchFn(Object.assign({}, d, { items: d.items.slice() })) : d; });
+    this.setState({ ed: ed });
+  }
+
+  updItem(id, field, val) {
+    this.updDay(function (d) {
+      d.items = d.items.map(function (it) { if (it.uid !== id) return it; var c = Object.assign({}, it); c[field] = val; return c; });
+      return d;
+    });
+  }
+
+  // Resuelve un pedido: lo pasa a Resueltos y muestra el aviso con el botón de WhatsApp
+  resolver(q, patch, titulo, que) {
+    var st = this.state;
+    this.setState({
+      reqs: st.reqs.map(function (r) { return r.id === q.id ? Object.assign({}, r, { estado: 'res', asig: r.asig === 'Sin asignar' ? 'Diego S.' : r.asig }, patch) : r; }),
+      view: 'bandeja',
+      toast: { t: titulo, d: 'Ya lo ve en la app y le llegó una notificación.', wa: waLink(q.name, que) }
+    });
+  }
+
+  renderVals() {
+    var self = this, st = this.state, set = function (o) { return function () { self.setState(o); }; };
+    var reqs = st.reqs;
+    var conIa = st.modo !== 'man';
+    var count = function (e) { return reqs.filter(function (r) { return r.estado === e; }).length; };
+    var kpi = { pend: count('pend'), pago: count('pago'), res: count('res') };
+
+    // Textos que dependen del tipo y del estado del pedido
+    var tipoTxt = function (r) { return r.tipo === 'perso' ? 'Plan personalizado' : (r.tipo === 'alta' ? 'Alta con lesión' : 'Rutina por objetivo'); };
+    var tipoCls = function (r) { return r.tipo === 'perso' ? 'tag red' : (r.tipo === 'alta' ? 'tag warn' : 'tag'); };
+    var estTxt = function (r) {
+      if (r.estado === 'pago') return 'Esperando pago';
+      if (r.estado === 'res') return r.tipo === 'perso' ? (r.venc ? 'Plan vencido' : 'Plan activo') : (r.tipo === 'alta' ? 'Revisada' : 'Asignada');
+      if (r.tipo === 'perso') return 'Pagado · por armar';
+      if (r.tipo === 'alta') return 'Por revisar';
+      return conIa ? 'Borrador IA listo' : 'Por asignar';
+    };
+    var estCls = function (r) { return r.estado === 'pago' || r.venc ? 'tag warn' : (r.estado === 'res' ? 'tag ok' : 'tag'); };
+    var resumen = function (r) {
+      if (r.tipo === 'alta') return 'Adaptación · ' + r.a.dias + ' días · ' + r.a.sexo;
+      var x = r.tipo === 'perso' ? { o: r.f.objetivo, d: r.f.dias, t: r.f.tiempo } : { o: r.r.obj, d: r.r.dias, t: r.r.tiempo };
+      return v(x.o) + ' · ' + v(x.d) + ' días · ' + v(x.t);
+    };
+    var alertsOf = function (r) {
+      var f = r.f || {}, a = [];
+      if (r.r && r.r.lesion) a.push('Lesión: ' + r.r.lesion);
+      if (r.a && r.a.lesion) a.push('Lesión: ' + r.a.lesion);
+      if (f.lesiones) a.push('Lesión: ' + f.lesiones);
+      if (f.evitar) a.push('Evitar: ' + f.evitar);
+      if (f.meds) a.push('Medicación: ' + f.meds);
+      return a;
+    };
+
+    var rows = reqs.filter(function (r) { return r.estado === st.filtro; }).map(function (r) {
+      return {
+        name: r.name, ini: r.ini, cuando: r.cuando, asig: r.asig,
+        tipo: tipoTxt(r), tipoCls: tipoCls(r),
+        resumen: resumen(r), est: estTxt(r), estCls: estCls(r),
+        hasFlag: alertsOf(r).length > 0,
+        cta: r.estado === 'res' ? 'Ver' : 'Revisar',
+        open: set({ view: 'detalle', reqId: r.id, aiDay: 0, regen: 0 })
+      };
+    });
+
+    var q = reqs.filter(function (r) { return r.id === st.reqId; })[0] || reqs[0];
+    var isObj = q.tipo === 'obj', isPerso = q.tipo === 'perso', isAlta = q.tipo === 'alta';
+    var alerts = alertsOf(q);
+
+    // --- Alta con lesión
+    var aa = q.a || {};
+    var altaRows = [['Sexo', aa.sexo], ['Días por semana', aa.dias], ['Actividad diaria', aa.act]].map(function (x) { return { k: x[0], v: v(x[1]), cls: 'v', wrap: '' }; })
+      .concat([{ k: 'Lesión, dolor o limitación', v: v(aa.lesion), cls: 'v warn', wrap: 'full' }]);
+
+    // --- Rutina por objetivo: respuestas del formulario corto y rutinas que coinciden
+    var rr = q.r || { pesos: {} };
+    var resp = [['Sexo', rr.sexo], ['Objetivo', rr.obj], ['Días por semana', rr.dias], ['Tiempo por sesión', rr.tiempo], ['Nivel de esfuerzo', rr.esf]]
+      .map(function (x) { return { k: x[0], v: v(x[1]), cls: 'v', wrap: '' }; })
+      .concat([{ k: 'Lesión, dolor o limitación', v: rr.lesion || 'No', cls: rr.lesion ? 'v warn' : 'v', wrap: 'full' }]);
+    var pz = rr.pesos || {};
+    var hasPesosInfo = !!(pz.pecho || pz.espalda || pz.piernas || pz.hombros);
+    var respPesos = [['Pecho · press banca', pz.pecho], ['Espalda · remo o jalón', pz.espalda], ['Piernas · sentadilla o prensa', pz.piernas], ['Hombros · press militar', pz.hombros]]
+      .map(function (x) { return { k: x[0], v: kg(x[1]) }; });
+    var matches = !isObj ? [] : CAT.map(function (c) { return { c: c, s: score(c, rr) }; })
+      .filter(function (m) { return m.s >= 2; })
+      .sort(function (a, b) { return b.s - a.s; })
+      .slice(0, 3)
+      .map(function (m, i) {
+        var full = m.s === 3;
+        return {
+          name: m.c.name, meta: m.c.obj.join(' · ') + ' · ' + m.c.dias + ' días · ' + m.c.esf,
+          tag: full ? 'Coincide' : 'Coincide en ' + m.s + ' de 3', tagCls: full ? 'tag ok' : 'tag',
+          cls: 'match' + (i === 0 ? ' best' : ''),
+          assign: function () { self.resolver(q, { asignada: m.c.name, actual: m.c.name }, 'Rutina asignada a ' + q.name, 'Ya tenés tu rutina nueva: ' + m.c.name + '.'); },
+          edit: function () { self.setState({ view: 'editor', edMode: 'obj', edCat: m.c.id, edTitle: m.c.name, ed: fromTpl(m.c.tpl), edDay: 0, missing: [] }); }
+        };
+      });
+
+    // --- Borrador generado por IA (modos Combinado y Con IA)
+    var ac = AI[q.id] || AI.bruno;
+    var adays = aiDays(q.id);
+    var adi = Math.min(st.aiDay, adays.length - 1);
+    var ad = adays[adi];
+    var whyOf = function (n) { return (ac.why && ac.why[n]) || WHY[n] || 'Elegido de la biblioteca del gimnasio.'; };
+    var ai = {
+      title: ac.title, reglas: ac.reglas, hasLes: !!rr.lesion, les: (rr.lesion || '').toLowerCase(),
+      meta: 'Versión ' + (st.regen + 1) + ' · generada en 6 s',
+      tabs: adays.map(function (x, i) { return { label: 'Día ' + (i + 1), cls: 'dtab' + (i === adi ? ' on' : ''), pick: set({ aiDay: i }) }; }),
+      day: {
+        title: ad.title, focus: ad.focus, fin: ad.fin, hasFin: !!ad.fin,
+        items: ad.items.map(function (t) { return { name: t[1], s: t[2], r: t[3], d: t[4], why: whyOf(t[1]) }; })
+      },
+      checks: ['Solo ejercicios de la biblioteca', 'Entra en ' + v(rr.tiempo) + ' por sesión', 'Sin nombre ni DNI del socio']
+    };
+
+    // --- Plan personalizado: ficha 360° con secciones plegables
+    var f = q.f || {};
+    var warn = function (x) { return x ? 'v warn' : 'v'; };
+    var row = function (k, val, opts) { opts = opts || {}; return { k: k, v: v(val), raw: val, cls: opts.warn ? warn(val) : 'v', wrap: opts.full ? 'full' : '' }; };
+    var SECS = [
+      { n: '01', t: 'Datos personales', rows: [row('Edad', f.edad), row('Sexo', f.sexo), row('Altura (cm)', f.altura), row('Peso actual (kg)', f.peso), row('WhatsApp', f.wa), row('Fecha de evaluación', f.fecha), row('Ocupación', f.ocup), row('Horarios disponibles', f.horarios)] },
+      { n: '02', t: 'Experiencia y disponibilidad', rows: [row('Nivel', f.nivel), row('Hace cuánto entrena', f.hace), row('Días por semana', f.dias), row('Tiempo por sesión', f.tiempo)] },
+      { n: '03', t: 'Perfil físico actual', alert: !!(f.lesiones || f.evitar || f.meds), rows: [row('% grasa estimado', f.grasa), row('Cintura (cm)', f.cintura), row('Cadera (cm)', f.cadera), row('Pierna (cm)', f.pierna), row('Lesiones / limitaciones', f.lesiones, { warn: true, full: true }), row('Ejercicios a evitar', f.evitar, { warn: true, full: true }), row('Medicaciones', f.meds, { warn: true }), row('Suplementación', f.supl), row('Uso de química', f.quimica)] },
+      { n: '04', t: 'Objetivo', rows: [row('Objetivo principal', f.objetivo), row('Objetivo secundario', f.secundario), row('Qué quiere lograr', f.lograr, { full: true }), row('Zonas de hincapié', f.zonas), row('Fecha meta', f.meta), row('Peso objetivo (kg)', f.pesoObj), row('% grasa objetivo', f.grasaObj)] },
+      { n: '05', t: 'Hábitos', rows: [row('Horas de sueño', f.sueno), row('Alcohol semanal', f.alcohol), row('Estrés (1-10)', f.estres), row('Alimentación (1-10)', f.alim), row('Ansiedad nocturna (1-10)', f.ans), row('Actividad diaria', f.act)] },
+      { n: '06', t: 'Perfil mental', rows: [row('¿Es constante?', f.constante), row('Compromiso (1-10)', f.compromiso), row('¿Qué lo frena?', f.frena), row('¿Qué lo motiva?', f.motiva), row('Dispuesto a modificar hábitos', f.dispuesto)] }
+    ];
+    // Abierta por defecto solo la sección con alertas; el profe puede abrir o cerrar cada una
+    var isOpen = function (s) { var k = q.id + '-' + s.n; return st.secOpen[k] !== undefined ? st.secOpen[k] : !!s.alert; };
+    var allOpen = SECS.every(isOpen);
+    var secs = SECS.map(function (s) {
+      var open = isOpen(s);
+      var filled = s.rows.filter(function (x) { return !!x.raw; }).length;
+      return {
+        n: s.n, t: s.t, rows: s.rows, open: open, exp: open ? 'true' : 'false', hasAlert: !!s.alert,
+        chev: open ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6',
+        sum: filled + ' de ' + s.rows.length + ' datos',
+        toggle: function () { var so = Object.assign({}, st.secOpen); so[q.id + '-' + s.n] = !open; self.setState({ secOpen: so }); }
+      };
+    });
+
+    // Seguimiento de pesos: lo anota el socio y el profe lo puede corregir
+    var pesos = (q.pesos || []).map(function (p, i) {
+      var d = parseFloat(String(p[2]).replace(',', '.')) - parseFloat(p[1]);
+      var dif = isNaN(d) ? '' : (d > 0 ? '+' + d + ' kg' : (d < 0 ? d + ' kg' : '='));
+      return {
+        ej: p[0], prev: p[1], cur: p[2], dif: dif,
+        dcls: 'dif ' + (isNaN(d) || d === 0 ? 'eq' : (d > 0 ? 'up' : 'down')),
+        on: function (e) {
+          var val = e && e.target ? String(e.target.value).replace(/[^0-9.,]/g, '').slice(0, 5) : '';
+          var np = q.pesos.map(function (x, j) { return j === i ? [x[0], x[1], val] : x; });
+          self.setReq(q.id, { pesos: np });
+        }
+      };
+    });
+
+    // --- Ejercicios (biblioteca)
+    var exq = (st.exQ || '').toLowerCase();
+    var exRows = st.ex.map(function (x, i) { return Object.assign({ i: i }, x); }).filter(function (x) {
+      return (st.exF === 'Todos' || x.g === st.exF) && (!exq || x.name.toLowerCase().indexOf(exq) > -1);
+    }).map(function (x) {
+      var p = placeById(x.loc);
+      return {
+        name: x.name, g: x.g, locId: p ? p.id : '—', locName: p ? p.name : 'Sin lugar',
+        mkCls: 'mkb' + (p && p.lugar ? ' lug' : ''),
+        vTxt: x.video ? 'Cargado' : 'Falta grabar', vCls: x.video ? 'tag ok' : 'tag warn',
+        cls: 'hov' + (st.exSel === x.i ? ' sel' : ''),
+        edit: function () { self.setState({ exSel: x.i, exForm: { name: x.name, g: x.g, loc: String(x.loc), video: x.video } }); }
+      };
+    });
+    var conVideo = st.ex.filter(function (x) { return !!x.video; }).length;
+    var ef = st.exForm;
+    var exf = ef
+      ? { show: true, hide: false, title: st.exSel === 'new' ? 'Nuevo ejercicio' : 'Editar ejercicio', name: ef.name, g: ef.g, loc: ef.loc, video: ef.video }
+      : { show: false, hide: true, title: '', name: '', g: '', loc: '', video: '' };
+    var setEf = function (k) { return function (e) { var o = Object.assign({}, self.state.exForm); o[k] = e && e.target ? e.target.value : ''; self.setState({ exForm: o }); }; };
+
+    // --- Plano y máquinas
+    var plSel = st.plSel;
+    var selP = plSel ? placeById(plSel) : null;
+    var listItem = function (p) {
+      var on = String(p.id) === String(plSel);
+      return { id: p.id, name: p.name, zone: p.zone, rowCls: 'rule' + (on ? ' on' : ''), btn: on ? 'Ubicando…' : 'Ubicar', pick: set({ plSel: on ? null : String(p.id) }) };
+    };
+    var pl = {
+      hint: selP ? 'Tocá el plano donde está ' + (selP.lugar ? 'el lugar ' : 'la máquina ') + selP.id + ' · ' + selP.name + '.' : 'Elegí una máquina o un lugar con «Ubicar» (o tocándolo en el plano) y después tocá el plano donde está.',
+      zones: ZONES.map(function (z) { return { name: z.name, l: z.l * ESC, t: z.t * ESC, w: z.w * ESC, h: z.h * ESC }; }),
+      marks: PLACES.map(function (p) {
+        var ps = st.pos[String(p.id)];
+        var on = String(p.id) === String(plSel);
+        return { id: p.id, x: Math.round(ps.x * ESC), y: Math.round(ps.y * ESC), aria: placeLabel(p), cls: 'pmk' + (p.lugar ? ' lug' : '') + (on ? ' on' : ''), pick: set({ plSel: on ? null : String(p.id) }) };
+      }),
+      maqs: PLACES.filter(function (p) { return !p.lugar; }).map(listItem),
+      lugs: PLACES.filter(function (p) { return p.lugar; }).map(listItem)
+    };
+
+    // --- Editor
+    var di = Math.min(st.edDay, st.ed.length - 1);
+    var d = st.ed[di];
+    var order = [], byG = {};
+    d.items.forEach(function (it) {
+      if (!byG[it.g]) { byG[it.g] = []; order.push(it.g); }
+      byG[it.g].push({
+        name: it.name, s: it.s, r: it.r, d: it.d, n: it.n, missing: !!it.missing,
+        onS: function (e) { self.updItem(it.uid, 's', e.target.value); },
+        onR: function (e) { self.updItem(it.uid, 'r', e.target.value); },
+        onD: function (e) { self.updItem(it.uid, 'd', e.target.value); },
+        onN: function (e) { self.updItem(it.uid, 'n', e.target.value); },
+        del: function () { self.updDay(function (dd) { dd.items = dd.items.filter(function (x) { return x.uid !== it.uid; }); return dd; }); }
+      });
+    });
+    var groups = order.map(function (g) { return { name: g, items: byG[g] }; });
+
+    var fl = ['Todos'].concat(GRUPOS);
+    var qtxt = (st.libQ || '').toLowerCase();
+    var lib = st.ex.filter(function (l) {
+      return (st.libF === 'Todos' || l.g === st.libF) && (!qtxt || l.name.toLowerCase().indexOf(qtxt) > -1);
+    }).map(function (l) {
+      return { name: l.name, g: l.g, add: function () {
+        self.updDay(function (dd) { dd.items.push({ uid: uid++, g: l.g.toUpperCase(), name: l.name, s: '3', r: '10–12', d: D2, n: '' }); return dd; });
+      } };
+    });
+
+    var tagsFicha = isObj
+      ? [{ txt: rr.obj, cls: 'tag red' }, { txt: rr.dias + ' días', cls: 'tag' }, { txt: rr.tiempo, cls: 'tag' }, { txt: 'Esfuerzo ' + (rr.esf || '').toLowerCase(), cls: 'tag' }]
+          .concat(rr.lesion ? [{ txt: 'Lesión: ' + rr.lesion, cls: 'tag warn' }] : [])
+      : (isAlta
+        ? [{ txt: aa.dias + ' días', cls: 'tag' }, { txt: aa.sexo, cls: 'tag' }, { txt: 'Lesión: ' + aa.lesion, cls: 'tag warn' }]
+        : [{ txt: v(f.objetivo), cls: 'tag red' }, { txt: v(f.dias) + ' días', cls: 'tag' }, { txt: v(f.tiempo), cls: 'tag' }, { txt: 'Nivel ' + v(f.nivel).toLowerCase(), cls: 'tag' }]
+          .concat(alerts.map(function (a) { return { txt: a, cls: 'tag warn' }; })));
+    var miss = st.missing.map(function (m) {
+      var quitar = function (alBiblio) {
+        var ed = st.ed.map(function (dd) { return Object.assign({}, dd, { items: alBiblio
+          ? dd.items.map(function (it) { return it.name === m ? Object.assign({}, it, { missing: false }) : it; })
+          : dd.items.filter(function (it) { return it.name !== m; }) }); });
+        var patch = { ed: ed, missing: st.missing.filter(function (x) { return x !== m; }) };
+        if (alBiblio) {
+          patch.ex = st.ex.concat([{ name: m, g: { 'Fondos en paralelas': 'Pecho', 'Hip thrust con barra': 'Piernas' }[m] || 'Piernas', loc: 'A', video: '' }]);
+          patch.toast = { t: m + ' se agregó a la biblioteca', d: 'Completale dónde se hace y el video desde Ejercicios.' };
+        }
+        self.setState(patch);
+      };
+      return { name: m, add: function () { quitar(true); }, drop: function () { quitar(false); } };
+    });
+    var edx = ({
+      ia: { eyebrow: 'Rutina por objetivo · borrador IA', title: 'Ajustar borrador para ' + q.name, cta: 'Aprobar y enviar a ' + q.name, backTxt: 'Pedido de ' + q.name, stripLbl: 'Pidió:', tags: tagsFicha,
+        note: 'Lo que cambies queda solo para este socio.' },
+      obj: { eyebrow: 'Rutina por objetivo', title: 'Ajustar ' + st.edTitle + ' para ' + q.name, cta: 'Asignar a ' + q.name, backTxt: 'Pedido de ' + q.name, stripLbl: 'Pidió:', tags: tagsFicha,
+        note: 'Los ajustes son solo para este socio. La rutina del catálogo queda igual.' },
+      alta: { eyebrow: 'Alta con lesión', title: 'Ajustar adaptación de ' + q.name, cta: 'Guardar y marcar como revisada', backTxt: 'Pedido de ' + q.name, stripLbl: 'Alta:', tags: tagsFicha,
+        note: 'Para el socio sigue llamándose «Adaptación». Le avisamos que un profe la revisó.' },
+      perso: { eyebrow: 'Plan personalizado', title: 'Plan para ' + q.name, cta: 'Enviar plan a ' + q.name, backTxt: 'Pedido de ' + q.name, isPerso: true, stripLbl: 'Ficha:', tags: tagsFicha,
+        note: 'Al enviar, el plan le aparece al socio en la app y le llega una notificación.' },
+      cat: { eyebrow: 'Rutinas', title: st.edTitle || 'Nueva rutina', cta: 'Guardar rutina', backTxt: 'Rutinas', stripLbl: '', tags: [],
+        note: 'Los cambios valen para las próximas asignaciones. Los socios que ya tienen esta rutina no se modifican.' },
+      imp: { eyebrow: 'Rutina importada', title: st.edTitle, cta: 'Guardar rutina', backTxt: 'Importar', stripLbl: 'Importada de:', tags: [{ txt: st.impName || '', cls: 'tag' }],
+        note: 'Revisá series, repeticiones y notas: la IA pasa el archivo tal cual, sin corregir criterios.' }
+    })[st.edMode];
+    edx.isPerso = !!edx.isPerso;
+    edx.hasStrip = edx.tags.length > 0;
+    edx.missing = miss; edx.hasMissing = miss.length > 0;
+    edx.missingTxt = miss.length === 1 ? '1 ejercicio no está en la biblioteca. Agregalo o quitalo de la rutina.' : miss.length + ' ejercicios no están en la biblioteca. Agregalos o quitalos de la rutina.';
+
+    var toast = st.toast ? { show: true, title: st.toast.t, sub: st.toast.d, hasWa: !!st.toast.wa, wa: st.toast.wa || '' } : { show: false, title: '', sub: '', hasWa: false, wa: '' };
+    var vw = st.view, em = st.edMode;
+    var navOn = function (on) { return 'ni' + (on ? ' on' : ''); };
+
+    return {
+      is: { bandeja: vw === 'bandeja', detalle: vw === 'detalle', editor: vw === 'editor', catalogo: vw === 'catalogo', metodo: vw === 'metodo',
+        importar: vw === 'importar', ejercicios: vw === 'ejercicios', plano: vw === 'plano' },
+      navCls: {
+        pedidos: navOn(vw === 'bandeja' || vw === 'detalle' || (vw === 'editor' && em !== 'cat' && em !== 'imp')),
+        rutinas: navOn(vw === 'catalogo' || (vw === 'importar' && st.impFrom === 'catalogo') || (vw === 'editor' && (em === 'cat' || em === 'imp'))),
+        metodo: navOn(vw === 'metodo' || (vw === 'importar' && st.impFrom === 'metodo')),
+        ejercicios: navOn(vw === 'ejercicios'), plano: navOn(vw === 'plano')
+      },
+      conIa: conIa,
+      modoCls: { man: st.modo === 'man' ? 'on' : '', comb: st.modo === 'comb' ? 'on' : '', ia: st.modo === 'ia' ? 'on' : '' },
+      modoTxt: ({ man: 'Los profes asignan rutinas del catálogo y las ajustan si hace falta.', comb: 'La IA propone un borrador y el profe elige entre ese borrador y el catálogo.', ia: 'La IA arma un borrador con el método de Diego y él o un profe lo aprueba.' })[st.modo],
+      kpi: kpi,
+      tabCls: { pend: 'tab' + (st.filtro === 'pend' ? ' on' : ''), pago: 'tab' + (st.filtro === 'pago' ? ' on' : ''), res: 'tab' + (st.filtro === 'res' ? ' on' : '') },
+      rows: rows, noRows: rows.length === 0,
+      req: {
+        name: q.name, ini: q.ini, tipo: tipoTxt(q), tipoCls: tipoCls(q), est: estTxt(q), estCls: estCls(q),
+        cuando: q.cuando, asig: q.asig, actual: q.actual, asignada: q.asignada || '',
+        isObj: isObj, isPerso: isPerso, isAlta: isAlta,
+        altaPend: isAlta && q.estado !== 'res', altaRes: isAlta && q.estado === 'res',
+        objDraft: isObj && q.estado !== 'res' && conIa,
+        objMatches: isObj && q.estado !== 'res' && st.modo !== 'ia',
+        objRes: isObj && q.estado === 'res',
+        isPago: isPerso && q.estado === 'pago',
+        canArmar: isPerso && q.estado === 'pend', canEditarPlan: isPerso && q.estado === 'res' && !q.venc,
+        canRenovar: isPerso && q.estado === 'res' && !q.venc, venc: !!q.venc,
+        canAsignarme: q.asig === 'Sin asignar' && q.estado !== 'res',
+        hasPesosInfo: hasPesosInfo, hasPrevia: !!rr.previa, previa: rr.previa || '',
+        alerts: alerts, hasAlerts: alerts.length > 0
+      },
+      altaRows: altaRows,
+      resp: resp, respPesos: respPesos, matches: matches, noMatch: isObj && matches.length === 0,
+      matchTitle: st.modo === 'comb' ? 'O asigná una del catálogo' : 'Rutinas que coinciden',
+      ai: ai,
+      secs: secs, secAllTxt: allOpen ? 'Cerrar todas' : 'Abrir todas',
+      pesos: pesos, hasPesos: pesos.length > 0, noPesos: pesos.length === 0,
+      adaptList: ADAPT.map(function (a) {
+        return { name: a.name, dias: a.dias, para: 'Socios nuevos que vienen ' + a.dias + ' días por semana',
+          edit: function () { self.setState({ view: 'editor', edMode: 'cat', edTitle: a.name, ed: fromTpl('suave'), edDay: 0, missing: [] }); } };
+      }),
+      catTxt: ({ man: 'Se sugieren en los pedidos que coinciden y el profe las asigna.', comb: 'Se sugieren junto al borrador de la IA y le sirven de ejemplo.', ia: 'La IA las usa como ejemplo de estilo para armar los borradores.' })[st.modo],
+      cat: CAT.map(function (c) {
+        return { name: c.name, objs: c.obj, dias: c.dias, esf: c.esf, para: c.obj.join(' · ') + ' · ' + c.dias + ' días · esfuerzo ' + c.esf.toLowerCase(),
+          edit: function () { self.setState({ view: 'editor', edMode: 'cat', edTitle: c.name, ed: fromTpl(c.tpl), edDay: 0, missing: [] }); } };
+      }),
+      imp: {
+        backTxt: st.impFrom === 'metodo' ? 'Método Gálatas' : 'Rutinas',
+        eyebrow: st.impFrom === 'metodo' ? 'Método Gálatas · rutinas de ejemplo' : 'Rutinas',
+        costo: conIa ? 'Usa el mismo modelo de IA que los borradores.' : 'En el modo manual es lo único que usa IA: cuesta centavos por documento.'
+      },
+      impFiles: IMP_FILES.map(function (fi) {
+        return { ext: fi.ext, name: fi.name, sub: fi.sub, go: function () {
+          var days = fromTpl(fi.tpl);
+          fi.missing.forEach(function (m) {
+            var dd = days[Math.min(m.day, days.length - 1)];
+            dd.items.push({ uid: uid++, g: m.item[0], name: m.item[1], s: m.item[2], r: m.item[3], d: m.item[4], n: m.item[5], missing: true });
+          });
+          self.setState({ view: 'editor', edMode: 'imp', edTitle: fi.title, impName: fi.name, ed: days, edDay: 0, missing: fi.missing.map(function (m) { return m.item[1]; }) });
+        } };
+      }),
+      rules: st.rules.map(function (t, i) {
+        return { n: String(i + 1).padStart(2, '0'), txt: t, del: function () { self.setState({ rules: st.rules.filter(function (_, j) { return j !== i; }) }); } };
+      }),
+      newRule: st.newRule,
+      libCount: st.ex.length,
+      exRows: exRows, exQ: st.exQ, exf: exf, grupos: GRUPOS,
+      exStats: { total: st.ex.length, conVideo: conVideo, sinVideo: st.ex.length - conVideo },
+      exFilters: fl.map(function (x) { return { label: x, cls: 'chip' + (st.exF === x ? ' on' : ''), pick: set({ exF: x }) }; }),
+      locOpts: PLACES.map(function (p) { return { v: String(p.id), l: placeLabel(p) }; }),
+      pl: pl,
+      libQ: st.libQ,
+      onQ: function (e) { self.setState({ libQ: e.target.value }); },
+      libFilters: fl.map(function (x) { return { label: x, cls: 'chip' + (st.libF === x ? ' on' : ''), pick: set({ libF: x }) }; }),
+      lib: lib,
+      // "Partir de": cualquier rutina del catálogo o en blanco (solo en el plan personalizado)
+      tpls: CAT.map(function (c) { return [c.id, c.name, c.tpl]; }).concat([['blank', 'En blanco', 'blank']]).map(function (t) {
+        return { label: t[1], cls: 'chip' + (st.edFrom === t[0] ? ' on' : ''), pick: function () { self.setState({ edFrom: t[0], ed: fromTpl(t[2]), edDay: 0 }); } };
+      }),
+      dayTabs: st.ed.map(function (x, i) { return { label: 'Día ' + (i + 1), cls: 'dtab' + (i === di ? ' on' : ''), pick: set({ edDay: i }) }; }),
+      day: {
+        title: d.title, focus: d.focus, fin: d.fin, groups: groups, empty: d.items.length === 0,
+        onTitle: function (e) { var val = e.target.value; self.updDay(function (dd) { dd.title = val; return dd; }); },
+        onFocus: function (e) { var val = e.target.value; self.updDay(function (dd) { dd.focus = val; return dd; }); },
+        onFin: function (e) { var val = e.target.value; self.updDay(function (dd) { dd.fin = val; return dd; }); }
+      },
+      edx: edx,
+      toast: toast,
+      go: {
+        // Menú
+        navPedidos: set({ view: 'bandeja' }),
+        navRutinas: set({ view: 'catalogo' }),
+        navMetodo: set({ view: 'metodo' }),
+        navEjercicios: set({ view: 'ejercicios' }),
+        navPlano: set({ view: 'plano' }),
+        // Interruptor de la demo. Sin IA no hay Método: si estabas ahí, vuelve a Rutinas.
+        modoMan: function () { self.setState({ modo: 'man', view: st.view === 'metodo' ? 'catalogo' : st.view }); },
+        modoComb: set({ modo: 'comb' }),
+        modoIa: set({ modo: 'ia' }),
+        fPend: set({ filtro: 'pend' }), fPago: set({ filtro: 'pago' }), fRes: set({ filtro: 'res' }),
+        asignarme: function () { self.setReq(q.id, { asig: 'Diego S.' }); },
+        // Alta con lesión
+        revisada: function () { self.resolver(q, {}, 'Adaptación revisada', 'Un profe revisó tu rutina de adaptación por la lesión que nos contaste.'); },
+        editAlta: function () { self.setState({ view: 'editor', edMode: 'alta', ed: fromTpl('suave'), edDay: 0, missing: [] }); },
+        // Plan personalizado
+        pagado: function () {
+          self.setState({
+            reqs: st.reqs.map(function (r) { return r.id === q.id ? Object.assign({}, r, { estado: 'pend' }) : r; }),
+            toast: { t: 'Pago confirmado', d: q.name + ' pasó a Por atender. Ya podés armar su plan.' }
+          });
+        },
+        armar: function () { self.setState({ view: 'editor', edMode: 'perso', edFrom: 'fb3', ed: fromTpl('full'), edDay: 0, missing: [] }); },
+        noRenovo: function () {
+          self.setState({
+            reqs: st.reqs.map(function (r) { return r.id === q.id ? Object.assign({}, r, { venc: true, actual: 'Plan personalizado (última versión)' }) : r; }),
+            toast: { t: q.name + ' no renovó el plan', d: 'Conserva su última rutina y vuelve a poder pedir cambios gratis.' }
+          });
+        },
+        toggleAll: function () {
+          var so = Object.assign({}, st.secOpen);
+          SECS.forEach(function (s) { so[q.id + '-' + s.n] = !allOpen; });
+          self.setState({ secOpen: so });
+        },
+        // Borrador de IA
+        regen: function () { self.setState({ regen: st.regen + 1, aiDay: 0, toast: { t: 'Borrador regenerado', d: 'La IA armó una versión nueva con las mismas reglas.' } }); },
+        editDraft: function () { self.setState({ view: 'editor', edMode: 'ia', ed: fromDays(aiDays(q.id)), edDay: 0, missing: [] }); },
+        aprobarIa: function () { self.resolver(q, { asignada: ac.title + ' (IA, revisada)', actual: ac.title }, 'Rutina enviada a ' + q.name, 'Ya tenés tu rutina nueva: ' + ac.title + '.'); },
+        // Rutinas e importación
+        catNew: function () { self.setState({ view: 'editor', edMode: 'cat', edTitle: '', ed: fromTpl('blank'), edDay: 0, missing: [] }); },
+        importarCat: set({ view: 'importar', impFrom: 'catalogo' }),
+        importarMet: set({ view: 'importar', impFrom: 'metodo' }),
+        impBack: function () { self.setState({ view: st.impFrom }); },
+        // Método
+        setRule: function (e) { self.setState({ newRule: e && e.target ? e.target.value : '' }); },
+        addRule: function () {
+          var t = (st.newRule || '').trim();
+          if (t) self.setState({ rules: st.rules.concat([t]), newRule: '' });
+        },
+        // Ejercicios
+        setExQ: function (e) { self.setState({ exQ: e && e.target ? e.target.value : '' }); },
+        exNew: set({ exSel: 'new', exForm: { name: '', g: 'Piernas', loc: '1', video: '' } }),
+        exClose: set({ exSel: null, exForm: null }),
+        exSetName: setEf('name'), exSetG: setEf('g'), exSetLoc: setEf('loc'), exSetVideo: setEf('video'),
+        exSave: function () {
+          var fm = st.exForm; if (!fm || !fm.name.trim()) return;
+          var loc = isNaN(Number(fm.loc)) ? fm.loc : Number(fm.loc);
+          var item = { name: fm.name.trim(), g: fm.g, loc: loc, video: fm.video.trim() };
+          var ex = st.exSel === 'new' ? st.ex.concat([item]) : st.ex.map(function (x, i) { return i === st.exSel ? item : x; });
+          self.setState({ ex: ex, exSel: null, exForm: null, toast: { t: 'Ejercicio guardado', d: item.name + ' · ' + placeLabel(placeById(loc)) + (item.video ? ' · con video' : ' · falta el video') } });
+        },
+        // Plano: tocar el croquis ubica el elemento elegido (en la escala del celular)
+        placeAt: function (e) {
+          if (!st.plSel || !e || !e.currentTarget) return;
+          if (e.target && e.target.closest && e.target.closest('.pmk')) return;
+          var rc = e.currentTarget.getBoundingClientRect();
+          var x = Math.round((e.clientX - rc.left) / rc.width * 340), y = Math.round((e.clientY - rc.top) / rc.height * 420);
+          var pos = Object.assign({}, st.pos); pos[st.plSel] = { x: Math.max(20, Math.min(320, x)), y: Math.max(20, Math.min(400, y)) };
+          var p = placeById(st.plSel);
+          self.setState({ pos: pos, plSel: null, toast: { t: placeLabel(p) + ' ubicada', d: 'Así la va a ver el socio en el plano de la app.' } });
+        },
+        addMaq: set({ toast: { t: 'Nueva máquina', d: 'Le ponés nombre y zona, y después la ubicás en el croquis. Toma el número 16.' } }),
+        addLugar: set({ toast: { t: 'Nuevo lugar', d: 'Para ejercicios sin máquina fija. Toma la letra D.' } }),
+        cambiarCroquis: set({ toast: { t: 'Actualizar plano', d: 'Cargás la planilla de medidas actualizada y el plano se vuelve a dibujar a escala. Si mueven una máquina, alcanza con cambiar su fila. Las máquinas mantienen su número.' } }),
+        imprimirQr: set({ toast: { t: 'QR listos para imprimir', d: 'Se generó un PDF con un QR por máquina, con su número y nombre, para pegar en cada una.' } }),
+        // Editor
+        edBack: function () {
+          var back = { cat: 'catalogo', imp: 'importar' }[st.edMode] || 'detalle';
+          self.setState({ view: back, missing: [] });
+        },
+        borrador: set({ toast: { t: 'Borrador guardado', d: 'Podés seguir después desde el pedido.' } }),
+        addDay: function () { var ed = st.ed.slice(); ed.push({ title: 'Día ' + (ed.length + 1), focus: '', fin: '', items: [] }); self.setState({ ed: ed, edDay: ed.length - 1 }); },
+        guardar: function () {
+          var m = st.edMode;
+          if (m === 'cat' || m === 'imp') {
+            if (m === 'imp' && st.missing.length) { self.setState({ toast: { t: 'Faltan ejercicios en la biblioteca', d: 'Agregalos o quitalos antes de guardar.' } }); return; }
+            self.setState({ view: st.impFrom === 'metodo' && m === 'imp' ? 'metodo' : 'catalogo', toast: { t: 'Rutina guardada', d: (st.edTitle || 'La rutina') + ' ya está disponible.' } });
+            return;
+          }
+          if (m === 'alta') { self.resolver(q, {}, 'Adaptación ajustada', 'Un profe ajustó tu rutina de adaptación por la lesión que nos contaste.'); return; }
+          if (m === 'perso') { self.resolver(q, { asignada: 'Plan personalizado', actual: 'Plan personalizado' }, 'Plan enviado a ' + q.name, 'Tu plan personalizado ya está listo.'); return; }
+          var nombre = m === 'ia' ? ac.title + ' (IA, ajustada)' : st.edTitle + ' (ajustada)';
+          self.resolver(q, { asignada: nombre, actual: nombre }, 'Rutina asignada a ' + q.name, 'Ya tenés tu rutina nueva.');
+        },
+        hideToast: set({ toast: null })
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
