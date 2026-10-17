@@ -366,6 +366,9 @@ textarea.inp{min-height:80px;resize:none}
 .dni.on{border-color:#D9232D;background:#1E0B0D}
 .dni.on span{color:#FF8A8F}
 /* En la PC el "celular" mide siempre 844px de alto, así que ahí no sirve medir la ventana: tamaños fijos */
+/* Botón de demo para adelantar los días hasta que se habilita el cambio de rutina.
+   Borde punteado: se nota que es un control de la demo y no parte de la app real */
+.btn.ghost.demo-skip{width:100%;min-height:40px;border:1px dashed #5A2228;border-radius:10px;font-size:13px;margin-top:-4px}
 @media (min-width:501px){.scr.login{gap:18px}.lg-logo{width:200px}.lg-h1{font-size:42px}}
 @media (prefers-reduced-motion: reduce){.ph *,.ph *::before,.ph *::after{animation:none!important;transition:none!important}.ph .mk.focus .mkd{box-shadow:0 0 0 8px rgba(217,35,45,.4),0 0 20px 6px rgba(217,35,45,.55)}}
 </style>
@@ -779,6 +782,7 @@ textarea.inp{min-height:80px;resize:none}
 </sc-if>
 <sc-if value="{{cta.locked}}" hint-placeholder-val="{{true}}">
 <button class="btn dis" disabled="disabled">{{cta.lockTxt}}</button>
+<button class="btn ghost demo-skip" onClick="{{go.skipToChange}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6v12l8.5-6zM12.5 6v12L21 12z"></path></svg>{{cta.skipTxt}}</button>
 </sc-if>
 <sc-if value="{{is.pendiente}}" hint-placeholder-val="{{false}}">
 <button class="btn dis" disabled="disabled">Ya tenés un pedido en revisión</button>
@@ -937,6 +941,7 @@ textarea.inp{min-height:80px;resize:none}
 </sc-if>
 <sc-if value="{{cta.locked}}" hint-placeholder-val="{{true}}">
 <button class="btn dis" disabled="disabled">Cambio de rutina · {{cta.lockTxt}}</button>
+<button class="btn ghost demo-skip" onClick="{{go.skipToChange}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6v12l8.5-6zM12.5 6v12L21 12z"></path></svg>{{cta.skipTxt}}</button>
 </sc-if>
 <sc-if value="{{is.pendiente}}" hint-placeholder-val="{{false}}">
 <button class="btn dis" disabled="disabled">Ya tenés un pedido en revisión</button>
@@ -1336,6 +1341,13 @@ var DEMO_DNIS = [
 ];
 var CODIGO_DEMO = '123456';
 
+// Semana desde la que se puede pedir el cambio de rutina gratis.
+// Adaptación: después de la primera semana. Rutina por objetivo: cada 30 días (semana 5).
+var SEMANA_CAMBIO = { adapt: 2, obj: 5 };
+// Notificaciones que aparecen cuando se habilita el cambio
+var AVISO_ADAPT = ['Ya podés pedir tu rutina', 'Terminaste tu primera semana de adaptación. Pedí tu rutina según tu objetivo.'];
+var AVISO_OBJ = ['Ya podés cambiar tu rutina', 'Pasaron 30 días con tu rutina actual. Pedí el cambio cuando quieras.'];
+
 // Pesos de ejemplo "de la semana pasada" (kg) para mostrar el registro de cargas en la demo
 var LAST = {
   p1: 80, p2: 25, p3: 40, p4: 30, q1: 35, q2: 40, q3: 50, q4: 35, q5: 20, r1: 40, r2: 25, r3: 40, r4: 10, r5: 10,
@@ -1576,6 +1588,15 @@ class Component extends DCLogic {
     this.setState(Object.assign({ routine: routine, past: past, week: 1, day: 0, open: null, done: {}, sets: {}, trainStart: null, showNew: true }, extra));
   }
 
+  // Demo: salta a la semana "week". Lo que anotaste esta semana queda como "semana pasada"
+  // y se limpia lo de hoy, como si de verdad hubieran pasado los días.
+  goToWeek(week, push) {
+    var st = this.state;
+    var patch = { week: week, lastPesos: Object.assign({}, st.lastPesos, st.pesos), pesos: {}, done: {}, sets: {}, wk: [], trainStart: null, open: null };
+    if (push) patch.push = push;
+    this.setState(patch);
+  }
+
   // Datos que se guardan al terminar el onboarding desde un formulario:
   // los días de la adaptación salen de lo que eligió y el DNI queda registrado
   onbPatch() {
@@ -1665,7 +1686,7 @@ class Component extends DCLogic {
     var pend = st.pedido === 'pendiente';
     // Adaptación: el cambio se habilita a la semana. Rutina por objetivo: cada 30 días.
     // Plan personalizado: no hay cambio gratis, los ajustes los hace el coach.
-    var canChange = !pend && !perso && (st.routine === 'adapt' ? st.week >= 2 : st.week >= 5);
+    var canChange = !pend && !perso && st.week >= (st.routine === 'adapt' ? SEMANA_CAMBIO.adapt : SEMANA_CAMBIO.obj);
     var faltan = st.routine === 'adapt' ? 4 : Math.max(1, 30 - (st.week - 1) * 7);
 
     var ri = this.routineInfo();
@@ -1858,7 +1879,7 @@ class Component extends DCLogic {
       dayTabs: days.map(function (_, i) { return { label: 'Día ' + (i + 1), cls: 'seg' + (i === di ? ' on' : ''), pick: set({ day: i, open: null }) }; }),
       cur: { title: d.title, focus: d.focus, fin: d.fin, groups: groups, doneTxt: hechos + ' de ' + total + ' hechos' },
       cta: {
-        canChange: canChange, locked: !pend && !canChange, lockTxt: 'Disponible en ' + faltan + ' días',
+        canChange: canChange, locked: !pend && !canChange, lockTxt: 'Disponible en ' + faltan + ' días', skipTxt: 'Adelantar ' + faltan + ' días (demo)',
         txt: st.routine === 'adapt'
           ? 'Después de tu primera semana de adaptación podés pedir una rutina según tu objetivo.'
           : 'Podés pedir un cambio cada 30 días. Respondés unas preguntas y un profe te asigna la nueva.'
@@ -1994,11 +2015,14 @@ class Component extends DCLogic {
         },
         // Demo: pasa la semana. Lo que anotaste hoy queda como "semana pasada"
         nextWeek: function () {
-          var patch = { week: st.week + 1, lastPesos: Object.assign({}, st.lastPesos, st.pesos), pesos: {}, done: {}, sets: {}, wk: [], trainStart: null, open: null };
           // Aviso cuando termina la primera semana de adaptación
-          if (st.routine === 'adapt' && st.week === 1 && st.pedido === 'none' && st.plan === 'none')
-            patch.push = ['Ya podés pedir tu rutina', 'Terminaste tu primera semana de adaptación. Pedí tu rutina según tu objetivo.'];
-          self.setState(patch);
+          var aviso = (st.routine === 'adapt' && st.week === 1 && st.pedido === 'none' && st.plan === 'none') ? AVISO_ADAPT : null;
+          self.goToWeek(st.week + 1, aviso);
+        },
+        // Demo: salta directo a la semana en que se habilita el cambio de rutina
+        skipToChange: function () {
+          var adapt = st.routine === 'adapt';
+          self.goToWeek(adapt ? SEMANA_CAMBIO.adapt : SEMANA_CAMBIO.obj, adapt ? AVISO_ADAPT : AVISO_OBJ);
         },
         aprobar: function () { self.setRoutine('obj', { pedido: 'lista', push: ['Tu rutina nueva está lista', 'Diego te asignó Full Body 3 días según tu objetivo.'] }); },
         pagoOk: set({ plan: 'armando', push: ['Pago confirmado', 'Tu coach ya está armando tu plan personalizado.'] }),
