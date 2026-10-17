@@ -11,21 +11,17 @@
 <style>
   :root{--bg:#0B0B0D;--card:#141418;--line:#24242A;--txt:#F5F5F6;--mu:#A6A6B0;--red:#D9232D;--red2:#F0414A}
   *{box-sizing:border-box}
-  body{margin:0;color:var(--txt);font:400 15px/1.55 'Poppins',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;
+  body{margin:0;color:var(--txt);font:400 15px/1.55 'Poppins',system-ui,sans-serif;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden;
     background:radial-gradient(90% 50% at 100% 0%,rgba(150,18,26,.4),rgba(150,18,26,0) 60%),radial-gradient(70% 40% at 0% 100%,rgba(120,14,20,.2),rgba(120,14,20,0) 60%),var(--bg)}
   /* Tiras LED rojas, como las del gimnasio */
   .leds{position:fixed;inset:0;pointer-events:none;overflow:hidden}
   .led{position:absolute;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,59,69,0),#FF3B45 25%,#FF3B45 75%,rgba(255,59,69,0));box-shadow:0 0 10px 1px rgba(255,40,50,.75),0 0 34px 5px rgba(217,35,45,.3);transform:rotate(-11deg);animation:ledOn 1.3s ease both}
   @keyframes ledOn{0%{opacity:0}18%{opacity:.95}26%{opacity:.2}38%{opacity:1}52%{opacity:.6}64%{opacity:1}100%{opacity:1}}
-  main{position:relative;flex:1;width:100%;max-width:900px;margin:0 auto;padding:56px 16px 32px;display:flex;flex-direction:column;gap:36px}
-  .logo{width:170px;height:auto;display:block;filter:drop-shadow(0 8px 30px rgba(217,35,45,.35))}
-  .eyebrow{font-weight:600;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--red2);margin:0 0 12px}
-  .eyebrow::before{content:'';display:inline-block;width:18px;height:2px;background:var(--red);vertical-align:middle;margin:-2px 10px 0 0}
-  h1{font:400 clamp(48px,10vw,84px)/.95 'Anton',sans-serif;text-transform:uppercase;margin:0}
-  h1 span{color:var(--red)}
-  h1::after{content:'';display:block;width:56px;height:5px;background:var(--red);margin-top:18px}
-  .lead{color:var(--mu);margin:18px 0 0;max-width:580px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+  /* main ocupa toda la altura y centra logo + tarjetas en vertical y horizontal */
+  main{position:relative;flex:1;width:100%;max-width:900px;margin:0 auto;padding:48px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:44px}
+  /* Logo grande: crece con el ancho de pantalla, entre 200px y 320px */
+  .logo{width:clamp(200px,40vw,320px);height:auto;display:block;filter:drop-shadow(0 10px 40px rgba(217,35,45,.4))}
+  .grid{width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
   .card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;min-height:250px;transition:border-color .15s,transform .15s}
   .card:hover,.card:focus-visible{border-color:var(--red);transform:translateY(-3px)}
   .card:focus-visible{outline:2px solid var(--red2);outline-offset:3px}
@@ -38,11 +34,6 @@
   .card h2{font:400 30px/1 'Anton',sans-serif;text-transform:uppercase;margin:8px 0 0}
   .card p{margin:0;color:var(--mu)}
   .go{margin-top:auto;font-weight:600;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--red2)}
-  .feats{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-  .feats li{border:1px solid #3A3A42;border-radius:999px;padding:5px 12px;font-size:13px;color:#CFCFD6}
-  .tip{font-size:14px;color:var(--mu);border-top:1px solid var(--line);padding-top:20px;margin:0}
-  .tip b{color:var(--txt);font-weight:600}
-  footer{position:relative;text-align:center;color:#6F6F79;font-size:13px;padding:16px}
   @media (prefers-reduced-motion: reduce){.led{animation:none}.card{transition:none}}
 </style>
 </head>
@@ -52,12 +43,7 @@
   <div class="led" style="width:480px;right:120px;top:150px;animation-delay:.45s;opacity:.7"></div>
 </div>
 <main>
-  <img class="logo" src="assets/logo.png" alt="Gálatas Gym">
-  <div>
-    <p class="eyebrow">Sistema Gálatas · prototipo navegable</p>
-    <h1>Gálatas <span>Rutinas</span></h1>
-    <p class="lead">La app para que los socios entrenen con su rutina en el celu, y el panel para que los profes las armen. Todo es clickeable. Los datos son de ejemplo.</p>
-  </div>
+  <h1 style="margin:0"><img class="logo" src="assets/logo.png" alt="Gálatas Gym"></h1>
 
   <div class="grid">
     <a class="card red" href="socio.html">
@@ -75,13 +61,6 @@
       <span class="go">Abrir en la PC →</span>
     </a>
   </div>
-
-  <ul class="feats" aria-label="Qué se puede probar">
-    <li>Modo entrenar</li><li>Timer de descanso</li><li>Historia para Instagram</li><li>Plano a escala y 3D</li><li>Plan personalizado</li><li>Rutinas con IA</li>
-  </ul>
-
-  <p class="tip">Para probar la app usá los DNI <b>11111111</b>, <b>22222222</b> o <b>33333333</b>, con el código <b>123456</b>. Para empezar de cero, tocá <b>Reiniciar demo</b>.</p>
 </main>
-<footer>Demo · Gálatas Gym</footer>
 </body>
 </html>
